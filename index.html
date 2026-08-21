@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Absensi QR Murid</title>
+
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f5f9;
+  color:#1e293b;
+}
+
+.container{
+  max-width:520px;
+  margin:auto;
+  padding:16px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:15px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+h1{
+  margin:0 0 5px;
+  font-size:22px;
+  text-align:center;
+}
+
+.subtitle{
+  text-align:center;
+  color:#64748b;
+  font-size:14px;
+  margin-bottom:15px;
+}
+
+.info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.info div{
+  background:#f8fafc;
+  padding:10px;
+  border-radius:10px;
+  font-size:13px;
+}
+
+.label{
+  color:#64748b;
+  display:block;
+  margin-bottom:3px;
+}
+
+.value{
+  font-weight:bold;
+}
+
+select{
+  width:100%;
+  padding:13px;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  font-size:15px;
+  background:white;
+}
+
+#reader{
+  width:100%;
+  overflow:hidden;
+  border-radius:15px;
+}
+
+button{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+.btn-start{
+  background:#2563eb;
+  color:white;
+}
+
+.btn-stop{
+  background:#dc2626;
+  color:white;
+}
+
+.result{
+  display:none;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+.success{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.warning{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.error{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.result-title{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.murid{
+  margin-top:8px;
+  line-height:1.6;
+}
+
+.counter{
+  text-align:center;
+  font-size:14px;
+  color:#64748b;
+  margin-top:10px;
+}
+
+.loading{
+  text-align:center;
+  color:#64748b;
+  padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="card">
+
+    <h1>📷 Absensi QR Murid</h1>
+
+    <div class="subtitle">
+      SMK Negeri 1 Palopo
+    </div>
+
+    <div class="info">
+
+      <div>
+        <span class="label">Tanggal</span>
+        <span class="value" id="tanggal">-</span>
+      </div>
+
+      <div>
+        <span class="label">Hari</span>
+        <span class="value" id="hari">-</span>
+      </div>
+
+      <div>
+        <span class="label">Jam</span>
+        <span class="value" id="jam">-</span>
+      </div>
+
+      <div>
+        <span class="label">Kelompok</span>
+        <span class="value" id="kelompok">-</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <label style="font-weight:bold;">
+      Guru Piket
+    </label>
+
+    <br><br>
+
+    <select id="guruPiket">
+      <option value="">
+        Memuat guru piket...
+      </option>
+    </select>
+
+    <div id="guruStatus" class="loading">
+      Memuat data guru piket...
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div id="reader"></div>
+
+    <button
+      id="btnStart"
+      class="btn-start"
+      onclick="mulaiScanner()">
+      📷 Mulai Kamera
+    </button>
+
+    <button
+      id="btnStop"
+      class="btn-stop"
+      onclick="hentikanScanner()"
+      style="display:none;">
+      ⏹ Hentikan Kamera
+    </button>
+
+  </div>
+
+
+  <div
+    id="hasil"
+    class="result">
+
+    <div
+      id="hasilJudul"
+      class="result-title">
+    </div>
+
+    <div
+      id="hasilIsi"
+      class="murid">
+    </div>
+
+  </div>
+
+
+  <div class="counter">
+    Scan berhasil:
+    <strong id="jumlahBerhasil">0</strong>
+    &nbsp; | &nbsp;
+    Sudah absen:
+    <strong id="jumlahSudahAbsen">0</strong>
+  </div>
+
+</div>
+
+
+<script>
+
+/******************************************************
+ * URL APPS SCRIPT
+ ******************************************************/
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
+
+
+/******************************************************
+ * VARIABEL
+ ******************************************************/
+
+let scanner = null;
+
+let scannerAktif = false;
+
+let sedangMemproses = false;
+
+let jumlahBerhasil = 0;
+
+let jumlahSudahAbsen = 0;
+
+let qrTerakhir = "";
+
+let waktuScanTerakhir = 0;
+
+
+/******************************************************
+ * SAAT HALAMAN DIBUKA
+ ******************************************************/
+
+window.addEventListener(
+  "load",
+  function(){
+
+    muatStatus();
+
+    muatGuruPiket();
+
+  }
+);
+
+
+/******************************************************
+ * AMBIL STATUS
+ ******************************************************/
+
+async function muatStatus(){
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "?action=status",
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+    const data =
+      await response.json();
+
+
+    if(data.status !== "success"){
+
+      throw new Error(
+        data.message ||
+        "Gagal mengambil status."
+      );
+
+    }
+
+
+    document.getElementById("tanggal")
+      .textContent =
+      data.tanggal || "-";
+
+
+    document.getElementById("hari")
+      .textContent =
+      data.hari || "-";
+
+
+    document.getElementById("jam")
+      .textContent =
+      data.jam || "-";
+
+
+    document.getElementById("kelompok")
+      .textContent =
+      data.kelompokMinggu || "-";
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/******************************************************
+ * AMBIL GURU PIKET
+ ******************************************************/
+
+async function muatGuruPiket(){
+
+  const select =
+    document.getElementById(
+      "guruPiket"
+    );
+
+  const status =
+    document.getElementById(
+      "guruStatus"
+    );
+
+
+  select.innerHTML =
+    '<option value="">Memuat guru piket...</option>';
+
+  status.textContent =
+    "Mengambil data guru piket...";
+
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL +
+        "?action=guru_piket",
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+
+    const text =
+      await response.text();
+
+
+    console.log(
+      "RESPON GURU:",
+      text
+    );
+
+
+    const data =
+      JSON.parse(text);
+
+
+    if(data.status !== "success"){
+
+      throw new Error(
+        data.message ||
+        "Gagal memuat guru piket."
+      );
+
+    }
+
+
+    select.innerHTML =
+      '<option value="">-- Pilih Guru Piket --</option>';
+
+
+    if(
+      !data.data ||
+      data.data.length === 0
+    ){
+
+      select.innerHTML =
+        '<option value="">Tidak ada guru piket hari ini</option>';
+
+      status.textContent =
+        "Tidak ada data guru piket.";
+
+      return;
+
+    }
+
+
+    data.data.forEach(
+      function(guru){
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+        option.value =
+          guru.nama;
+
+        option.textContent =
+          guru.nama;
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    status.textContent =
+      data.data.length +
+      " guru piket tersedia.";
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "Gagal guru piket:",
+      error
+    );
+
+
+    select.innerHTML =
+      '<option value="">Gagal memuat guru piket</option>';
+
+
+    status.textContent =
+      "Gagal memuat guru piket. Muat ulang halaman.";
+
+  }
+
+}
+
+
+/******************************************************
+ * MULAI SCANNER
+ ******************************************************/
+
+async function mulaiScanner(){
+
+  if(scannerAktif){
+
+    return;
+
+  }
+
+
+  const guru =
+    document.getElementById(
+      "guruPiket"
+    ).value;
+
+
+  if(!guru){
+
+    tampilkanHasil(
+      "error",
+      "⚠️ Guru piket belum dipilih.",
+      ""
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    scanner =
+      new Html5Qrcode(
+        "reader"
+      );
+
+
+    await scanner.start(
+
+      {
+        facingMode:"environment"
+      },
+
+      {
+        fps:10,
+
+        qrbox:function(
+          width,
+          height
+        ){
+
+          const ukuran =
+            Math.min(
+              width,
+              height
+            ) * 0.70;
+
+          return {
+            width:ukuran,
+            height:ukuran
+          };
+
+        },
+
+        aspectRatio:1.0
+
+      },
+
+      ketikaQRTerbaca,
+
+      function(errorMessage){
+
+        // Abaikan pesan scan biasa.
+        // QR belum terbaca bukan error aplikasi.
+
+      }
+
+    );
+
+
+    scannerAktif =
+      true;
+
+
+    document.getElementById(
+      "btnStart"
+    ).style.display =
+      "none";
+
+
+    document.getElementById(
+      "btnStop"
+    ).style.display =
+      "block";
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "KAMERA:",
+      error
+    );
+
+
+    tampilkanHasil(
+      "error",
+      "⚠️ Kamera tidak dapat dibuka.",
+      "Pastikan browser memberikan izin kamera."
+    );
+
+  }
+
+}
+
+
+/******************************************************
+ * HENTIKAN SCANNER
+ ******************************************************/
+
+async function hentikanScanner(){
+
+  if(
+    !scanner ||
+    !scannerAktif
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    await scanner.stop();
+
+    await scanner.clear();
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+  }
+
+
+  scannerAktif =
+    false;
+
+
+  document.getElementById(
+    "btnStart"
+  ).style.display =
+    "block";
+
+
+  document.getElementById(
+    "btnStop"
+  ).style.display =
+    "none";
+
+}
+
+
+/******************************************************
+ * QR TERBACA
+ ******************************************************/
+
+async function ketikaQRTerbaca(
+  qr
+){
+
+  const sekarang =
+    Date.now();
+
+
+  /*
+   * Hindari QR yang sama
+   * terbaca berkali-kali
+   * dalam waktu sangat dekat.
+   */
+
+  if(
+    qr === qrTerakhir &&
+    sekarang -
+    waktuScanTerakhir <
+    3000
+  ){
+
+    return;
+
+  }
+
+
+  if(sedangMemproses){
+
+    return;
+
+  }
+
+
+  qrTerakhir =
+    qr;
+
+  waktuScanTerakhir =
+    sekarang;
+
+
+  sedangMemproses =
+    true;
+
+
+  const guru =
+    document.getElementById(
+      "guruPiket"
+    ).value;
+
+
+  if(!guru){
+
+    sedangMemproses =
+      false;
+
+    tampilkanHasil(
+      "error",
+      "⚠️ Guru piket belum dipilih.",
+      ""
+    );
+
+    return;
+
+  }
+
+
+  tampilkanHasil(
+    "warning",
+    "⏳ Memproses...",
+    "Mohon tunggu sebentar."
+  );
+
+
+  try{
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:JSON.stringify({
+
+            action:
+              "scan_otomatis",
+
+            qr:
+              qr,
+
+            guruPiket:
+              guru
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    prosesHasilScan(
+      data
+    );
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "SCAN ERROR:",
+      error
+    );
+
+
+    tampilkanHasil(
+      "error",
+      "❌ Gagal menghubungi server.",
+      "Periksa koneksi internet."
+    );
+
+  }
+
+
+  finally{
+
+    sedangMemproses =
+      false;
+
+  }
+
+}
+
+
+/******************************************************
+ * PROSES HASIL SCAN
+ ******************************************************/
+
+function prosesHasilScan(
+  data
+){
+
+  if(
+    !data
+  ){
+
+    tampilkanHasil(
+      "error",
+      "❌ Tidak ada respons server.",
+      ""
+    );
+
+    return;
+
+  }
+
+
+  if(
+    data.status ===
+    "success"
+  ){
+
+    jumlahBerhasil++;
+
+
+    document.getElementById(
+      "jumlahBerhasil"
+    ).textContent =
+      jumlahBerhasil;
+
+
+    const murid =
+      data.murid || {};
+
+
+    tampilkanHasil(
+      "success",
+      "✅ ABSENSI BERHASIL",
+      `
+      <strong>${escapeHTML(murid.nama || "-")}</strong><br>
+      NISN: ${escapeHTML(String(murid.nisn || "-"))}<br>
+      Kelas: ${escapeHTML(murid.kelas || "-")}<br>
+      Jam: ${escapeHTML(data.jam || "-")}<br>
+      Status: <strong>${escapeHTML(data.statusAbsensi || "-")}</strong>
+      `
+    );
+
+
+    return;
+
+  }
+
+
+  if(
+    data.status ===
+    "warning"
+  ){
+
+    jumlahSudahAbsen++;
+
+
+    document.getElementById(
+      "jumlahSudahAbsen"
+    ).textContent =
+      jumlahSudahAbsen;
+
+
+    const murid =
+      data.murid || {};
+
+
+    tampilkanHasil(
+      "warning",
+      "⚠️ SUDAH ABSEN",
+      `
+      <strong>${escapeHTML(murid.nama || "-")}</strong><br>
+      Kelas: ${escapeHTML(murid.kelas || "-")}<br>
+      Jam absensi: ${escapeHTML(String(data.jam || "-"))}<br>
+      Status: ${escapeHTML(String(data.statusAbsensi || "Sudah absen"))}
+      `
+    );
+
+
+    return;
+
+  }
+
+
+  tampilkanHasil(
+    "error",
+    "❌ ABSENSI GAGAL",
+    escapeHTML(
+      data.message ||
+      "Terjadi kesalahan."
+    )
+  );
+
+}
+
+
+/******************************************************
+ * TAMPILKAN HASIL
+ ******************************************************/
+
+function tampilkanHasil(
+  tipe,
+  judul,
+  isi
+){
+
+  const box =
+    document.getElementById(
+      "hasil"
+    );
+
+
+  box.className =
+    "result " +
+    tipe;
+
+
+  document.getElementById(
+    "hasilJudul"
+  ).textContent =
+    judul;
+
+
+  document.getElementById(
+    "hasilIsi"
+  ).innerHTML =
+    isi;
+
+
+  box.style.display =
+    "block";
+
+}
+
+
+/******************************************************
+ * KEAMANAN TAMPILAN
+ ******************************************************/
+
+function escapeHTML(
+  text
+){
+
+  return String(text)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/******************************************************
+ * UPDATE JAM
+ ******************************************************/
+
+setInterval(
+  muatStatus,
+  30000
+);
+
+</script>
+
+</body>
+</html>
