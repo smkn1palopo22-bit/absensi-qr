@@ -1,23 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Absensi QR Murid</title>
 
-<script
-  src="https://unpkg.com/html5-qrcode"
-  type="text/javascript">
-</script>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 <style>
-
 *{
   box-sizing:border-box;
 }
@@ -115,278 +106,157 @@ button{
   color:white;
 }
 
-
-/* =====================================================
-   NOTIFIKASI CEPAT
-===================================================== */
-
-#notifikasi{
-
-  position:fixed;
-
-  top:20px;
-
-  left:50%;
-
-  transform:
-    translateX(-50%)
-    translateY(-20px);
-
-  width:
-    calc(100% - 32px);
-
-  max-width:480px;
-
-  padding:16px 18px;
-
-  border-radius:14px;
-
-  text-align:center;
-
-  font-size:18px;
-
-  font-weight:bold;
-
-  box-shadow:
-    0 5px 20px
-    rgba(0,0,0,.20);
-
-  opacity:0;
-
-  pointer-events:none;
-
-  transition:
-    opacity .15s ease,
-    transform .15s ease;
-
-  z-index:9999;
-}
-
-#notifikasi.tampil{
-
-  opacity:1;
-
-  transform:
-    translateX(-50%)
-    translateY(0);
-}
-
-#notifikasi.berhasil{
-
-  background:#16a34a;
-
-  color:white;
-}
-
-#notifikasi.warning{
-
-  background:#f59e0b;
-
-  color:white;
-}
-
-#notifikasi.error{
-
-  background:#dc2626;
-
-  color:white;
-}
-
-
-/* =====================================================
-   HASIL
-===================================================== */
-
 .result{
-
   display:none;
-
   padding:15px;
-
   border-radius:12px;
-
   margin-top:15px;
+  transition:all .2s ease;
 }
 
 .success{
-
   background:#dcfce7;
-
   color:#166534;
 }
 
 .warning{
-
   background:#fef3c7;
-
   color:#92400e;
 }
 
 .error{
-
   background:#fee2e2;
-
   color:#991b1b;
 }
 
 .result-title{
-
-  font-size:18px;
-
+  font-size:20px;
   font-weight:bold;
-
   margin-bottom:5px;
 }
 
 .murid{
-
   margin-top:8px;
-
   line-height:1.6;
 }
 
 .counter{
-
   text-align:center;
-
-  font-size:15px;
-
+  font-size:14px;
   color:#64748b;
-
   margin-top:10px;
 }
 
 .counter strong{
-
-  color:#166534;
-
-  font-size:18px;
+  font-size:16px;
 }
 
 .loading{
-
   text-align:center;
-
   color:#64748b;
-
   padding:10px;
 }
 
+/* NOTIFIKASI SCAN */
+
+.scan-notif{
+  animation:popIn .18s ease-out;
+}
+
+@keyframes popIn{
+  0%{
+    transform:scale(.96);
+    opacity:.5;
+  }
+
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+.success-icon{
+  font-size:30px;
+  margin-bottom:3px;
+}
+
+.success-message{
+  font-size:22px;
+  font-weight:bold;
+}
+
+.ready-message{
+  margin-top:6px;
+  font-size:13px;
+  opacity:.8;
+}
+
+/* STATUS SCANNER */
+
+.scanner-status{
+  text-align:center;
+  margin-top:10px;
+  font-size:13px;
+  color:#64748b;
+}
 </style>
 
 </head>
 
-
 <body>
-
-
-<!-- ===================================================
-     NOTIFIKASI CEPAT
-==================================================== -->
-
-<div id="notifikasi"></div>
-
 
 <div class="container">
 
-
-  <!-- =================================================
-       INFORMASI
-  ================================================== -->
+  <!-- ==========================================
+       HEADER
+  =========================================== -->
 
   <div class="card">
 
-    <h1>
-      📷 Absensi QR Murid
-    </h1>
+    <h1>📷 Absensi QR Murid</h1>
 
     <div class="subtitle">
       SMK Negeri 1 Palopo
     </div>
 
-
     <div class="info">
 
-
       <div>
-
-        <span class="label">
-          Tanggal
-        </span>
-
-        <span
-          class="value"
-          id="tanggal">
-          -
-        </span>
-
+        <span class="label">Tanggal</span>
+        <span class="value" id="tanggal">-</span>
       </div>
 
-
       <div>
-
-        <span class="label">
-          Hari
-        </span>
-
-        <span
-          class="value"
-          id="hari">
-          -
-        </span>
-
+        <span class="label">Hari</span>
+        <span class="value" id="hari">-</span>
       </div>
 
-
       <div>
-
-        <span class="label">
-          Jam
-        </span>
-
-        <span
-          class="value"
-          id="jam">
-          -
-        </span>
-
+        <span class="label">Jam</span>
+        <span class="value" id="jam">-</span>
       </div>
 
-
       <div>
-
-        <span class="label">
-          Kelompok
-        </span>
-
-        <span
-          class="value"
-          id="kelompok">
-          -
-        </span>
-
+        <span class="label">Kelompok</span>
+        <span class="value" id="kelompok">-</span>
       </div>
-
 
     </div>
 
   </div>
 
 
-
-  <!-- =================================================
+  <!-- ==========================================
        GURU PIKET
-  ================================================== -->
+  =========================================== -->
 
   <div class="card">
 
-    <label
-      style="font-weight:bold;">
+    <label style="font-weight:bold;">
       Guru Piket
     </label>
 
     <br><br>
-
 
     <select id="guruPiket">
 
@@ -396,55 +266,48 @@ button{
 
     </select>
 
-
-    <div
-      id="guruStatus"
-      class="loading">
-
+    <div id="guruStatus" class="loading">
       Memuat data guru piket...
-
     </div>
 
   </div>
 
 
-
-  <!-- =================================================
+  <!-- ==========================================
        SCANNER
-  ================================================== -->
+  =========================================== -->
 
   <div class="card">
 
     <div id="reader"></div>
 
+    <div
+      id="scannerStatus"
+      class="scanner-status">
+      Kamera belum dimulai.
+    </div>
 
     <button
       id="btnStart"
       class="btn-start"
       onclick="mulaiScanner()">
-
       📷 Mulai Kamera
-
     </button>
-
 
     <button
       id="btnStop"
       class="btn-stop"
       onclick="hentikanScanner()"
       style="display:none;">
-
       ⏹ Hentikan Kamera
-
     </button>
 
   </div>
 
 
-
-  <!-- =================================================
-       HASIL TERAKHIR
-  ================================================== -->
+  <!-- ==========================================
+       HASIL SCAN
+  =========================================== -->
 
   <div
     id="hasil"
@@ -463,40 +326,33 @@ button{
   </div>
 
 
-
-  <!-- =================================================
+  <!-- ==========================================
        COUNTER
-  ================================================== -->
+  =========================================== -->
 
   <div class="counter">
 
     Scan berhasil:
-
-    <strong id="jumlahBerhasil">
-      0
-    </strong>
+    <strong id="jumlahBerhasil">0</strong>
 
   </div>
-
 
 </div>
 
 
-
 <script>
 
-
-/*******************************************************
+/******************************************************
  * URL APPS SCRIPT
- *******************************************************/
+ ******************************************************/
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
 
 
-/*******************************************************
- * VARIABEL
- *******************************************************/
+/******************************************************
+ * VARIABEL SCANNER
+ ******************************************************/
 
 let scanner = null;
 
@@ -512,15 +368,30 @@ let waktuScanTerakhir = 0;
 
 
 /*
- * Timer untuk notifikasi
+ * Waktu minimum sebelum QR yang sama
+ * boleh diproses kembali.
+ */
+
+const JEDA_QR_SAMA = 3000;
+
+
+/*
+ * Lama notifikasi sukses ditampilkan.
+ */
+
+const DURASI_NOTIF_SUKSES = 1500;
+
+
+/*
+ * Timer notifikasi.
  */
 
 let timerNotifikasi = null;
 
 
-/*******************************************************
+/******************************************************
  * SAAT HALAMAN DIBUKA
- *******************************************************/
+ ******************************************************/
 
 window.addEventListener(
   "load",
@@ -534,9 +405,9 @@ window.addEventListener(
 );
 
 
-/*******************************************************
- * AMBIL STATUS
- *******************************************************/
+/******************************************************
+ * STATUS
+ ******************************************************/
 
 async function muatStatus(){
 
@@ -593,21 +464,23 @@ async function muatStatus(){
     ).textContent =
       data.kelompokMinggu || "-";
 
-
   }
 
   catch(error){
 
-    console.error(error);
+    console.error(
+      "STATUS:",
+      error
+    );
 
   }
 
 }
 
 
-/*******************************************************
- * AMBIL GURU PIKET
- *******************************************************/
+/******************************************************
+ * GURU PIKET
+ ******************************************************/
 
 async function muatGuruPiket(){
 
@@ -615,7 +488,6 @@ async function muatGuruPiket(){
     document.getElementById(
       "guruPiket"
     );
-
 
   const status =
     document.getElementById(
@@ -722,13 +594,12 @@ async function muatGuruPiket(){
       data.data.length +
       " guru piket tersedia.";
 
-
   }
 
   catch(error){
 
     console.error(
-      "Gagal guru piket:",
+      "GURU PIKET:",
       error
     );
 
@@ -745,9 +616,9 @@ async function muatGuruPiket(){
 }
 
 
-/*******************************************************
+/******************************************************
  * MULAI SCANNER
- *******************************************************/
+ ******************************************************/
 
 async function mulaiScanner(){
 
@@ -766,9 +637,10 @@ async function mulaiScanner(){
 
   if(!guru){
 
-    tampilkanNotifikasi(
-      "⚠️ Pilih guru piket terlebih dahulu.",
-      "warning"
+    tampilkanHasil(
+      "error",
+      "⚠️ Guru piket belum dipilih.",
+      "Silakan pilih nama guru piket terlebih dahulu."
     );
 
     return;
@@ -787,15 +659,12 @@ async function mulaiScanner(){
     await scanner.start(
 
       {
-        facingMode:
-          "environment"
+        facingMode:"environment"
       },
-
 
       {
 
         fps:10,
-
 
         qrbox:function(
           width,
@@ -819,19 +688,16 @@ async function mulaiScanner(){
 
         },
 
-
         aspectRatio:1.0
 
       },
 
-
       ketikaQRTerbaca,
-
 
       function(errorMessage){
 
         /*
-         * Pesan scan biasa diabaikan.
+         * Pesan scan biasa sengaja diabaikan.
          */
 
       }
@@ -855,6 +721,11 @@ async function mulaiScanner(){
       "block";
 
 
+    document.getElementById(
+      "scannerStatus"
+    ).textContent =
+      "🟢 Kamera aktif — siap scan QR.";
+
   }
 
   catch(error){
@@ -865,9 +736,10 @@ async function mulaiScanner(){
     );
 
 
-    tampilkanNotifikasi(
+    tampilkanHasil(
+      "error",
       "⚠️ Kamera tidak dapat dibuka.",
-      "error"
+      "Pastikan browser memberikan izin kamera."
     );
 
   }
@@ -875,9 +747,9 @@ async function mulaiScanner(){
 }
 
 
-/*******************************************************
+/******************************************************
  * HENTIKAN SCANNER
- *******************************************************/
+ ******************************************************/
 
 async function hentikanScanner(){
 
@@ -901,7 +773,10 @@ async function hentikanScanner(){
 
   catch(error){
 
-    console.error(error);
+    console.error(
+      "STOP SCANNER:",
+      error
+    );
 
   }
 
@@ -921,12 +796,18 @@ async function hentikanScanner(){
   ).style.display =
     "none";
 
+
+  document.getElementById(
+    "scannerStatus"
+  ).textContent =
+    "Kamera dihentikan.";
+
 }
 
 
-/*******************************************************
+/******************************************************
  * QR TERBACA
- *******************************************************/
+ ******************************************************/
 
 async function ketikaQRTerbaca(
   qr
@@ -937,9 +818,9 @@ async function ketikaQRTerbaca(
 
 
   /*
-   * Cegah QR yang sama
-   * terbaca berkali-kali
-   * dalam 3 detik.
+   * Jika QR yang sama terbaca
+   * berulang dalam waktu 3 detik,
+   * abaikan.
    */
 
   if(
@@ -950,7 +831,7 @@ async function ketikaQRTerbaca(
 
     sekarang -
     waktuScanTerakhir <
-    3000
+    JEDA_QR_SAMA
 
   ){
 
@@ -960,8 +841,13 @@ async function ketikaQRTerbaca(
 
 
   /*
-   * Jangan proses dua QR
-   * sekaligus.
+   * Jika sedang mengirim
+   * QR sebelumnya ke server,
+   * jangan menerima QR baru
+   * dulu.
+   *
+   * Ini mencegah dua request
+   * bertabrakan.
    */
 
   if(sedangMemproses){
@@ -995,9 +881,10 @@ async function ketikaQRTerbaca(
       false;
 
 
-    tampilkanNotifikasi(
-      "⚠️ Pilih guru piket terlebih dahulu.",
-      "warning"
+    tampilkanHasil(
+      "error",
+      "⚠️ Guru piket belum dipilih.",
+      "Silakan pilih guru piket."
     );
 
 
@@ -1007,12 +894,13 @@ async function ketikaQRTerbaca(
 
 
   /*
-   * Notifikasi proses sangat singkat.
+   * Tampilkan proses sebentar.
    */
 
-  tampilkanNotifikasi(
-    "⏳ Memproses...",
-    "warning"
+  tampilkanHasil(
+    "warning",
+    "⏳ Memproses QR...",
+    "Menyimpan absensi..."
   );
 
 
@@ -1051,10 +939,13 @@ async function ketikaQRTerbaca(
       await response.json();
 
 
+    /*
+     * PROSES HASIL SERVER
+     */
+
     prosesHasilScan(
       data
     );
-
 
   }
 
@@ -1066,15 +957,21 @@ async function ketikaQRTerbaca(
     );
 
 
-    tampilkanNotifikasi(
-      "❌ Koneksi gagal.",
-      "error"
+    tampilkanHasil(
+      "error",
+      "❌ Gagal menghubungi server.",
+      "Periksa koneksi internet."
     );
 
   }
 
-
   finally{
+
+    /*
+     * Setelah request selesai,
+     * scanner langsung siap menerima
+     * QR berikutnya.
+     */
 
     sedangMemproses =
       false;
@@ -1084,9 +981,9 @@ async function ketikaQRTerbaca(
 }
 
 
-/*******************************************************
+/******************************************************
  * PROSES HASIL SCAN
- *******************************************************/
+ ******************************************************/
 
 function prosesHasilScan(
   data
@@ -1094,10 +991,15 @@ function prosesHasilScan(
 
   if(!data){
 
-    tampilkanNotifikasi(
+    tampilkanHasil(
+      "error",
       "❌ Tidak ada respons server.",
-      "error"
+      "Silakan coba scan kembali."
     );
+
+
+    bunyiGagal();
+
 
     return;
 
@@ -1105,7 +1007,9 @@ function prosesHasilScan(
 
 
   /*
-   * ABSENSI BARU BERHASIL
+   * ================================================
+   * BERHASIL
+   * ================================================
    */
 
   if(
@@ -1127,50 +1031,19 @@ function prosesHasilScan(
 
 
     /*
-     * NOTIFIKASI CEPAT
+     * BUNYI BERHASIL
      */
 
-    tampilkanNotifikasi(
-      "✅ SCAN BERHASIL",
-      "berhasil"
-    );
+    bunyiBerhasil();
 
 
     /*
-     * Tampilkan informasi
-     * murid terakhir.
+     * NOTIFIKASI BERHASIL
      */
 
-    tampilkanHasil(
-
-      "success",
-
-      "✅ ABSENSI BERHASIL",
-
-      `
-      <strong>
-        ${escapeHTML(murid.nama || "-")}
-      </strong>
-      <br>
-
-      NISN:
-      ${escapeHTML(String(murid.nisn || "-"))}
-      <br>
-
-      Kelas:
-      ${escapeHTML(murid.kelas || "-")}
-      <br>
-
-      Jam:
-      ${escapeHTML(data.jam || "-")}
-      <br>
-
-      Status:
-      <strong>
-        ${escapeHTML(data.statusAbsensi || "-")}
-      </strong>
-      `
-
+    tampilkanNotifikasiBerhasil(
+      murid,
+      data
     );
 
 
@@ -1180,14 +1053,12 @@ function prosesHasilScan(
 
 
   /*
-   * JIKA SUDAH ADA ABSENSI
+   * ================================================
+   * SUDAH ABSEN
    *
-   * Tidak menambah counter.
-   * Tidak menampilkan angka
-   * "Sudah absen".
-   *
-   * Cukup abaikan agar guru
-   * tidak terganggu.
+   * Tidak lagi dihitung sebagai
+   * "Scan berhasil".
+   * ================================================
    */
 
   if(
@@ -1195,9 +1066,41 @@ function prosesHasilScan(
     "warning"
   ){
 
-    tampilkanNotifikasi(
-      "ℹ️ QR sudah tercatat",
-      "warning"
+    const murid =
+      data.murid || {};
+
+
+    bunyiPeringatan();
+
+
+    tampilkanHasil(
+      "warning",
+      "⚠️ SUDAH ABSEN",
+      `
+      <strong>${escapeHTML(
+        murid.nama || "-"
+      )}</strong><br>
+
+      Kelas:
+      ${escapeHTML(
+        murid.kelas || "-"
+      )}<br>
+
+      Jam absensi:
+      ${escapeHTML(
+        String(
+          data.jam || "-"
+        )
+      )}<br>
+
+      Status:
+      ${escapeHTML(
+        String(
+          data.statusAbsensi ||
+          "Sudah absen"
+        )
+      )}
+      `
     );
 
 
@@ -1207,41 +1110,46 @@ function prosesHasilScan(
 
 
   /*
+   * ================================================
    * ERROR
+   * ================================================
    */
 
-  tampilkanNotifikasi(
+  bunyiGagal();
 
-    "❌ " +
-    (
+
+  tampilkanHasil(
+    "error",
+    "❌ ABSENSI GAGAL",
+    escapeHTML(
       data.message ||
-      "Absensi gagal."
-    ),
-
-    "error"
-
+      "Terjadi kesalahan."
+    )
   );
 
 }
 
 
-/*******************************************************
- * NOTIFIKASI CEPAT
- *******************************************************/
+/******************************************************
+ * NOTIFIKASI BERHASIL
+ ******************************************************/
 
-function tampilkanNotifikasi(
-  pesan,
-  tipe
+function tampilkanNotifikasiBerhasil(
+  murid,
+  data
 ){
 
   const box =
     document.getElementById(
-      "notifikasi"
+      "hasil"
     );
 
 
   /*
-   * Hentikan timer sebelumnya.
+   * Hapus timer sebelumnya.
+   *
+   * Ini penting supaya notifikasi
+   * tidak saling bertabrakan.
    */
 
   if(timerNotifikasi){
@@ -1250,52 +1158,114 @@ function tampilkanNotifikasi(
       timerNotifikasi
     );
 
+    timerNotifikasi =
+      null;
+
   }
 
 
-  box.textContent =
-    pesan;
-
-
   box.className =
-    "tampil " +
-    tipe;
+    "result success scan-notif";
+
+
+  document.getElementById(
+    "hasilJudul"
+  ).innerHTML =
+    `
+    <div class="success-icon">
+      ✅
+    </div>
+
+    <div class="success-message">
+      SCAN BERHASIL
+    </div>
+    `;
+
+
+  document.getElementById(
+    "hasilIsi"
+  ).innerHTML =
+    `
+    <strong>${escapeHTML(
+      murid.nama || "-"
+    )}</strong><br>
+
+    NISN:
+    ${escapeHTML(
+      String(
+        murid.nisn || "-"
+      )
+    )}<br>
+
+    Kelas:
+    ${escapeHTML(
+      murid.kelas || "-"
+    )}<br>
+
+    Jam:
+    ${escapeHTML(
+      data.jam || "-"
+    )}<br>
+
+    Status:
+    <strong>${escapeHTML(
+      data.statusAbsensi || "-"
+    )}</strong>
+
+    <div class="ready-message">
+      📷 Siap scan QR berikutnya
+    </div>
+    `;
+
+
+  box.style.display =
+    "block";
 
 
   /*
-   * Notifikasi berhasil
-   * hanya sekitar 1 detik.
-   *
-   * Warning/error sedikit
-   * lebih lama.
+   * Setelah 1,5 detik,
+   * notifikasi tetap tidak mengganggu
+   * scanner.
    */
-
-  const waktu =
-    tipe === "berhasil"
-      ? 1000
-      : 1500;
-
 
   timerNotifikasi =
     setTimeout(
-
       function(){
 
-        box.className =
-          "";
+        timerNotifikasi =
+          null;
+
+        /*
+         * Jangan menghapus hasil secara
+         * paksa jika QR baru sudah
+         * menghasilkan pesan lain.
+         */
 
       },
-
-      waktu
-
+      DURASI_NOTIF_SUKSES
     );
+
+
+  /*
+   * Pastikan status kamera
+   * tetap menunjukkan aktif.
+   */
+
+  if(scannerAktif){
+
+    document.getElementById(
+      "scannerStatus"
+    ).textContent =
+      "🟢 Kamera aktif — siap scan QR berikutnya.";
+
+  }
 
 }
 
 
-/*******************************************************
- * TAMPILKAN HASIL TERAKHIR
- *******************************************************/
+/******************************************************
+ * TAMPILKAN HASIL UMUM
+ ******************************************************/
 
 function tampilkanHasil(
   tipe,
@@ -1309,9 +1279,22 @@ function tampilkanHasil(
     );
 
 
+  if(timerNotifikasi){
+
+    clearTimeout(
+      timerNotifikasi
+    );
+
+    timerNotifikasi =
+      null;
+
+  }
+
+
   box.className =
     "result " +
-    tipe;
+    tipe +
+    " scan-notif";
 
 
   document.getElementById(
@@ -1332,9 +1315,300 @@ function tampilkanHasil(
 }
 
 
-/*******************************************************
+/******************************************************
+ * BUNYI BERHASIL
+ *
+ * Menggunakan Web Audio API.
+ * Tidak membutuhkan file MP3.
+ ******************************************************/
+
+function bunyiBerhasil(){
+
+  try{
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if(!AudioContext){
+
+      return;
+
+    }
+
+
+    const ctx =
+      new AudioContext();
+
+
+    const oscillator =
+      ctx.createOscillator();
+
+
+    const gain =
+      ctx.createGain();
+
+
+    oscillator.type =
+      "sine";
+
+
+    oscillator.frequency.setValueAtTime(
+      880,
+      ctx.currentTime
+    );
+
+
+    oscillator.frequency.setValueAtTime(
+      1174,
+      ctx.currentTime + 0.10
+    );
+
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      ctx.currentTime
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.18,
+      ctx.currentTime + 0.02
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      ctx.currentTime + 0.28
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(ctx.destination);
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+      ctx.currentTime + 0.30
+    );
+
+
+    oscillator.onended =
+      function(){
+
+        ctx.close();
+
+      };
+
+  }
+
+  catch(error){
+
+    console.log(
+      "Bunyi berhasil tidak tersedia:",
+      error
+    );
+
+  }
+
+}
+
+
+/******************************************************
+ * BUNYI PERINGATAN
+ ******************************************************/
+
+function bunyiPeringatan(){
+
+  try{
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if(!AudioContext){
+
+      return;
+
+    }
+
+
+    const ctx =
+      new AudioContext();
+
+
+    const oscillator =
+      ctx.createOscillator();
+
+
+    const gain =
+      ctx.createGain();
+
+
+    oscillator.type =
+      "sine";
+
+
+    oscillator.frequency.setValueAtTime(
+      500,
+      ctx.currentTime
+    );
+
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      ctx.currentTime
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.15,
+      ctx.currentTime + 0.02
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      ctx.currentTime + 0.20
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(ctx.destination);
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+      ctx.currentTime + 0.22
+    );
+
+
+    oscillator.onended =
+      function(){
+
+        ctx.close();
+
+      };
+
+  }
+
+  catch(error){
+
+    console.log(
+      "Bunyi peringatan tidak tersedia:",
+      error
+    );
+
+  }
+
+}
+
+
+/******************************************************
+ * BUNYI GAGAL
+ ******************************************************/
+
+function bunyiGagal(){
+
+  try{
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if(!AudioContext){
+
+      return;
+
+    }
+
+
+    const ctx =
+      new AudioContext();
+
+
+    const oscillator =
+      ctx.createOscillator();
+
+
+    const gain =
+      ctx.createGain();
+
+
+    oscillator.type =
+      "square";
+
+
+    oscillator.frequency.setValueAtTime(
+      300,
+      ctx.currentTime
+    );
+
+
+    gain.gain.setValueAtTime(
+      0.0001,
+      ctx.currentTime
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.12,
+      ctx.currentTime + 0.02
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      ctx.currentTime + 0.25
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(ctx.destination);
+
+
+    oscillator.start();
+
+
+    oscillator.stop(
+      ctx.currentTime + 0.27
+    );
+
+
+    oscillator.onended =
+      function(){
+
+        ctx.close();
+
+      };
+
+  }
+
+  catch(error){
+
+    console.log(
+      "Bunyi gagal tidak tersedia:",
+      error
+    );
+
+  }
+
+}
+
+
+/******************************************************
  * KEAMANAN TAMPILAN
- *******************************************************/
+ ******************************************************/
 
 function escapeHTML(
   text
@@ -1370,9 +1644,9 @@ function escapeHTML(
 }
 
 
-/*******************************************************
+/******************************************************
  * UPDATE JAM
- *******************************************************/
+ ******************************************************/
 
 setInterval(
   muatStatus,
