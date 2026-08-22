@@ -336,6 +336,10 @@ th {
 }
 
 
+/* =====================================================
+   WARNA BARIS
+===================================================== */
+
 .merah {
 
   background:
@@ -366,6 +370,9 @@ th {
 
 .hijau {
 
+  background:
+    #dcfce7 !important;
+
   color:
     #166534;
 
@@ -374,6 +381,10 @@ th {
 
 }
 
+
+/* =====================================================
+   BADGE
+===================================================== */
 
 .badge {
 
@@ -402,6 +413,17 @@ th {
 
   color:
     #991b1b;
+
+}
+
+
+.badge-kuning {
+
+  background:
+    #fde68a;
+
+  color:
+    #92400e;
 
 }
 
@@ -533,7 +555,9 @@ th {
 <div class="container">
 
 
-  <!-- HEADER -->
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
 
   <div class="header">
 
@@ -548,7 +572,9 @@ th {
   </div>
 
 
-  <!-- ERROR -->
+  <!-- =====================================================
+       ERROR
+  ====================================================== -->
 
   <div
     id="errorBox"
@@ -556,7 +582,9 @@ th {
   </div>
 
 
-  <!-- FILTER -->
+  <!-- =====================================================
+       FILTER
+  ====================================================== -->
 
   <div class="card">
 
@@ -660,7 +688,9 @@ th {
   </div>
 
 
-  <!-- RINGKASAN -->
+  <!-- =====================================================
+       RINGKASAN
+  ====================================================== -->
 
   <div class="card">
 
@@ -696,7 +726,7 @@ th {
 
         <div class="judul">
 
-          ✅ Hadir
+          🟢 Hadir
 
         </div>
 
@@ -718,7 +748,7 @@ th {
 
         <div class="judul">
 
-          🔴 Terlambat
+          🟡 Terlambat
 
         </div>
 
@@ -740,7 +770,7 @@ th {
 
         <div class="judul">
 
-          ⚠️ Butuh Perhatian
+          🔴 Butuh Perhatian
 
         </div>
 
@@ -762,7 +792,9 @@ th {
   </div>
 
 
-  <!-- TABEL -->
+  <!-- =====================================================
+       TABEL
+  ====================================================== -->
 
   <div class="card">
 
@@ -898,11 +930,6 @@ async function muatDaftarKelas() {
 
 
   try {
-
-    /*
-     * Untuk mendapatkan daftar kelas,
-     * kita mengambil seluruh rekap.
-     */
 
     const url =
       API_URL +
@@ -1440,6 +1467,10 @@ function tampilkanTabel(
         {};
 
 
+      /* ===================================================
+         WARNA BARIS
+      =================================================== */
+
       let kelasWarna =
         "hijau";
 
@@ -1461,7 +1492,7 @@ function tampilkanTabel(
       ) {
 
         kelasWarna =
-          "merah";
+          "kuning";
 
       }
 
@@ -1470,9 +1501,15 @@ function tampilkanTabel(
         kelasWarna;
 
 
+      /* ===================================================
+         BADGE PERHATIAN
+      =================================================== */
+
       let badgeHTML =
         "";
 
+
+      /* BUTUH PERHATIAN */
 
       if (
         item.terlambat >= 3
@@ -1483,7 +1520,7 @@ function tampilkanTabel(
           <span
             class="badge badge-merah">
 
-            ⚠️ BUTUH PERHATIAN
+            🔴 BUTUH PERHATIAN
 
           </span>
 
@@ -1491,6 +1528,8 @@ function tampilkanTabel(
 
       }
 
+
+      /* TERLAMBAT 1-2 KALI */
 
       else if (
         item.terlambat > 0
@@ -1499,9 +1538,9 @@ function tampilkanTabel(
         badgeHTML = `
 
           <span
-            class="badge badge-merah">
+            class="badge badge-kuning">
 
-            🔴 TERLAMBAT
+            🟡 TERLAMBAT
 
           </span>
 
@@ -1509,6 +1548,8 @@ function tampilkanTabel(
 
       }
 
+
+      /* BAIK */
 
       else {
 
@@ -1525,6 +1566,10 @@ function tampilkanTabel(
 
       }
 
+
+      /* ===================================================
+         ISI BARIS
+      =================================================== */
 
       tr.innerHTML = `
 
