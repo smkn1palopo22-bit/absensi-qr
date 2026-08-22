@@ -13,15 +13,13 @@
   Rekap Absensi - SMK Negeri 1 Palopo
 </title>
 
-<style>
 
-/* =====================================================
-   DASAR
-===================================================== */
+<style>
 
 * {
   box-sizing: border-box;
 }
+
 
 body {
 
@@ -29,120 +27,147 @@ body {
 
   font-family:
     Arial,
-    Helvetica,
     sans-serif;
 
-  background: #f1f5f9;
+  background:
+    #f1f5f9;
 
-  color: #1e293b;
+  color:
+    #1e293b;
+
 }
+
 
 .container {
 
-  max-width: 1250px;
+  max-width:
+    1250px;
 
-  margin: auto;
+  margin:
+    auto;
 
-  padding: 20px;
+  padding:
+    20px;
+
 }
 
-
-/* =====================================================
-   HEADER
-===================================================== */
 
 .header {
 
-  background: white;
+  background:
+    white;
 
-  border-radius: 18px;
+  border-radius:
+    18px;
 
-  padding: 22px;
+  padding:
+    22px;
 
-  margin-bottom: 18px;
+  margin-bottom:
+    18px;
 
   box-shadow:
-    0 3px 12px rgba(0,0,0,.08);
+    0 3px 12px
+    rgba(0,0,0,.08);
+
 }
+
 
 .header h1 {
 
-  margin: 0;
+  margin:
+    0;
 
-  text-align: center;
+  text-align:
+    center;
 
-  font-size: 25px;
+  font-size:
+    25px;
+
 }
+
 
 .header p {
 
-  text-align: center;
+  text-align:
+    center;
 
-  color: #64748b;
+  color:
+    #64748b;
 
   margin:
-    8px
-    0
-    0;
+    8px 0 0;
+
 }
 
-
-/* =====================================================
-   CARD
-===================================================== */
 
 .card {
 
-  background: white;
+  background:
+    white;
 
-  border-radius: 16px;
+  border-radius:
+    16px;
 
-  padding: 18px;
+  padding:
+    18px;
 
-  margin-bottom: 18px;
+  margin-bottom:
+    18px;
 
   box-shadow:
-    0 3px 12px rgba(0,0,0,.08);
+    0 3px 12px
+    rgba(0,0,0,.08);
+
 }
 
-
-/* =====================================================
-   FILTER
-===================================================== */
 
 .filter {
 
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
-    1fr
-    1fr
-    1fr;
+    1fr 1fr 1fr 1fr;
 
-  gap: 12px;
+  gap:
+    12px;
+
 }
+
 
 label {
 
-  display: block;
+  display:
+    block;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
-  margin-bottom: 6px;
+  margin-bottom:
+    6px;
+
 }
+
 
 select,
 input,
 button {
 
-  width: 100%;
+  width:
+    100%;
 
-  padding: 12px;
+  padding:
+    12px;
 
-  border-radius: 10px;
+  border-radius:
+    10px;
 
-  font-size: 15px;
+  font-size:
+    15px;
+
 }
+
 
 select,
 input {
@@ -150,334 +175,349 @@ input {
   border:
     1px solid #cbd5e1;
 
-  background: white;
+  background:
+    white;
+
 }
+
 
 button {
 
-  border: none;
+  border:
+    none;
 
-  background: #2563eb;
+  background:
+    #2563eb;
 
-  color: white;
+  color:
+    white;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
-  cursor: pointer;
+  cursor:
+    pointer;
 
-  margin-top: 24px;
+  margin-top:
+    24px;
+
 }
+
 
 button:hover {
 
-  opacity: .9;
+  opacity:
+    .9;
+
 }
 
-button:disabled {
-
-  opacity: .6;
-
-  cursor: wait;
-}
 
 .info {
 
-  margin-top: 12px;
+  margin-top:
+    12px;
 
-  color: #64748b;
+  color:
+    #64748b;
 
-  font-size: 14px;
+  font-size:
+    14px;
+
 }
 
 
-/* =====================================================
-   RINGKASAN
-===================================================== */
-
 .ringkasan {
 
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     repeat(4, 1fr);
 
-  gap: 12px;
+  gap:
+    12px;
+
 }
+
 
 .box {
 
-  padding: 18px;
+  padding:
+    18px;
 
-  border-radius: 14px;
+  border-radius:
+    14px;
 
-  text-align: center;
+  text-align:
+    center;
 
-  background: #f8fafc;
+  background:
+    #f8fafc;
+
 }
 
-.box .judul {
-
-  font-size: 14px;
-
-  color: #64748b;
-}
 
 .box .angka {
 
-  font-size: 30px;
+  font-size:
+    28px;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
-  margin-top: 7px;
+  margin-top:
+    6px;
+
 }
 
 
-/* =====================================================
-   WARNA RINGKASAN
-===================================================== */
+.box .judul {
 
-.box.total {
+  font-size:
+    13px;
 
-  background: #eff6ff;
+  color:
+    #64748b;
+
 }
 
-.box.hadir {
-
-  background: #ecfdf5;
-}
-
-.box.terlambat {
-
-  background: #fef2f2;
-}
-
-.box.perhatian {
-
-  background: #fff7ed;
-}
-
-
-/* =====================================================
-   TABEL
-===================================================== */
 
 .tabel-container {
 
-  overflow-x: auto;
+  overflow-x:
+    auto;
+
 }
+
 
 table {
 
-  width: 100%;
+  width:
+    100%;
 
-  border-collapse: collapse;
+  border-collapse:
+    collapse;
 
-  min-width: 950px;
+  min-width:
+    950px;
+
 }
+
 
 th,
 td {
 
-  padding: 10px;
+  padding:
+    10px;
 
   border-bottom:
     1px solid #e2e8f0;
 
-  text-align: left;
+  text-align:
+    left;
 
-  font-size: 14px;
+  font-size:
+    14px;
+
 }
+
 
 th {
 
-  background: #f8fafc;
+  background:
+    #f8fafc;
 
-  position: sticky;
+  position:
+    sticky;
 
-  top: 0;
+  top:
+    0;
 
-  z-index: 2;
 }
 
 
-/* =====================================================
-   BARIS STATUS
-===================================================== */
+.merah {
 
-tr.baris-merah {
+  background:
+    #fee2e2 !important;
 
-  background: #fee2e2 !important;
+  color:
+    #991b1b;
 
-  color: #991b1b;
-}
+  font-weight:
+    bold;
 
-tr.baris-merah td {
-
-  font-weight: 600;
-}
-
-tr.baris-perhatian {
-
-  background: #fecaca !important;
-
-  color: #7f1d1d;
-}
-
-tr.baris-perhatian td {
-
-  font-weight: bold;
-}
-
-tr.baris-hijau {
-
-  background: white;
 }
 
 
-/* =====================================================
-   BADGE
-===================================================== */
+.kuning {
+
+  background:
+    #fef3c7 !important;
+
+  color:
+    #92400e;
+
+  font-weight:
+    bold;
+
+}
+
+
+.hijau {
+
+  color:
+    #166534;
+
+  font-weight:
+    bold;
+
+}
+
 
 .badge {
 
-  display: inline-block;
+  display:
+    inline-block;
 
   padding:
-    5px
-    9px;
+    5px 9px;
 
-  border-radius: 999px;
+  border-radius:
+    8px;
 
-  font-size: 12px;
+  font-size:
+    12px;
 
-  font-weight: bold;
+  font-weight:
+    bold;
 
-  white-space: nowrap;
 }
 
-.badge-hijau {
-
-  background: #dcfce7;
-
-  color: #166534;
-}
 
 .badge-merah {
 
-  background: #fecaca;
+  background:
+    #fecaca;
 
-  color: #991b1b;
-}
+  color:
+    #991b1b;
 
-.badge-perhatian {
-
-  background: #ef4444;
-
-  color: white;
 }
 
 
-/* =====================================================
-   LOADING
-===================================================== */
+.badge-hijau {
+
+  background:
+    #dcfce7;
+
+  color:
+    #166534;
+
+}
+
 
 .loading {
 
-  text-align: center;
+  text-align:
+    center;
 
-  padding: 20px;
+  padding:
+    20px;
 
-  color: #64748b;
+  color:
+    #64748b;
 
-  display: none;
 }
 
-
-/* =====================================================
-   ERROR
-===================================================== */
 
 .error {
 
-  background: #fee2e2;
+  background:
+    #fee2e2;
 
-  color: #991b1b;
+  color:
+    #991b1b;
 
-  padding: 15px;
+  padding:
+    15px;
 
-  border-radius: 10px;
+  border-radius:
+    10px;
 
-  margin-bottom: 15px;
+  margin-bottom:
+    15px;
 
-  display: none;
+  display:
+    none;
+
 }
 
 
-/* =====================================================
-   HASIL INFO
-===================================================== */
+.kelas-info {
 
-.hasil-info {
+  font-weight:
+    bold;
 
-  margin-top: 12px;
+  color:
+    #2563eb;
 
-  padding: 10px 12px;
-
-  border-radius: 10px;
-
-  background: #f8fafc;
-
-  color: #475569;
-
-  font-size: 14px;
 }
 
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 800px) {
+@media (
+  max-width: 900px
+) {
 
   .filter {
 
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr 1fr;
+
   }
+
+}
+
+
+@media (
+  max-width: 600px
+) {
+
+  .filter {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
 
   button {
 
-    margin-top: 0;
+    margin-top:
+      0;
+
   }
+
 
   .ringkasan {
 
     grid-template-columns:
-      1fr
-      1fr;
+      1fr 1fr;
+
   }
+
 }
 
 
-@media (max-width: 450px) {
-
-  .container {
-
-    padding: 10px;
-  }
-
-  .header {
-
-    padding: 18px 12px;
-  }
-
-  .header h1 {
-
-    font-size: 20px;
-  }
+@media (
+  max-width: 400px
+) {
 
   .ringkasan {
 
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
+
   }
 
 }
@@ -493,188 +533,126 @@ tr.baris-hijau {
 <div class="container">
 
 
-<!-- ==================================================
-     HEADER
-================================================== -->
+  <!-- HEADER -->
 
-<div class="header">
+  <div class="header">
 
-  <h1>
-    📊 REKAP ABSENSI MURID
-  </h1>
+    <h1>
+      📊 REKAP ABSENSI MURID
+    </h1>
 
-  <p>
-    SMK Negeri 1 Palopo
-  </p>
-
-</div>
-
-
-<!-- ==================================================
-     ERROR
-================================================== -->
-
-<div
-  id="errorBox"
-  class="error">
-</div>
-
-
-<!-- ==================================================
-     FILTER
-================================================== -->
-
-<div class="card">
-
-  <div class="filter">
-
-
-    <div>
-
-      <label for="tanggalAwal">
-        Tanggal Awal
-      </label>
-
-      <input
-        type="date"
-        id="tanggalAwal">
-
-    </div>
-
-
-    <div>
-
-      <label for="tanggalAkhir">
-        Tanggal Akhir
-      </label>
-
-      <input
-        type="date"
-        id="tanggalAkhir">
-
-    </div>
-
-
-    <div>
-
-      <label>
-        &nbsp;
-      </label>
-
-      <button
-        id="btnMuat"
-        onclick="muatRekap()">
-
-        🔄 Tampilkan Rekap
-
-      </button>
-
-    </div>
-
+    <p>
+      SMK Negeri 1 Palopo
+    </p>
 
   </div>
 
+
+  <!-- ERROR -->
 
   <div
-    id="infoFilter"
-    class="info">
-
-    Menampilkan seluruh data.
-
+    id="errorBox"
+    class="error">
   </div>
 
-</div>
+
+  <!-- FILTER -->
+
+  <div class="card">
 
 
-<!-- ==================================================
-     RINGKASAN
-================================================== -->
-
-<div class="card">
-
-  <div class="ringkasan">
+    <div class="filter">
 
 
-    <!-- TOTAL -->
+      <!-- TANGGAL AWAL -->
 
-    <div class="box total">
+      <div>
 
-      <div class="judul">
+        <label
+          for="tanggalAwal">
 
-        👥 Total Murid
+          Tanggal Awal
+
+        </label>
+
+
+        <input
+          type="date"
+          id="tanggalAwal">
+
+      </div>
+
+
+      <!-- TANGGAL AKHIR -->
+
+      <div>
+
+        <label
+          for="tanggalAkhir">
+
+          Tanggal Akhir
+
+        </label>
+
+
+        <input
+          type="date"
+          id="tanggalAkhir">
 
       </div>
 
-      <div
-        class="angka"
-        id="totalMurid">
 
-        0
+      <!-- KELAS -->
+
+      <div>
+
+        <label
+          for="kelas">
+
+          Pilih Kelas
+
+        </label>
+
+
+        <select
+          id="kelas">
+
+          <option value="">
+            Semua Kelas
+          </option>
+
+        </select>
 
       </div>
+
+
+      <!-- BUTTON -->
+
+      <div>
+
+        <label>
+          &nbsp;
+        </label>
+
+
+        <button
+          onclick="muatRekap()">
+
+          🔄 Tampilkan Rekap
+
+        </button>
+
+      </div>
+
 
     </div>
 
 
-    <!-- HADIR -->
+    <div
+      id="infoFilter"
+      class="info">
 
-    <div class="box hadir">
-
-      <div class="judul">
-
-        ✅ Hadir
-
-      </div>
-
-      <div
-        class="angka"
-        id="totalHadir">
-
-        0
-
-      </div>
-
-    </div>
-
-
-    <!-- TERLAMBAT -->
-
-    <div class="box terlambat">
-
-      <div class="judul">
-
-        🔴 Terlambat
-
-      </div>
-
-      <div
-        class="angka"
-        id="totalTerlambat">
-
-        0
-
-      </div>
-
-    </div>
-
-
-    <!-- PERHATIAN -->
-
-    <div class="box perhatian">
-
-      <div class="judul">
-
-        ⚠️ Butuh Perhatian
-
-      </div>
-
-      <div
-        class="angka"
-        id="butuhPerhatian">
-
-        0
-
-      </div>
+      Menampilkan seluruh data.
 
     </div>
 
@@ -682,83 +660,199 @@ tr.baris-hijau {
   </div>
 
 
-  <div
-    id="hasilInfo"
-    class="hasil-info">
+  <!-- RINGKASAN -->
 
-    Menunggu data...
+  <div class="card">
+
+
+    <div class="ringkasan">
+
+
+      <!-- TOTAL MURID -->
+
+      <div class="box">
+
+        <div class="judul">
+
+          👥 Total Murid
+
+        </div>
+
+
+        <div
+          class="angka"
+          id="totalMurid">
+
+          0
+
+        </div>
+
+      </div>
+
+
+      <!-- HADIR -->
+
+      <div class="box">
+
+        <div class="judul">
+
+          ✅ Hadir
+
+        </div>
+
+
+        <div
+          class="angka"
+          id="totalHadir">
+
+          0
+
+        </div>
+
+      </div>
+
+
+      <!-- TERLAMBAT -->
+
+      <div class="box">
+
+        <div class="judul">
+
+          🔴 Terlambat
+
+        </div>
+
+
+        <div
+          class="angka"
+          id="totalTerlambat">
+
+          0
+
+        </div>
+
+      </div>
+
+
+      <!-- BUTUH PERHATIAN -->
+
+      <div class="box">
+
+        <div class="judul">
+
+          ⚠️ Butuh Perhatian
+
+        </div>
+
+
+        <div
+          class="angka"
+          id="butuhPerhatian">
+
+          0
+
+        </div>
+
+      </div>
+
+
+    </div>
+
 
   </div>
 
-</div>
+
+  <!-- TABEL -->
+
+  <div class="card">
 
 
-<!-- ==================================================
-     TABEL
-================================================== -->
-
-<div class="card">
-
-  <h2>
-    Daftar Rekap Murid
-  </h2>
+    <h2>
+      Daftar Rekap Murid
+    </h2>
 
 
-  <div
-    id="loading"
-    class="loading">
+    <div
+      id="loading"
+      class="loading">
 
-    ⏳ Memuat data rekap...
+      Memuat data rekap...
+
+    </div>
+
+
+    <div class="tabel-container">
+
+
+      <table
+        id="tabelRekap">
+
+
+        <thead>
+
+          <tr>
+
+            <th>
+              No
+            </th>
+
+            <th>
+              Nama Murid
+            </th>
+
+            <th>
+              NISN
+            </th>
+
+            <th>
+              Kelas
+            </th>
+
+            <th>
+              Hadir
+            </th>
+
+            <th>
+              Terlambat
+            </th>
+
+            <th>
+              Izin
+            </th>
+
+            <th>
+              Sakit
+            </th>
+
+            <th>
+              Alpa
+            </th>
+
+            <th>
+              Persentase
+            </th>
+
+            <th>
+              Perhatian
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          id="isiTabel">
+        </tbody>
+
+
+      </table>
+
+
+    </div>
+
 
   </div>
-
-
-  <div class="tabel-container">
-
-    <table id="tabelRekap">
-
-
-      <thead>
-
-        <tr>
-
-          <th>No</th>
-
-          <th>Nama Murid</th>
-
-          <th>NISN</th>
-
-          <th>Kelas</th>
-
-          <th>Hadir</th>
-
-          <th>Terlambat</th>
-
-          <th>Izin</th>
-
-          <th>Sakit</th>
-
-          <th>Alpa</th>
-
-          <th>Persentase</th>
-
-          <th>Perhatian</th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody id="isiTabel">
-
-      </tbody>
-
-
-    </table>
-
-  </div>
-
-</div>
 
 
 </div>
@@ -767,46 +861,175 @@ tr.baris-hijau {
 <script>
 
 
-/* =====================================================
-   URL APPS SCRIPT
-===================================================== */
+/************************************************************
+ * URL APPS SCRIPT
+ ************************************************************/
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
 
 
-/*
- * Jika URL di atas ternyata berbeda dengan URL
- * Apps Script yang sedang dipakai scanner,
- * ganti URL tersebut dengan URL Web App Apps Script
- * yang sama dengan scanner.
- */
-
-
-/* =====================================================
-   DATA GLOBAL
-===================================================== */
-
-let DATA_REKAP = [];
-
-
-/* =====================================================
-   SAAT HALAMAN DIBUKA
-===================================================== */
+/************************************************************
+ * SAAT HALAMAN DIBUKA
+ ************************************************************/
 
 window.addEventListener(
   "load",
-  function() {
+  async function() {
 
-    muatRekap();
+    await muatDaftarKelas();
+
+    await muatRekap();
 
   }
 );
 
 
-/* =====================================================
-   MUAT REKAP
-===================================================== */
+/************************************************************
+ * MUAT DAFTAR KELAS
+ ************************************************************/
+
+async function muatDaftarKelas() {
+
+  const select =
+    document.getElementById(
+      "kelas"
+    );
+
+
+  try {
+
+    /*
+     * Untuk mendapatkan daftar kelas,
+     * kita mengambil seluruh rekap.
+     */
+
+    const url =
+      API_URL +
+      "?action=rekap_admin";
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:
+            "GET",
+
+          cache:
+            "no-store"
+        }
+      );
+
+
+    const text =
+      await response.text();
+
+
+    const data =
+      JSON.parse(
+        text
+      );
+
+
+    if (
+      data.status !==
+      "success"
+    ) {
+
+      return;
+
+    }
+
+
+    const daftar =
+      [];
+
+
+    (data.data || [])
+      .forEach(
+        function(item) {
+
+          const kelas =
+            String(
+              item.kelas || ''
+            ).trim();
+
+
+          if (
+            kelas &&
+            !daftar.includes(
+              kelas
+            )
+          ) {
+
+            daftar.push(
+              kelas
+            );
+
+          }
+
+        }
+      );
+
+
+    daftar.sort(
+      function(a, b) {
+
+        return a.localeCompare(
+          b,
+          'id',
+          {
+            numeric:
+              true
+          }
+        );
+
+      }
+    );
+
+
+    daftar.forEach(
+      function(kelas) {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          kelas;
+
+
+        option.textContent =
+          kelas;
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+  }
+
+  catch(error) {
+
+    console.error(
+      "Gagal memuat kelas:",
+      error
+    );
+
+  }
+
+}
+
+
+/************************************************************
+ * MUAT REKAP
+ ************************************************************/
 
 async function muatRekap() {
 
@@ -823,10 +1046,12 @@ async function muatRekap() {
     );
 
 
-  const tombol =
-    document.getElementById(
-      "btnMuat"
-    );
+  errorBox.style.display =
+    "none";
+
+
+  loading.style.display =
+    "block";
 
 
   const tanggalAwal =
@@ -841,20 +1066,10 @@ async function muatRekap() {
     ).value;
 
 
-  errorBox.style.display =
-    "none";
-
-
-  loading.style.display =
-    "block";
-
-
-  tombol.disabled =
-    true;
-
-
-  tombol.textContent =
-    "⏳ Memuat...";
+  const kelas =
+    document.getElementById(
+      "kelas"
+    ).value;
 
 
   try {
@@ -891,26 +1106,30 @@ async function muatRekap() {
     }
 
 
+    if (
+      kelas
+    ) {
+
+      url +=
+        "&kelas=" +
+        encodeURIComponent(
+          kelas
+        );
+
+    }
+
+
     const response =
       await fetch(
         url,
         {
-          method: "GET",
-          cache: "no-store"
+          method:
+            "GET",
+
+          cache:
+            "no-store"
         }
       );
-
-
-    if (
-      !response.ok
-    ) {
-
-      throw new Error(
-        "HTTP Error " +
-        response.status
-      );
-
-    }
 
 
     const text =
@@ -923,23 +1142,10 @@ async function muatRekap() {
     );
 
 
-    let data;
-
-
-    try {
-
-      data =
-        JSON.parse(text);
-
-    }
-
-    catch(e) {
-
-      throw new Error(
-        "Respons Apps Script bukan JSON yang valid."
+    const data =
+      JSON.parse(
+        text
       );
-
-    }
 
 
     if (
@@ -955,67 +1161,23 @@ async function muatRekap() {
     }
 
 
-    DATA_REKAP =
-      Array.isArray(
-        data.data
-      )
-        ? data.data
-        : [];
-
-
-    /*
-     * PENTING:
-     *
-     * Ringkasan tidak langsung mengambil
-     * butuhPerhatian dari backend.
-     *
-     * Kita hitung ulang dari DATA_REKAP.
-     */
-
-    const ringkasan =
-      hitungRingkasanDariData(
-        DATA_REKAP
-      );
-
-
     tampilkanRingkasan(
-      ringkasan
+      data.ringkasan ||
+      {}
     );
 
 
     tampilkanTabel(
-      DATA_REKAP
+      data.data ||
+      []
     );
 
 
-    if (
-      tanggalAwal ||
-      tanggalAkhir
-    ) {
-
-      document.getElementById(
-        "infoFilter"
-      ).textContent =
-        "Rekap berdasarkan periode yang dipilih.";
-
-    }
-
-    else {
-
-      document.getElementById(
-        "infoFilter"
-      ).textContent =
-        "Menampilkan seluruh data.";
-
-    }
-
-
-    document.getElementById(
-      "hasilInfo"
-    ).textContent =
-      "Data berhasil dimuat: " +
-      DATA_REKAP.length +
-      " murid.";
+    tampilkanInfoFilter(
+      tanggalAwal,
+      tanggalAkhir,
+      kelas
+    );
 
 
   }
@@ -1038,12 +1200,6 @@ async function muatRekap() {
       "block";
 
 
-    document.getElementById(
-      "hasilInfo"
-    ).textContent =
-      "Data gagal dimuat.";
-
-
   }
 
   finally {
@@ -1052,107 +1208,136 @@ async function muatRekap() {
     loading.style.display =
       "none";
 
-
-    tombol.disabled =
-      false;
-
-
-    tombol.textContent =
-      "🔄 Tampilkan Rekap";
-
   }
 
 }
 
 
-/* =====================================================
-   HITUNG RINGKASAN DARI DATA MURID
-===================================================== */
+/************************************************************
+ * INFORMASI FILTER
+ ************************************************************/
 
-function hitungRingkasanDariData(
-  data
+function tampilkanInfoFilter(
+  tanggalAwal,
+  tanggalAkhir,
+  kelas
 ) {
 
 
-  let totalMurid =
-    data.length;
+  const info =
+    document.getElementById(
+      "infoFilter"
+    );
 
 
-  let totalHadir =
-    0;
+  let teks =
+    "";
 
 
-  let totalTerlambat =
-    0;
+  if (
+    kelas
+  ) {
+
+    teks +=
+      "Kelas: " +
+      kelas;
+
+  }
+
+  else {
+
+    teks +=
+      "Semua Kelas";
+
+  }
 
 
-  let butuhPerhatian =
-    0;
+  if (
+    tanggalAwal ||
+    tanggalAkhir
+  ) {
+
+    teks +=
+      " | ";
 
 
-  data.forEach(
-    function(item) {
+    if (
+      tanggalAwal
+    ) {
 
-
-      const hadir =
-        Number(
-          item.hadir || 0
+      teks +=
+        "Mulai " +
+        formatTanggal(
+          tanggalAwal
         );
-
-
-      const terlambat =
-        Number(
-          item.terlambat || 0
-        );
-
-
-      totalHadir +=
-        hadir;
-
-
-      totalTerlambat +=
-        terlambat;
-
-
-      /*
-       * 3 kali atau lebih
-       * = BUTUH PERHATIAN
-       */
-
-      if (
-        terlambat >= 3
-      ) {
-
-        butuhPerhatian++;
-
-      }
 
     }
-  );
 
 
-  return {
+    if (
+      tanggalAkhir
+    ) {
 
-    totalMurid:
-      totalMurid,
+      teks +=
+        " sampai " +
+        formatTanggal(
+          tanggalAkhir
+        );
 
-    hadir:
-      totalHadir,
+    }
 
-    terlambat:
-      totalTerlambat,
+  }
 
-    butuhPerhatian:
-      butuhPerhatian
 
-  };
+  info.textContent =
+    teks;
 
 }
 
 
-/* =====================================================
-   TAMPILKAN RINGKASAN
-===================================================== */
+/************************************************************
+ * FORMAT TANGGAL
+ ************************************************************/
+
+function formatTanggal(
+  value
+) {
+
+
+  if (!value) {
+
+    return "";
+
+  }
+
+
+  const parts =
+    value.split("-");
+
+
+  if (
+    parts.length !== 3
+  ) {
+
+    return value;
+
+  }
+
+
+  return (
+    parts[2] +
+    "/" +
+    parts[1] +
+    "/" +
+    parts[0]
+  );
+
+}
+
+
+/************************************************************
+ * RINGKASAN
+ ************************************************************/
 
 function tampilkanRingkasan(
   ringkasan
@@ -1162,37 +1347,36 @@ function tampilkanRingkasan(
   document.getElementById(
     "totalMurid"
   ).textContent =
-    ringkasan.totalMurid || 0;
+    ringkasan.totalMurid ||
+    0;
 
 
   document.getElementById(
     "totalHadir"
   ).textContent =
-    ringkasan.hadir || 0;
+    ringkasan.hadir ||
+    0;
 
 
   document.getElementById(
     "totalTerlambat"
   ).textContent =
-    ringkasan.terlambat || 0;
+    ringkasan.terlambat ||
+    0;
 
-
-  /*
-   * Nilai ini berasal dari perhitungan
-   * ulang DATA_REKAP.
-   */
 
   document.getElementById(
     "butuhPerhatian"
   ).textContent =
-    ringkasan.butuhPerhatian || 0;
+    ringkasan.butuhPerhatian ||
+    0;
 
 }
 
 
-/* =====================================================
-   TAMPILKAN TABEL
-===================================================== */
+/************************************************************
+ * TABEL
+ ************************************************************/
 
 function tampilkanTabel(
   data
@@ -1214,6 +1398,7 @@ function tampilkanTabel(
     data.length === 0
   ) {
 
+
     tbody.innerHTML = `
 
       <tr>
@@ -1222,16 +1407,18 @@ function tampilkanTabel(
           colspan="11"
           style="
             text-align:center;
-            padding:25px;
+            padding:30px;
           ">
 
-          Tidak ada data.
+          Tidak ada data
+          untuk filter yang dipilih.
 
         </td>
 
       </tr>
 
     `;
+
 
     return;
 
@@ -1248,137 +1435,93 @@ function tampilkanTabel(
         );
 
 
-      const terlambat =
-        Number(
-          item.terlambat || 0
-        );
+      const perhatian =
+        item.perhatian ||
+        {};
 
 
-      /*
-       * Tentukan status berdasarkan
-       * jumlah terlambat.
-       */
+      let kelasWarna =
+        "hijau";
 
-      let statusLabel =
-        "Baik";
-
-
-      let statusClass =
-        "badge-hijau";
-
-
-      let rowClass =
-        "baris-hijau";
-
-
-      /*
-       * 3 kali atau lebih
-       * = BUTUH PERHATIAN
-       */
 
       if (
-        terlambat >= 3
+        perhatian.kode ===
+        "MERAH"
       ) {
 
-        statusLabel =
-          "⚠️ BUTUH PERHATIAN";
-
-
-        statusClass =
-          "badge-perhatian";
-
-
-        rowClass =
-          "baris-perhatian";
+        kelasWarna =
+          "merah";
 
       }
 
 
-      /*
-       * 1-2 kali
-       * = TERLAMBAT
-       */
-
       else if (
-        terlambat > 0
+        perhatian.kode ===
+        "TERLAMBAT"
       ) {
 
-        statusLabel =
-          "🔴 TERLAMBAT";
-
-
-        statusClass =
-          "badge-merah";
-
-
-        rowClass =
-          "baris-merah";
+        kelasWarna =
+          "merah";
 
       }
 
 
       tr.className =
-        rowClass;
+        kelasWarna;
 
 
-      const hadir =
-        Number(
-          item.hadir || 0
-        );
-
-
-      const izin =
-        Number(
-          item.izin || 0
-        );
-
-
-      const sakit =
-        Number(
-          item.sakit || 0
-        );
-
-
-      const alpa =
-        Number(
-          item.alpa || 0
-        );
-
-
-      const total =
-        hadir +
-        terlambat +
-        izin +
-        sakit +
-        alpa;
-
-
-      /*
-       * Persentase:
-       *
-       * Hadir + Terlambat
-       * dibanding seluruh catatan.
-       */
-
-      let persentase = 0;
+      let badgeHTML =
+        "";
 
 
       if (
-        total > 0
+        item.terlambat >= 3
       ) {
 
-        persentase =
-          Math.round(
-            (
-              (
-                hadir +
-                terlambat
-              )
-              /
-              total
-            )
-            * 100
-          );
+        badgeHTML = `
+
+          <span
+            class="badge badge-merah">
+
+            ⚠️ BUTUH PERHATIAN
+
+          </span>
+
+        `;
+
+      }
+
+
+      else if (
+        item.terlambat > 0
+      ) {
+
+        badgeHTML = `
+
+          <span
+            class="badge badge-merah">
+
+            🔴 TERLAMBAT
+
+          </span>
+
+        `;
+
+      }
+
+
+      else {
+
+        badgeHTML = `
+
+          <span
+            class="badge badge-hijau">
+
+            🟢 Baik
+
+          </span>
+
+        `;
 
       }
 
@@ -1414,44 +1557,37 @@ function tampilkanTabel(
 
 
         <td>
-          ${hadir}
+          ${item.hadir || 0}
         </td>
 
 
         <td>
-          ${terlambat}
+          ${item.terlambat || 0}
         </td>
 
 
         <td>
-          ${izin}
+          ${item.izin || 0}
         </td>
 
 
         <td>
-          ${sakit}
+          ${item.sakit || 0}
         </td>
 
 
         <td>
-          ${alpa}
+          ${item.alpa || 0}
         </td>
 
 
         <td>
-          ${persentase}%
+          ${item.persentase || 0}%
         </td>
 
 
         <td>
-
-          <span
-            class="badge ${statusClass}">
-
-            ${statusLabel}
-
-          </span>
-
+          ${badgeHTML}
         </td>
 
       `;
@@ -1467,15 +1603,18 @@ function tampilkanTabel(
 }
 
 
-/* =====================================================
-   KEAMANAN HTML
-===================================================== */
+/************************************************************
+ * ESCAPE HTML
+ ************************************************************/
 
 function escapeHTML(
   text
 ) {
 
-  return String(text)
+
+  return String(
+    text
+  )
 
     .replace(
       /&/g,
