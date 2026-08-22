@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rekap Absensi - SMK Negeri 1 Palopo</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.header {
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.header h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 25px;
+}
+
+.header p {
+  text-align: center;
+  color: #64748b;
+  margin: 8px 0 0;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.filter {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+select,
+input,
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+select,
+input {
+  border: 1px solid #cbd5e1;
+  background: white;
+}
+
+button {
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 24px;
+}
+
+button:hover {
+  opacity: .9;
+}
+
+.info {
+  margin-top: 12px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.ringkasan {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.box {
+  padding: 18px;
+  border-radius: 14px;
+  text-align: center;
+  background: #f8fafc;
+}
+
+.box .angka {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.box .judul {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.tabel-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+}
+
+.merah {
+  background: #fee2e2 !important;
+  color: #991b1b;
+  font-weight: bold;
+}
+
+.kuning {
+  background: #fef3c7 !important;
+  color: #92400e;
+  font-weight: bold;
+}
+
+.hijau {
+  color: #166534;
+  font-weight: bold;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+
+.error {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: none;
+}
+
+@media (max-width: 800px) {
+
+  .filter {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    margin-top: 0;
+  }
+
+  .ringkasan {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+@media (max-width: 450px) {
+
+  .ringkasan {
+    grid-template-columns: 1fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>📊 REKAP ABSENSI MURID</h1>
+    <p>SMK Negeri 1 Palopo</p>
+  </div>
+
+  <div id="errorBox" class="error"></div>
+
+  <div class="card">
+
+    <div class="filter">
+
+      <div>
+        <label for="tanggalAwal">
+          Tanggal Awal
+        </label>
+
+        <input
+          type="date"
+          id="tanggalAwal">
+      </div>
+
+      <div>
+        <label for="tanggalAkhir">
+          Tanggal Akhir
+        </label>
+
+        <input
+          type="date"
+          id="tanggalAkhir">
+      </div>
+
+      <div>
+        <label>&nbsp;</label>
+
+        <button onclick="muatRekap()">
+          🔄 Tampilkan Rekap
+        </button>
+      </div>
+
+    </div>
+
+    <div id="infoFilter" class="info">
+      Menampilkan seluruh data.
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="ringkasan">
+
+      <div class="box">
+        <div class="judul">
+          Total Murid
+        </div>
+
+        <div
+          class="angka"
+          id="totalMurid">
+          0
+        </div>
+      </div>
+
+
+      <div class="box">
+        <div class="judul">
+          Hadir
+        </div>
+
+        <div
+          class="angka"
+          id="totalHadir">
+          0
+        </div>
+      </div>
+
+
+      <div class="box">
+        <div class="judul">
+          Terlambat
+        </div>
+
+        <div
+          class="angka"
+          id="totalTerlambat">
+          0
+        </div>
+      </div>
+
+
+      <div class="box">
+        <div class="judul">
+          Murid Terlambat
+        </div>
+
+        <div
+          class="angka"
+          id="muridTerlambat">
+          0
+        </div>
+      </div>
+
+
+      <div class="box">
+        <div class="judul">
+          Butuh Perhatian
+        </div>
+
+        <div
+          class="angka"
+          id="butuhPerhatian">
+          0
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Daftar Rekap Murid</h2>
+
+    <div
+      id="loading"
+      class="loading">
+      Memuat data rekap...
+    </div>
+
+    <div class="tabel-container">
+
+      <table id="tabelRekap">
+
+        <thead>
+
+          <tr>
+            <th>No</th>
+            <th>Nama Murid</th>
+            <th>NISN</th>
+            <th>Kelas</th>
+            <th>Hadir</th>
+            <th>Terlambat</th>
+            <th>Izin</th>
+            <th>Sakit</th>
+            <th>Alpa</th>
+            <th>Persentase</th>
+            <th>Perhatian</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="isiTabel"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/******************************************************
+ * URL APPS SCRIPT
+ ******************************************************/
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
+
+
+/******************************************************
+ * SAAT HALAMAN DIBUKA
+ ******************************************************/
+
+window.addEventListener(
+  "load",
+  function() {
+
+    muatRekap();
+
+  }
+);
+
+
+/******************************************************
+ * MUAT REKAP ADMIN
+ ******************************************************/
+
+async function muatRekap() {
+
+  const loading =
+    document.getElementById("loading");
+
+  const errorBox =
+    document.getElementById("errorBox");
+
+  errorBox.style.display = "none";
+
+  loading.style.display = "block";
+
+  const tanggalAwal =
+    document.getElementById(
+      "tanggalAwal"
+    ).value;
+
+  const tanggalAkhir =
+    document.getElementById(
+      "tanggalAkhir"
+    ).value;
+
+
+  try {
+
+    let url =
+      API_URL +
+      "?action=rekap_admin";
+
+
+    if (tanggalAwal) {
+
+      url +=
+        "&tanggalAwal=" +
+        encodeURIComponent(
+          tanggalAwal
+        );
+
+    }
+
+
+    if (tanggalAkhir) {
+
+      url +=
+        "&tanggalAkhir=" +
+        encodeURIComponent(
+          tanggalAkhir
+        );
+
+    }
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+
+    const text =
+      await response.text();
+
+
+    console.log(
+      "RESPON REKAP:",
+      text
+    );
+
+
+    const data =
+      JSON.parse(text);
+
+
+    if (
+      data.status !== "success"
+    ) {
+
+      throw new Error(
+        data.message ||
+        "Gagal mengambil data rekap."
+      );
+
+    }
+
+
+    tampilkanRingkasan(
+      data.ringkasan || {}
+    );
+
+
+    tampilkanTabel(
+      data.data || []
+    );
+
+
+    if (
+      tanggalAwal ||
+      tanggalAkhir
+    ) {
+
+      document.getElementById(
+        "infoFilter"
+      ).textContent =
+        "Rekap berdasarkan periode yang dipilih.";
+
+    }
+    else {
+
+      document.getElementById(
+        "infoFilter"
+      ).textContent =
+        "Menampilkan seluruh data.";
+
+    }
+
+  }
+
+  catch(error) {
+
+    console.error(
+      "REKAP ERROR:",
+      error
+    );
+
+
+    errorBox.textContent =
+      "❌ Gagal memuat rekap: " +
+      error.message;
+
+    errorBox.style.display =
+      "block";
+
+  }
+
+  finally {
+
+    loading.style.display =
+      "none";
+
+  }
+
+}
+
+
+/******************************************************
+ * RINGKASAN
+ ******************************************************/
+
+function tampilkanRingkasan(
+  ringkasan
+) {
+
+  document.getElementById(
+    "totalMurid"
+  ).textContent =
+    ringkasan.totalMurid || 0;
+
+
+  document.getElementById(
+    "totalHadir"
+  ).textContent =
+    ringkasan.hadir || 0;
+
+
+  document.getElementById(
+    "totalTerlambat"
+  ).textContent =
+    ringkasan.terlambat || 0;
+
+
+  document.getElementById(
+    "muridTerlambat"
+  ).textContent =
+    ringkasan.muridTerlambat || 0;
+
+
+  document.getElementById(
+    "butuhPerhatian"
+  ).textContent =
+    ringkasan.butuhPerhatian || 0;
+
+}
+
+
+/******************************************************
+ * TABEL
+ ******************************************************/
+
+function tampilkanTabel(
+  data
+) {
+
+  const tbody =
+    document.getElementById(
+      "isiTabel"
+    );
+
+
+  tbody.innerHTML = "";
+
+
+  if (
+    !data ||
+    data.length === 0
+  ) {
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="11"
+          style="text-align:center;">
+          Tidak ada data.
+        </td>
+      </tr>
+      `;
+
+    return;
+
+  }
+
+
+  data.forEach(
+    function(item, index) {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      const perhatian =
+        item.perhatian || {};
+
+
+      let kelasWarna = "";
+
+
+      if (
+        perhatian.kode ===
+        "MERAH"
+      ) {
+
+        kelasWarna =
+          "merah";
+
+      }
+
+      else if (
+        perhatian.kode ===
+        "KUNING"
+      ) {
+
+        kelasWarna =
+          "kuning";
+
+      }
+
+      else {
+
+        kelasWarna =
+          "hijau";
+
+      }
+
+
+      tr.className =
+        kelasWarna;
+
+
+      tr.innerHTML =
+        `
+        <td>${index + 1}</td>
+
+        <td>
+          ${escapeHTML(
+            item.nama || "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            String(
+              item.nisn || "-"
+            )
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            item.kelas || "-"
+          )}
+        </td>
+
+        <td>
+          ${item.hadir || 0}
+        </td>
+
+        <td>
+          ${item.terlambat || 0}
+        </td>
+
+        <td>
+          ${item.izin || 0}
+        </td>
+
+        <td>
+          ${item.sakit || 0}
+        </td>
+
+        <td>
+          ${item.alpa || 0}
+        </td>
+
+        <td>
+          ${item.persentase || 0}%
+        </td>
+
+        <td>
+          ${escapeHTML(
+            perhatian.label || "Baik"
+          )}
+        </td>
+        `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+}
+
+
+/******************************************************
+ * KEAMANAN HTML
+ ******************************************************/
+
+function escapeHTML(
+  text
+) {
+
+  return String(text)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+</script>
+
+</body>
+</html>
