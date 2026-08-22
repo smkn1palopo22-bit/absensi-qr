@@ -7,6 +7,7 @@
 <title>Rekap Absensi - SMK Negeri 1 Palopo</title>
 
 <style>
+
 * {
   box-sizing: border-box;
 }
@@ -19,10 +20,14 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: auto;
   padding: 20px;
 }
+
+/* ================================
+   HEADER
+================================ */
 
 .header {
   background: white;
@@ -44,6 +49,10 @@ body {
   margin: 8px 0 0;
 }
 
+/* ================================
+   CARD
+================================ */
+
 .card {
   background: white;
   border-radius: 16px;
@@ -52,10 +61,21 @@ body {
   box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
 
+/* ================================
+   FILTER
+================================ */
+
 .filter {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns:
+    1fr
+    1fr
+    1fr
+    180px
+    120px;
+
   gap: 12px;
+  align-items: end;
 }
 
 label {
@@ -85,11 +105,14 @@ button {
   color: white;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 24px;
 }
 
 button:hover {
   opacity: .9;
+}
+
+button.reset {
+  background: #64748b;
 }
 
 .info {
@@ -97,6 +120,10 @@ button:hover {
   color: #64748b;
   font-size: 14px;
 }
+
+/* ================================
+   RINGKASAN
+================================ */
 
 .ringkasan {
   display: grid;
@@ -122,14 +149,19 @@ button:hover {
   color: #64748b;
 }
 
+/* ================================
+   TABEL
+================================ */
+
 .tabel-container {
   overflow-x: auto;
+  max-height: 650px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 900px;
+  min-width: 1000px;
 }
 
 th,
@@ -144,7 +176,12 @@ th {
   background: #f8fafc;
   position: sticky;
   top: 0;
+  z-index: 2;
 }
+
+/* ================================
+   WARNA PERHATIAN
+================================ */
 
 .merah {
   background: #fee2e2 !important;
@@ -160,14 +197,48 @@ th {
 
 .hijau {
   color: #166534;
+}
+
+/* ================================
+   BADGE
+================================ */
+
+.badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 8px;
+  font-size: 12px;
   font-weight: bold;
 }
+
+.badge-merah {
+  background: #fecaca;
+  color: #991b1b;
+}
+
+.badge-kuning {
+  background: #fde68a;
+  color: #92400e;
+}
+
+.badge-hijau {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* ================================
+   LOADING
+================================ */
 
 .loading {
   text-align: center;
   padding: 20px;
   color: #64748b;
 }
+
+/* ================================
+   ERROR
+================================ */
 
 .error {
   background: #fee2e2;
@@ -178,14 +249,26 @@ th {
   display: none;
 }
 
-@media (max-width: 800px) {
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1000px) {
+
+  .filter {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ringkasan {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+}
+
+@media (max-width: 600px) {
 
   .filter {
     grid-template-columns: 1fr;
-  }
-
-  button {
-    margin-top: 0;
   }
 
   .ringkasan {
@@ -194,180 +277,302 @@ th {
 
 }
 
-@media (max-width: 450px) {
+@media (max-width: 400px) {
 
   .ringkasan {
     grid-template-columns: 1fr;
   }
 
 }
+
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-  <div class="header">
-    <h1>📊 REKAP ABSENSI MURID</h1>
-    <p>SMK Negeri 1 Palopo</p>
-  </div>
+<!-- =========================================
+     HEADER
+========================================= -->
 
-  <div id="errorBox" class="error"></div>
+<div class="header">
 
-  <div class="card">
+  <h1>
+    📊 REKAP ABSENSI MURID
+  </h1>
 
-    <div class="filter">
+  <p>
+    SMK Negeri 1 Palopo
+  </p>
 
-      <div>
-        <label for="tanggalAwal">
-          Tanggal Awal
-        </label>
+</div>
 
-        <input
-          type="date"
-          id="tanggalAwal">
-      </div>
 
-      <div>
-        <label for="tanggalAkhir">
-          Tanggal Akhir
-        </label>
+<!-- =========================================
+     ERROR
+========================================= -->
 
-        <input
-          type="date"
-          id="tanggalAkhir">
-      </div>
+<div
+  id="errorBox"
+  class="error">
+</div>
 
-      <div>
-        <label>&nbsp;</label>
 
-        <button onclick="muatRekap()">
-          🔄 Tampilkan Rekap
-        </button>
-      </div>
+<!-- =========================================
+     FILTER
+========================================= -->
+
+<div class="card">
+
+  <div class="filter">
+
+    <div>
+
+      <label for="tanggalAwal">
+        Tanggal Awal
+      </label>
+
+      <input
+        type="date"
+        id="tanggalAwal">
 
     </div>
 
-    <div id="infoFilter" class="info">
-      Menampilkan seluruh data.
+
+    <div>
+
+      <label for="tanggalAkhir">
+        Tanggal Akhir
+      </label>
+
+      <input
+        type="date"
+        id="tanggalAkhir">
+
     </div>
 
-  </div>
+
+    <div>
+
+      <label for="filterKelas">
+        Kelas
+      </label>
+
+      <select id="filterKelas">
+
+        <option value="">
+          Semua Kelas
+        </option>
+
+      </select>
+
+    </div>
 
 
-  <div class="card">
+    <div>
 
-    <div class="ringkasan">
+      <button
+        onclick="muatRekap()">
 
-      <div class="box">
-        <div class="judul">
-          Total Murid
-        </div>
+        🔄 Tampilkan
 
-        <div
-          class="angka"
-          id="totalMurid">
-          0
-        </div>
-      </div>
+      </button>
+
+    </div>
 
 
-      <div class="box">
-        <div class="judul">
-          Hadir
-        </div>
+    <div>
 
-        <div
-          class="angka"
-          id="totalHadir">
-          0
-        </div>
-      </div>
+      <button
+        class="reset"
+        onclick="resetFilter()">
 
+        Reset
 
-      <div class="box">
-        <div class="judul">
-          Terlambat
-        </div>
-
-        <div
-          class="angka"
-          id="totalTerlambat">
-          0
-        </div>
-      </div>
-
-
-      <div class="box">
-        <div class="judul">
-          Murid Terlambat
-        </div>
-
-        <div
-          class="angka"
-          id="muridTerlambat">
-          0
-        </div>
-      </div>
-
-
-      <div class="box">
-        <div class="judul">
-          Butuh Perhatian
-        </div>
-
-        <div
-          class="angka"
-          id="butuhPerhatian">
-          0
-        </div>
-      </div>
+      </button>
 
     </div>
 
   </div>
 
 
-  <div class="card">
+  <div
+    id="infoFilter"
+    class="info">
 
-    <h2>Daftar Rekap Murid</h2>
-
-    <div
-      id="loading"
-      class="loading">
-      Memuat data rekap...
-    </div>
-
-    <div class="tabel-container">
-
-      <table id="tabelRekap">
-
-        <thead>
-
-          <tr>
-            <th>No</th>
-            <th>Nama Murid</th>
-            <th>NISN</th>
-            <th>Kelas</th>
-            <th>Hadir</th>
-            <th>Terlambat</th>
-            <th>Izin</th>
-            <th>Sakit</th>
-            <th>Alpa</th>
-            <th>Persentase</th>
-            <th>Perhatian</th>
-          </tr>
-
-        </thead>
-
-        <tbody id="isiTabel"></tbody>
-
-      </table>
-
-    </div>
+    Menampilkan seluruh data.
 
   </div>
+
+</div>
+
+
+<!-- =========================================
+     RINGKASAN
+========================================= -->
+
+<div class="card">
+
+  <div class="ringkasan">
+
+
+    <div class="box">
+
+      <div class="judul">
+        Total Murid
+      </div>
+
+      <div
+        class="angka"
+        id="totalMurid">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="box">
+
+      <div class="judul">
+        Hadir
+      </div>
+
+      <div
+        class="angka"
+        id="totalHadir">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="box">
+
+      <div class="judul">
+        Terlambat
+      </div>
+
+      <div
+        class="angka"
+        id="totalTerlambat">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="box">
+
+      <div class="judul">
+        Murid Terlambat
+      </div>
+
+      <div
+        class="angka"
+        id="muridTerlambat">
+
+        0
+
+      </div>
+
+    </div>
+
+
+    <div class="box">
+
+      <div class="judul">
+        Butuh Perhatian
+      </div>
+
+      <div
+        class="angka"
+        id="butuhPerhatian">
+
+        0
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+<!-- =========================================
+     TABEL
+========================================= -->
+
+<div class="card">
+
+  <h2>
+    Daftar Rekap Murid
+  </h2>
+
+
+  <div
+    id="loading"
+    class="loading">
+
+    Memuat data rekap...
+
+  </div>
+
+
+  <div class="tabel-container">
+
+    <table id="tabelRekap">
+
+      <thead>
+
+        <tr>
+
+          <th>No</th>
+
+          <th>Nama Murid</th>
+
+          <th>NISN</th>
+
+          <th>Kelas</th>
+
+          <th>Hadir</th>
+
+          <th>Terlambat</th>
+
+          <th>Izin</th>
+
+          <th>Sakit</th>
+
+          <th>Alpa</th>
+
+          <th>Persentase</th>
+
+          <th>Perhatian</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody
+        id="isiTabel">
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
 
 </div>
 
@@ -380,6 +585,13 @@ th {
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
+
+
+/******************************************************
+ * DATA REKAP
+ ******************************************************/
+
+let semuaData = [];
 
 
 /******************************************************
@@ -397,25 +609,33 @@ window.addEventListener(
 
 
 /******************************************************
- * MUAT REKAP ADMIN
+ * MUAT REKAP
  ******************************************************/
 
 async function muatRekap() {
 
   const loading =
-    document.getElementById("loading");
+    document.getElementById(
+      "loading"
+    );
 
   const errorBox =
-    document.getElementById("errorBox");
+    document.getElementById(
+      "errorBox"
+    );
 
-  errorBox.style.display = "none";
+  errorBox.style.display =
+    "none";
 
-  loading.style.display = "block";
+  loading.style.display =
+    "block";
+
 
   const tanggalAwal =
     document.getElementById(
       "tanggalAwal"
     ).value;
+
 
   const tanggalAkhir =
     document.getElementById(
@@ -477,7 +697,8 @@ async function muatRekap() {
 
 
     if (
-      data.status !== "success"
+      data.status !==
+      "success"
     ) {
 
       throw new Error(
@@ -488,35 +709,25 @@ async function muatRekap() {
     }
 
 
-    tampilkanRingkasan(
-      data.ringkasan || {}
+    semuaData =
+      data.data || [];
+
+
+    /* =========================================
+       BUAT DAFTAR KELAS
+    ========================================= */
+
+    buatDaftarKelas(
+      semuaData
     );
 
 
-    tampilkanTabel(
-      data.data || []
-    );
+    /* =========================================
+       TAMPILKAN REKAP
+    ========================================= */
 
+    tampilkanRekapDenganFilter();
 
-    if (
-      tanggalAwal ||
-      tanggalAkhir
-    ) {
-
-      document.getElementById(
-        "infoFilter"
-      ).textContent =
-        "Rekap berdasarkan periode yang dipilih.";
-
-    }
-    else {
-
-      document.getElementById(
-        "infoFilter"
-      ).textContent =
-        "Menampilkan seluruh data.";
-
-    }
 
   }
 
@@ -531,6 +742,7 @@ async function muatRekap() {
     errorBox.textContent =
       "❌ Gagal memuat rekap: " +
       error.message;
+
 
     errorBox.style.display =
       "block";
@@ -548,41 +760,297 @@ async function muatRekap() {
 
 
 /******************************************************
+ * BUAT DAFTAR KELAS
+ ******************************************************/
+
+function buatDaftarKelas(
+  data
+) {
+
+  const select =
+    document.getElementById(
+      "filterKelas"
+    );
+
+
+  const kelasSet =
+    new Set();
+
+
+  data.forEach(
+    function(item) {
+
+      if (
+        item.kelas
+      ) {
+
+        kelasSet.add(
+          String(
+            item.kelas
+          ).trim()
+        );
+
+      }
+
+    }
+  );
+
+
+  const kelasArray =
+    Array.from(
+      kelasSet
+    ).sort(
+      function(a,b) {
+
+        return a.localeCompare(
+          b,
+          "id",
+          {
+            numeric: true
+          }
+        );
+
+      }
+    );
+
+
+  select.innerHTML =
+    `
+    <option value="">
+      Semua Kelas
+    </option>
+    `;
+
+
+  kelasArray.forEach(
+    function(kelas) {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        kelas;
+
+
+      option.textContent =
+        kelas;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/******************************************************
+ * TAMPILKAN REKAP DENGAN FILTER
+ ******************************************************/
+
+function tampilkanRekapDenganFilter() {
+
+  const kelas =
+    document.getElementById(
+      "filterKelas"
+    ).value;
+
+
+  let data =
+    semuaData.slice();
+
+
+  if (kelas) {
+
+    data =
+      data.filter(
+        function(item) {
+
+          return String(
+            item.kelas || ""
+          ).trim() === kelas;
+
+        }
+      );
+
+  }
+
+
+  tampilkanRingkasan(
+    data
+  );
+
+
+  tampilkanTabel(
+    data
+  );
+
+
+  const tanggalAwal =
+    document.getElementById(
+      "tanggalAwal"
+    ).value;
+
+
+  const tanggalAkhir =
+    document.getElementById(
+      "tanggalAkhir"
+    ).value;
+
+
+  let info =
+    "";
+
+
+  if (
+    kelas
+  ) {
+
+    info +=
+      "Kelas: " +
+      kelas +
+      " | ";
+
+  }
+
+
+  if (
+    tanggalAwal ||
+    tanggalAkhir
+  ) {
+
+    info +=
+      "Berdasarkan periode yang dipilih.";
+
+  }
+
+  else {
+
+    info +=
+      "Menampilkan seluruh data.";
+
+  }
+
+
+  document.getElementById(
+    "infoFilter"
+  ).textContent =
+    info;
+
+}
+
+
+/******************************************************
  * RINGKASAN
+ *
+ * PERBAIKAN UTAMA:
+ *
+ * Murid terlambat dihitung dari
+ * jumlah murid yang terlambat > 0.
  ******************************************************/
 
 function tampilkanRingkasan(
-  ringkasan
+  data
 ) {
+
+  let totalHadir = 0;
+
+  let totalTerlambat = 0;
+
+  let jumlahMuridTerlambat = 0;
+
+  let jumlahButuhPerhatian = 0;
+
+
+  data.forEach(
+    function(item) {
+
+      const hadir =
+        Number(
+          item.hadir || 0
+        );
+
+
+      const terlambat =
+        Number(
+          item.terlambat || 0
+        );
+
+
+      totalHadir +=
+        hadir;
+
+
+      totalTerlambat +=
+        terlambat;
+
+
+      /* =========================================
+         JIKA MURID TERLAMBAT MINIMAL 1 KALI
+         ========================================= */
+
+      if (
+        terlambat > 0
+      ) {
+
+        jumlahMuridTerlambat++;
+
+      }
+
+
+      /* =========================================
+         BUTUH PERHATIAN
+         ========================================= */
+
+      if (
+        terlambat >= 3
+        ||
+        Number(
+          item.alpa || 0
+        ) >= 3
+      ) {
+
+        jumlahButuhPerhatian++;
+
+      }
+
+    }
+  );
+
 
   document.getElementById(
     "totalMurid"
   ).textContent =
-    ringkasan.totalMurid || 0;
+    data.length;
 
 
   document.getElementById(
     "totalHadir"
   ).textContent =
-    ringkasan.hadir || 0;
+    totalHadir;
 
 
   document.getElementById(
     "totalTerlambat"
   ).textContent =
-    ringkasan.terlambat || 0;
+    totalTerlambat;
 
 
   document.getElementById(
     "muridTerlambat"
   ).textContent =
-    ringkasan.muridTerlambat || 0;
+    jumlahMuridTerlambat;
 
 
   document.getElementById(
     "butuhPerhatian"
   ).textContent =
-    ringkasan.butuhPerhatian || 0;
+    jumlahButuhPerhatian;
 
 }
 
@@ -601,7 +1069,8 @@ function tampilkanTabel(
     );
 
 
-  tbody.innerHTML = "";
+  tbody.innerHTML =
+    "";
 
 
   if (
@@ -612,11 +1081,18 @@ function tampilkanTabel(
     tbody.innerHTML =
       `
       <tr>
+
         <td
           colspan="11"
-          style="text-align:center;">
+          style="
+            text-align:center;
+            padding:30px;
+          ">
+
           Tidak ada data.
+
         </td>
+
       </tr>
       `;
 
@@ -626,7 +1102,7 @@ function tampilkanTabel(
 
 
   data.forEach(
-    function(item, index) {
+    function(item,index) {
 
       const tr =
         document.createElement(
@@ -634,54 +1110,153 @@ function tampilkanTabel(
         );
 
 
-      const perhatian =
-        item.perhatian || {};
+      const hadir =
+        Number(
+          item.hadir || 0
+        );
 
 
-      let kelasWarna = "";
+      const terlambat =
+        Number(
+          item.terlambat || 0
+        );
+
+
+      const izin =
+        Number(
+          item.izin || 0
+        );
+
+
+      const sakit =
+        Number(
+          item.sakit || 0
+        );
+
+
+      const alpa =
+        Number(
+          item.alpa || 0
+        );
+
+
+      /* =========================================
+         TENTUKAN PERHATIAN
+      ========================================= */
+
+      let kode =
+        "HIJAU";
+
+
+      let label =
+        "Baik";
+
+
+      /*
+       * PRIORITAS:
+       *
+       * Terlambat >= 3
+       * atau Alpa >= 3
+       * = MERAH / BUTUH PERHATIAN
+       *
+       * Terlambat 1-2
+       * = MERAH
+       */
 
 
       if (
-        perhatian.kode ===
-        "MERAH"
+        terlambat >= 3
+        ||
+        alpa >= 3
       ) {
 
-        kelasWarna =
-          "merah";
+        kode =
+          "MERAH";
+
+
+        label =
+          "BUTUH PERHATIAN";
 
       }
 
       else if (
-        perhatian.kode ===
-        "KUNING"
+        terlambat > 0
       ) {
 
-        kelasWarna =
-          "kuning";
+        kode =
+          "MERAH";
+
+
+        label =
+          "TERLAMBAT";
 
       }
 
       else {
 
-        kelasWarna =
+        kode =
+          "HIJAU";
+
+
+        label =
+          "Baik";
+
+      }
+
+
+      /* =========================================
+         WARNA BARIS
+      ========================================= */
+
+      if (
+        kode === "MERAH"
+      ) {
+
+        tr.className =
+          "merah";
+
+      }
+
+      else {
+
+        tr.className =
           "hijau";
 
       }
 
 
-      tr.className =
-        kelasWarna;
+      /* =========================================
+         BADGE
+      ========================================= */
+
+      let badgeClass =
+        "badge-hijau";
+
+
+      if (
+        kode === "MERAH"
+      ) {
+
+        badgeClass =
+          "badge-merah";
+
+      }
 
 
       tr.innerHTML =
         `
-        <td>${index + 1}</td>
+
+        <td>
+          ${index + 1}
+        </td>
+
 
         <td>
           ${escapeHTML(
             item.nama || "-"
           )}
         </td>
+
 
         <td>
           ${escapeHTML(
@@ -691,41 +1266,59 @@ function tampilkanTabel(
           )}
         </td>
 
+
         <td>
           ${escapeHTML(
             item.kelas || "-"
           )}
         </td>
 
-        <td>
-          ${item.hadir || 0}
-        </td>
 
         <td>
-          ${item.terlambat || 0}
+          ${hadir}
         </td>
 
-        <td>
-          ${item.izin || 0}
-        </td>
 
         <td>
-          ${item.sakit || 0}
+          ${terlambat}
         </td>
 
-        <td>
-          ${item.alpa || 0}
-        </td>
 
         <td>
-          ${item.persentase || 0}%
+          ${izin}
         </td>
 
+
         <td>
-          ${escapeHTML(
-            perhatian.label || "Baik"
-          )}
+          ${sakit}
         </td>
+
+
+        <td>
+          ${alpa}
+        </td>
+
+
+        <td>
+          ${Number(
+            item.persentase || 0
+          )}%
+        </td>
+
+
+        <td>
+
+          <span
+            class="badge ${badgeClass}">
+
+            ${escapeHTML(
+              label
+            )}
+
+          </span>
+
+        </td>
+
         `;
 
 
@@ -740,6 +1333,35 @@ function tampilkanTabel(
 
 
 /******************************************************
+ * RESET FILTER
+ ******************************************************/
+
+function resetFilter() {
+
+  document.getElementById(
+    "tanggalAwal"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "tanggalAkhir"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "filterKelas"
+  ).value =
+    "";
+
+
+  tampilkanRekapDenganFilter();
+
+}
+
+
+/******************************************************
  * KEAMANAN HTML
  ******************************************************/
 
@@ -747,32 +1369,34 @@ function escapeHTML(
   text
 ) {
 
-  return String(text)
+  return String(
+    text
+  )
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+  .replace(
+    /</g,
+    "&lt;"
+  )
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
+  .replace(
+    />/g,
+    "&gt;"
+  )
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
 
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
