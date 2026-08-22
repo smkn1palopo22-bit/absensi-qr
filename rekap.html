@@ -13,244 +13,525 @@
   Rekap Absensi - SMK Negeri 1 Palopo
 </title>
 
+
 <style>
 
 * {
   box-sizing: border-box;
 }
 
+
 body {
+
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f1f5f9;
-  color: #1e293b;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  background:
+    #f1f5f9;
+
+  color:
+    #1e293b;
+
 }
+
 
 .container {
-  max-width: 1250px;
-  margin: auto;
-  padding: 20px;
+
+  max-width:
+    1250px;
+
+  margin:
+    auto;
+
+  padding:
+    20px;
+
 }
+
 
 .header {
-  background: white;
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 18px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+
+  background:
+    white;
+
+  border-radius:
+    18px;
+
+  padding:
+    22px;
+
+  margin-bottom:
+    18px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(0,0,0,.08);
+
 }
+
 
 .header h1 {
-  margin: 0;
-  text-align: center;
-  font-size: 25px;
+
+  margin:
+    0;
+
+  text-align:
+    center;
+
+  font-size:
+    25px;
+
 }
+
 
 .header p {
-  text-align: center;
-  color: #64748b;
-  margin: 8px 0 0;
+
+  text-align:
+    center;
+
+  color:
+    #64748b;
+
+  margin:
+    8px 0 0;
+
 }
+
 
 .card {
-  background: white;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 18px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+
+  background:
+    white;
+
+  border-radius:
+    16px;
+
+  padding:
+    18px;
+
+  margin-bottom:
+    18px;
+
+  box-shadow:
+    0 3px 12px
+    rgba(0,0,0,.08);
+
 }
+
 
 .filter {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 12px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr 1fr 1fr;
+
+  gap:
+    12px;
+
 }
 
+
 label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 6px;
+
+  display:
+    block;
+
+  font-weight:
+    bold;
+
+  margin-bottom:
+    6px;
+
 }
+
 
 select,
 input,
 button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 15px;
+
+  width:
+    100%;
+
+  padding:
+    12px;
+
+  border-radius:
+    10px;
+
+  font-size:
+    15px;
+
 }
+
 
 select,
 input {
-  border: 1px solid #cbd5e1;
-  background: white;
+
+  border:
+    1px solid #cbd5e1;
+
+  background:
+    white;
+
 }
+
 
 button {
-  border: none;
-  background: #2563eb;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 24px;
+
+  border:
+    none;
+
+  background:
+    #2563eb;
+
+  color:
+    white;
+
+  font-weight:
+    bold;
+
+  cursor:
+    pointer;
+
+  margin-top:
+    24px;
+
 }
+
 
 button:hover {
-  opacity: .9;
+
+  opacity:
+    .9;
+
 }
+
 
 .info {
-  margin-top: 12px;
-  color: #64748b;
-  font-size: 14px;
+
+  margin-top:
+    12px;
+
+  color:
+    #64748b;
+
+  font-size:
+    14px;
+
 }
+
 
 .ringkasan {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap:
+    12px;
+
 }
+
 
 .box {
-  padding: 18px;
-  border-radius: 14px;
-  text-align: center;
-  background: #f8fafc;
+
+  padding:
+    18px;
+
+  border-radius:
+    14px;
+
+  text-align:
+    center;
+
+  background:
+    #f8fafc;
+
 }
+
 
 .box .angka {
-  font-size: 28px;
-  font-weight: bold;
-  margin-top: 6px;
+
+  font-size:
+    28px;
+
+  font-weight:
+    bold;
+
+  margin-top:
+    6px;
+
 }
+
 
 .box .judul {
-  font-size: 13px;
-  color: #64748b;
+
+  font-size:
+    13px;
+
+  color:
+    #64748b;
+
 }
+
 
 .tabel-container {
-  overflow-x: auto;
+
+  overflow-x:
+    auto;
+
 }
 
+
 table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 950px;
+
+  width:
+    100%;
+
+  border-collapse:
+    collapse;
+
+  min-width:
+    950px;
+
 }
+
 
 th,
 td {
-  padding: 10px;
-  border-bottom: 1px solid #e2e8f0;
-  text-align: left;
-  font-size: 14px;
+
+  padding:
+    10px;
+
+  border-bottom:
+    1px solid #e2e8f0;
+
+  text-align:
+    left;
+
+  font-size:
+    14px;
+
 }
+
 
 th {
-  background: #f8fafc;
-  position: sticky;
-  top: 0;
+
+  background:
+    #f8fafc;
+
+  position:
+    sticky;
+
+  top:
+    0;
+
 }
 
-/* =========================
-   WARNA BARIS
-   ========================= */
 
 .merah {
-  background: #fee2e2 !important;
-  color: #991b1b;
-  font-weight: bold;
+
+  background:
+    #fee2e2 !important;
+
+  color:
+    #991b1b;
+
+  font-weight:
+    bold;
+
 }
+
 
 .kuning {
-  background: #fef3c7 !important;
-  color: #92400e;
-  font-weight: bold;
+
+  background:
+    #fef3c7 !important;
+
+  color:
+    #92400e;
+
+  font-weight:
+    bold;
+
 }
+
 
 .hijau {
-  background: #f0fdf4 !important;
-  color: #166534;
-  font-weight: bold;
+
+  background:
+    #f0fdf4 !important;
+
+  color:
+    #166534;
+
+  font-weight:
+    bold;
+
 }
 
-/* =========================
-   BADGE
-   ========================= */
 
 .badge {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: bold;
+
+  display:
+    inline-block;
+
+  padding:
+    5px 9px;
+
+  border-radius:
+    8px;
+
+  font-size:
+    12px;
+
+  font-weight:
+    bold;
+
 }
+
 
 .badge-merah {
-  background: #fecaca;
-  color: #991b1b;
+
+  background:
+    #fecaca;
+
+  color:
+    #991b1b;
+
 }
+
 
 .badge-kuning {
-  background: #fef3c7;
-  color: #92400e;
+
+  background:
+    #fef3c7;
+
+  color:
+    #92400e;
+
 }
+
 
 .badge-hijau {
-  background: #dcfce7;
-  color: #166534;
+
+  background:
+    #dcfce7;
+
+  color:
+    #166534;
+
 }
+
 
 .loading {
-  text-align: center;
-  padding: 20px;
-  color: #64748b;
+
+  text-align:
+    center;
+
+  padding:
+    20px;
+
+  color:
+    #64748b;
+
 }
+
 
 .error {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  display: none;
+
+  background:
+    #fee2e2;
+
+  color:
+    #991b1b;
+
+  padding:
+    15px;
+
+  border-radius:
+    10px;
+
+  margin-bottom:
+    15px;
+
+  display:
+    none;
+
 }
+
 
 .kelas-info {
-  font-weight: bold;
-  color: #2563eb;
+
+  font-weight:
+    bold;
+
+  color:
+    #2563eb;
+
 }
 
-@media (max-width: 900px) {
+
+@media (
+  max-width: 900px
+) {
 
   .filter {
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+      1fr 1fr;
+
   }
 
 }
 
-@media (max-width: 600px) {
+
+@media (
+  max-width: 600px
+) {
 
   .filter {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
+
   }
+
 
   button {
-    margin-top: 0;
+
+    margin-top:
+      0;
+
   }
 
+
   .ringkasan {
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+      1fr 1fr;
+
   }
 
 }
 
-@media (max-width: 400px) {
+
+@media (
+  max-width: 400px
+) {
 
   .ringkasan {
-    grid-template-columns: 1fr;
+
+    grid-template-columns:
+      1fr;
+
   }
 
 }
@@ -259,9 +540,12 @@ th {
 
 </head>
 
+
 <body>
 
+
 <div class="container">
+
 
   <!-- HEADER -->
 
@@ -290,15 +574,21 @@ th {
 
   <div class="card">
 
+
     <div class="filter">
+
 
       <!-- TANGGAL AWAL -->
 
       <div>
 
-        <label for="tanggalAwal">
+        <label
+          for="tanggalAwal">
+
           Tanggal Awal
+
         </label>
+
 
         <input
           type="date"
@@ -311,9 +601,13 @@ th {
 
       <div>
 
-        <label for="tanggalAkhir">
+        <label
+          for="tanggalAkhir">
+
           Tanggal Akhir
+
         </label>
+
 
         <input
           type="date"
@@ -326,11 +620,16 @@ th {
 
       <div>
 
-        <label for="kelas">
+        <label
+          for="kelas">
+
           Pilih Kelas
+
         </label>
 
-        <select id="kelas">
+
+        <select
+          id="kelas">
 
           <option value="">
             Semua Kelas
@@ -349,6 +648,7 @@ th {
           &nbsp;
         </label>
 
+
         <button
           onclick="muatRekap()">
 
@@ -357,6 +657,7 @@ th {
         </button>
 
       </div>
+
 
     </div>
 
@@ -369,6 +670,7 @@ th {
 
     </div>
 
+
   </div>
 
 
@@ -376,20 +678,27 @@ th {
 
   <div class="card">
 
+
     <div class="ringkasan">
+
 
       <!-- TOTAL MURID -->
 
       <div class="box">
 
         <div class="judul">
+
           👥 Total Murid
+
         </div>
+
 
         <div
           class="angka"
           id="totalMurid">
+
           0
+
         </div>
 
       </div>
@@ -400,13 +709,18 @@ th {
       <div class="box">
 
         <div class="judul">
+
           🟢 Hadir
+
         </div>
+
 
         <div
           class="angka"
           id="totalHadir">
+
           0
+
         </div>
 
       </div>
@@ -417,13 +731,18 @@ th {
       <div class="box">
 
         <div class="judul">
+
           🟡 Terlambat
+
         </div>
+
 
         <div
           class="angka"
           id="totalTerlambat">
+
           0
+
         </div>
 
       </div>
@@ -434,18 +753,25 @@ th {
       <div class="box">
 
         <div class="judul">
+
           🔴 Butuh Perhatian
+
         </div>
+
 
         <div
           class="angka"
           id="butuhPerhatian">
+
           0
+
         </div>
 
       </div>
 
+
     </div>
+
 
   </div>
 
@@ -453,6 +779,7 @@ th {
   <!-- TABEL -->
 
   <div class="card">
+
 
     <h2>
       Daftar Rekap Murid
@@ -470,52 +797,83 @@ th {
 
     <div class="tabel-container">
 
-      <table id="tabelRekap">
+
+      <table
+        id="tabelRekap">
+
 
         <thead>
 
           <tr>
 
-            <th>No</th>
+            <th>
+              No
+            </th>
 
-            <th>Nama Murid</th>
+            <th>
+              Nama Murid
+            </th>
 
-            <th>NISN</th>
+            <th>
+              NISN
+            </th>
 
-            <th>Kelas</th>
+            <th>
+              Kelas
+            </th>
 
-            <th>Hadir</th>
+            <th>
+              Hadir
+            </th>
 
-            <th>Terlambat</th>
+            <th>
+              Terlambat
+            </th>
 
-            <th>Izin</th>
+            <th>
+              Izin
+            </th>
 
-            <th>Sakit</th>
+            <th>
+              Sakit
+            </th>
 
-            <th>Alpa</th>
+            <th>
+              Alpa
+            </th>
 
-            <th>Persentase</th>
+            <th>
+              Persentase
+            </th>
 
-            <th>Perhatian</th>
+            <th>
+              Perhatian
+            </th>
 
           </tr>
 
         </thead>
 
 
-        <tbody id="isiTabel">
+        <tbody
+          id="isiTabel">
         </tbody>
+
 
       </table>
 
+
     </div>
 
+
   </div>
+
 
 </div>
 
 
 <script>
+
 
 /************************************************************
  * URL APPS SCRIPT
@@ -548,7 +906,10 @@ window.addEventListener(
 async function muatDaftarKelas() {
 
   const select =
-    document.getElementById("kelas");
+    document.getElementById(
+      "kelas"
+    );
+
 
   try {
 
@@ -556,30 +917,43 @@ async function muatDaftarKelas() {
       API_URL +
       "?action=rekap_admin";
 
+
     const response =
       await fetch(
         url,
         {
-          method: "GET",
-          cache: "no-store"
+          method:
+            "GET",
+
+          cache:
+            "no-store"
         }
       );
+
 
     const text =
       await response.text();
 
+
     const data =
-      JSON.parse(text);
+      JSON.parse(
+        text
+      );
+
 
     if (
-      data.status !== "success"
+      data.status !==
+      "success"
     ) {
 
       return;
 
     }
 
-    const daftar = [];
+
+    const daftar =
+      [];
+
 
     (data.data || [])
       .forEach(
@@ -587,15 +961,20 @@ async function muatDaftarKelas() {
 
           const kelas =
             String(
-              item.kelas || ""
+              item.kelas || ''
             ).trim();
+
 
           if (
             kelas &&
-            !daftar.includes(kelas)
+            !daftar.includes(
+              kelas
+            )
           ) {
 
-            daftar.push(kelas);
+            daftar.push(
+              kelas
+            );
 
           }
 
@@ -608,9 +987,10 @@ async function muatDaftarKelas() {
 
         return a.localeCompare(
           b,
-          "id",
+          'id',
           {
-            numeric: true
+            numeric:
+              true
           }
         );
 
@@ -626,11 +1006,14 @@ async function muatDaftarKelas() {
             "option"
           );
 
+
         option.value =
           kelas;
 
+
         option.textContent =
           kelas;
+
 
         select.appendChild(
           option
@@ -659,18 +1042,22 @@ async function muatDaftarKelas() {
 
 async function muatRekap() {
 
+
   const loading =
     document.getElementById(
       "loading"
     );
+
 
   const errorBox =
     document.getElementById(
       "errorBox"
     );
 
+
   errorBox.style.display =
     "none";
+
 
   loading.style.display =
     "block";
@@ -681,10 +1068,12 @@ async function muatRekap() {
       "tanggalAwal"
     ).value;
 
+
   const tanggalAkhir =
     document.getElementById(
       "tanggalAkhir"
     ).value;
+
 
   const kelas =
     document.getElementById(
@@ -694,12 +1083,15 @@ async function muatRekap() {
 
   try {
 
+
     let url =
       API_URL +
       "?action=rekap_admin";
 
 
-    if (tanggalAwal) {
+    if (
+      tanggalAwal
+    ) {
 
       url +=
         "&tanggalAwal=" +
@@ -710,7 +1102,9 @@ async function muatRekap() {
     }
 
 
-    if (tanggalAkhir) {
+    if (
+      tanggalAkhir
+    ) {
 
       url +=
         "&tanggalAkhir=" +
@@ -721,7 +1115,9 @@ async function muatRekap() {
     }
 
 
-    if (kelas) {
+    if (
+      kelas
+    ) {
 
       url +=
         "&kelas=" +
@@ -736,8 +1132,11 @@ async function muatRekap() {
       await fetch(
         url,
         {
-          method: "GET",
-          cache: "no-store"
+          method:
+            "GET",
+
+          cache:
+            "no-store"
         }
       );
 
@@ -753,11 +1152,14 @@ async function muatRekap() {
 
 
     const data =
-      JSON.parse(text);
+      JSON.parse(
+        text
+      );
 
 
     if (
-      data.status !== "success"
+      data.status !==
+      "success"
     ) {
 
       throw new Error(
@@ -768,13 +1170,25 @@ async function muatRekap() {
     }
 
 
-    tampilkanRingkasan(
-      data.ringkasan || {}
+    /*
+     * Tampilkan tabel terlebih dahulu.
+     *
+     * Setelah itu kita hitung ulang
+     * Butuh Perhatian berdasarkan data
+     * murid yang diterima.
+     */
+
+    tampilkanTabel(
+      data.data ||
+      []
     );
 
 
-    tampilkanTabel(
-      data.data || []
+    tampilkanRingkasan(
+      data.ringkasan ||
+      {},
+      data.data ||
+      []
     );
 
 
@@ -784,9 +1198,11 @@ async function muatRekap() {
       kelas
     );
 
+
   }
 
   catch(error) {
+
 
     console.error(
       "REKAP ERROR:",
@@ -802,9 +1218,11 @@ async function muatRekap() {
     errorBox.style.display =
       "block";
 
+
   }
 
   finally {
+
 
     loading.style.display =
       "none";
@@ -824,16 +1242,20 @@ function tampilkanInfoFilter(
   kelas
 ) {
 
+
   const info =
     document.getElementById(
       "infoFilter"
     );
 
 
-  let teks = "";
+  let teks =
+    "";
 
 
-  if (kelas) {
+  if (
+    kelas
+  ) {
 
     teks +=
       "Kelas: " +
@@ -854,10 +1276,13 @@ function tampilkanInfoFilter(
     tanggalAkhir
   ) {
 
-    teks += " | ";
+    teks +=
+      " | ";
 
 
-    if (tanggalAwal) {
+    if (
+      tanggalAwal
+    ) {
 
       teks +=
         "Mulai " +
@@ -868,7 +1293,9 @@ function tampilkanInfoFilter(
     }
 
 
-    if (tanggalAkhir) {
+    if (
+      tanggalAkhir
+    ) {
 
       teks +=
         " sampai " +
@@ -891,10 +1318,15 @@ function tampilkanInfoFilter(
  * FORMAT TANGGAL
  ************************************************************/
 
-function formatTanggal(value) {
+function formatTanggal(
+  value
+) {
+
 
   if (!value) {
+
     return "";
+
   }
 
 
@@ -923,62 +1355,285 @@ function formatTanggal(value) {
 
 
 /************************************************************
- * RINGKASAN
+ * KONVERSI ANGKA
+ *
+ * Memastikan nilai seperti
+ * "1", 1, "0", 0
+ * diperlakukan sebagai angka.
  ************************************************************/
 
-function tampilkanRingkasan(
-  ringkasan
+function angka(
+  value
 ) {
 
-  document.getElementById(
-    "totalMurid"
-  ).textContent =
-    ringkasan.totalMurid || 0;
+  const n =
+    Number(
+      value || 0
+    );
 
 
-  document.getElementById(
-    "totalHadir"
-  ).textContent =
-    ringkasan.hadir || 0;
+  if (
+    isNaN(n)
+  ) {
+
+    return 0;
+
+  }
 
 
-  document.getElementById(
-    "totalTerlambat"
-  ).textContent =
-    ringkasan.terlambat || 0;
-
-
-  document.getElementById(
-    "butuhPerhatian"
-  ).textContent =
-    ringkasan.butuhPerhatian || 0;
+  return n;
 
 }
 
 
 /************************************************************
- * TABEL REKAP
+ * TENTUKAN STATUS PERHATIAN
  *
- * ATURAN PERHATIAN:
+ * ATURAN FINAL:
  *
  * 1. ALPA >= 1
- *       -> MERAH
- *       -> BUTUH PERHATIAN
+ *    = BUTUH PERHATIAN
  *
  * 2. TERLAMBAT >= 3
- *       -> MERAH
- *       -> BUTUH PERHATIAN
+ *    = BUTUH PERHATIAN
  *
- * 3. TERLAMBAT 1-2
- *       -> KUNING
- *       -> TERLAMBAT
+ * 3. TERLAMBAT 1 atau 2
+ *    = TERLAMBAT
  *
- * 4. LAINNYA
- *       -> HIJAU
- *       -> BAIK
+ * 4. Selain itu
+ *    = BAIK
  ************************************************************/
 
-function tampilkanTabel(data) {
+function tentukanPerhatian(
+  item
+) {
+
+
+  const alpa =
+    angka(
+      item.alpa
+    );
+
+
+  const terlambat =
+    angka(
+      item.terlambat
+    );
+
+
+  /*
+   * ALPA SELALU BUTUH PERHATIAN
+   */
+
+  if (
+    alpa >= 1
+  ) {
+
+    return {
+      kode:
+        "MERAH",
+
+      teks:
+        "🔴 BUTUH PERHATIAN"
+    };
+
+  }
+
+
+  /*
+   * TERLAMBAT 3 KALI ATAU LEBIH
+   */
+
+  if (
+    terlambat >= 3
+  ) {
+
+    return {
+      kode:
+        "MERAH",
+
+      teks:
+        "🔴 BUTUH PERHATIAN"
+    };
+
+  }
+
+
+  /*
+   * TERLAMBAT 1–2 KALI
+   */
+
+  if (
+    terlambat > 0
+  ) {
+
+    return {
+      kode:
+        "TERLAMBAT",
+
+      teks:
+        "🟡 TERLAMBAT"
+    };
+
+  }
+
+
+  /*
+   * TIDAK ADA MASALAH
+   */
+
+  return {
+    kode:
+      "BAIK",
+
+    teks:
+      "🟢 Baik"
+  };
+
+}
+
+
+/************************************************************
+ * RINGKASAN
+ *
+ * PENTING:
+ * Butuh Perhatian dihitung ulang dari data murid,
+ * bukan hanya mengambil angka dari Apps Script.
+ ************************************************************/
+
+function tampilkanRingkasan(
+  ringkasan,
+  data
+) {
+
+
+  /*
+   * TOTAL MURID
+   */
+
+  let totalMurid =
+    angka(
+      ringkasan.totalMurid
+    );
+
+
+  /*
+   * Jika nilai dari server tidak ada,
+   * gunakan jumlah data murid.
+   */
+
+  if (
+    totalMurid === 0 &&
+    data &&
+    data.length > 0
+  ) {
+
+    totalMurid =
+      data.length;
+
+  }
+
+
+  /*
+   * HADIR
+   */
+
+  let totalHadir =
+    angka(
+      ringkasan.hadir
+    );
+
+
+  /*
+   * TERLAMBAT
+   */
+
+  let totalTerlambat =
+    angka(
+      ringkasan.terlambat
+    );
+
+
+  /*
+   * HITUNG ULANG BUTUH PERHATIAN
+   *
+   * Tidak lagi bergantung pada
+   * ringkasan.butuhPerhatian
+   */
+
+  let totalPerhatian =
+    0;
+
+
+  if (
+    data &&
+    data.length > 0
+  ) {
+
+
+    data.forEach(
+      function(item) {
+
+
+        const status =
+          tentukanPerhatian(
+            item
+          );
+
+
+        if (
+          status.kode ===
+          "MERAH"
+        ) {
+
+          totalPerhatian++;
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /*
+   * Tampilkan ke halaman
+   */
+
+  document.getElementById(
+    "totalMurid"
+  ).textContent =
+    totalMurid;
+
+
+  document.getElementById(
+    "totalHadir"
+  ).textContent =
+    totalHadir;
+
+
+  document.getElementById(
+    "totalTerlambat"
+  ).textContent =
+    totalTerlambat;
+
+
+  document.getElementById(
+    "butuhPerhatian"
+  ).textContent =
+    totalPerhatian;
+
+}
+
+
+/************************************************************
+ * TABEL
+ ************************************************************/
+
+function tampilkanTabel(
+  data
+) {
+
 
   const tbody =
     document.getElementById(
@@ -986,13 +1641,15 @@ function tampilkanTabel(data) {
     );
 
 
-  tbody.innerHTML = "";
+  tbody.innerHTML =
+    "";
 
 
   if (
     !data ||
     data.length === 0
   ) {
+
 
     tbody.innerHTML = `
 
@@ -1014,6 +1671,7 @@ function tampilkanTabel(data) {
 
     `;
 
+
     return;
 
   }
@@ -1030,117 +1688,132 @@ function tampilkanTabel(data) {
 
 
       /*
-       * Pastikan nilai selalu dianggap angka.
+       * Pastikan angka dibaca sebagai angka.
        */
 
+      const hadir =
+        angka(
+          item.hadir
+        );
+
+
       const terlambat =
-        Number(
-          item.terlambat || 0
+        angka(
+          item.terlambat
+        );
+
+
+      const izin =
+        angka(
+          item.izin
+        );
+
+
+      const sakit =
+        angka(
+          item.sakit
         );
 
 
       const alpa =
-        Number(
-          item.alpa || 0
+        angka(
+          item.alpa
         );
 
 
       /*
-       * Default:
-       * HIJAU / BAIK
+       * Tentukan status warna
        */
 
-      let kelasWarna =
+      const perhatian =
+        tentukanPerhatian(
+          item
+        );
+
+
+      /*
+       * Terapkan warna baris
+       */
+
+      tr.className =
         "hijau";
 
-      let badgeHTML = `
-
-        <span
-          class="badge badge-hijau">
-
-          🟢 Baik
-
-        </span>
-
-      `;
-
-
-      /*
-       * PRIORITAS 1:
-       * ALPA
-       *
-       * Satu saja Alpa
-       * langsung BUTUH PERHATIAN.
-       */
 
       if (
-        alpa >= 1
+        perhatian.kode ===
+        "MERAH"
       ) {
 
-        kelasWarna =
+        tr.className =
           "merah";
-
-
-        badgeHTML = `
-
-          <span
-            class="badge badge-merah">
-
-            🔴 BUTUH PERHATIAN
-
-          </span>
-
-        `;
 
       }
 
-
-      /*
-       * PRIORITAS 2:
-       * TERLAMBAT >= 3
-       */
-
       else if (
-        terlambat >= 3
+        perhatian.kode ===
+        "TERLAMBAT"
       ) {
 
-        kelasWarna =
-          "merah";
-
-
-        badgeHTML = `
-
-          <span
-            class="badge badge-merah">
-
-            🔴 BUTUH PERHATIAN
-
-          </span>
-
-        `;
-
-      }
-
-
-      /*
-       * PRIORITAS 3:
-       * TERLAMBAT 1-2
-       */
-
-      else if (
-        terlambat > 0
-      ) {
-
-        kelasWarna =
+        tr.className =
           "kuning";
 
+      }
+
+
+      /*
+       * Badge/keterangan
+       */
+
+      let badgeHTML =
+        "";
+
+
+      if (
+        perhatian.kode ===
+        "MERAH"
+      ) {
+
+        badgeHTML = `
+
+          <span
+            class="badge badge-merah">
+
+            ${perhatian.teks}
+
+          </span>
+
+        `;
+
+      }
+
+
+      else if (
+        perhatian.kode ===
+        "TERLAMBAT"
+      ) {
 
         badgeHTML = `
 
           <span
             class="badge badge-kuning">
 
-            🟡 TERLAMBAT
+            ${perhatian.teks}
+
+          </span>
+
+        `;
+
+      }
+
+
+      else {
+
+        badgeHTML = `
+
+          <span
+            class="badge badge-hijau">
+
+            ${perhatian.teks}
 
           </span>
 
@@ -1150,12 +1823,38 @@ function tampilkanTabel(data) {
 
 
       /*
-       * Terapkan warna baris.
+       * Persentase
        */
 
-      tr.className =
-        kelasWarna;
+      let persentase =
+        angka(
+          item.persentase
+        );
 
+
+      /*
+       * Jika server mengirim angka desimal
+       * seperti 1, ubah menjadi 100%.
+       *
+       * Jika sudah 100, tetap 100%.
+       */
+
+      if (
+        persentase > 0 &&
+        persentase <= 1
+      ) {
+
+        persentase =
+          Math.round(
+            persentase * 100
+          );
+
+      }
+
+
+      /*
+       * Isi baris
+       */
 
       tr.innerHTML = `
 
@@ -1188,7 +1887,7 @@ function tampilkanTabel(data) {
 
 
         <td>
-          ${item.hadir || 0}
+          ${hadir}
         </td>
 
 
@@ -1198,12 +1897,12 @@ function tampilkanTabel(data) {
 
 
         <td>
-          ${item.izin || 0}
+          ${izin}
         </td>
 
 
         <td>
-          ${item.sakit || 0}
+          ${sakit}
         </td>
 
 
@@ -1213,7 +1912,7 @@ function tampilkanTabel(data) {
 
 
         <td>
-          ${item.persentase || 0}%
+          ${persentase}%
         </td>
 
 
@@ -1238,9 +1937,14 @@ function tampilkanTabel(data) {
  * ESCAPE HTML
  ************************************************************/
 
-function escapeHTML(text) {
+function escapeHTML(
+  text
+) {
 
-  return String(text)
+
+  return String(
+    text
+  )
 
     .replace(
       /&/g,
@@ -1270,6 +1974,7 @@ function escapeHTML(text) {
 }
 
 </script>
+
 
 </body>
 
