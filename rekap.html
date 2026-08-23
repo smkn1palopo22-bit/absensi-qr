@@ -11,6 +11,12 @@
 
 <title>Rekap Absensi - SMK Negeri 1 Palopo</title>
 
+<!-- =====================================================
+     LIBRARY EXCEL / SHEETJS
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
 <style>
 
 *{
@@ -109,6 +115,14 @@ button:hover{
   background:#2563eb;
 }
 
+.btn-excel{
+  background:#16a34a;
+}
+
+.btn-excel:hover{
+  background:#15803d;
+}
+
 .error{
   display:none;
   background:#fee2e2;
@@ -130,7 +144,7 @@ button:hover{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
-  margin-bottom:18px;
+  margin-bottom:0;
 }
 
 .menu-button{
@@ -158,6 +172,18 @@ button:hover{
   margin-top:12px;
   color:#64748b;
   font-size:14px;
+}
+
+.tombol-excel-area{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:15px;
+}
+
+.tombol-excel-area button{
+  width:auto;
+  min-width:230px;
+  margin-top:0;
 }
 
 .ringkasan{
@@ -317,6 +343,14 @@ th{
   .halaman-judul{
     flex-direction:column;
     align-items:stretch;
+  }
+
+  .tombol-excel-area{
+    justify-content:stretch;
+  }
+
+  .tombol-excel-area button{
+    width:100%;
   }
 
 }
@@ -654,6 +688,23 @@ th{
 
       </div>
 
+
+      <!-- TOMBOL EXCEL -->
+
+      <div class="tombol-excel-area">
+
+        <button
+          type="button"
+          class="btn-excel"
+          onclick="unduhExcelMurid()">
+
+          📥 Unduh Rekapan Murid (Excel)
+
+        </button>
+
+      </div>
+
+
       <div
         id="loading"
         class="loading">
@@ -661,6 +712,7 @@ th{
         Memuat data...
 
       </div>
+
 
       <div class="tabel-container">
 
@@ -901,6 +953,23 @@ th{
 
       </div>
 
+
+      <!-- TOMBOL EXCEL -->
+
+      <div class="tombol-excel-area">
+
+        <button
+          type="button"
+          class="btn-excel"
+          onclick="unduhExcelGuruPiket()">
+
+          📥 Unduh Rekapan Guru Piket (Excel)
+
+        </button>
+
+      </div>
+
+
       <div
         id="loadingGuru"
         class="loading hidden">
@@ -908,6 +977,7 @@ th{
         Memuat rekap guru piket...
 
       </div>
+
 
       <div class="tabel-container">
 
@@ -950,6 +1020,17 @@ th{
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
+
+
+/************************************************************
+ * DATA TERAKHIR
+ *
+ * Digunakan oleh tombol Excel.
+ ************************************************************/
+
+let dataRekapMuridTerakhir = [];
+
+let dataRekapGuruTerakhir = [];
 
 
 /************************************************************
@@ -1208,11 +1289,6 @@ function bukaAplikasi(){
   siapkanKelas();
 
 
-  /*
-   * HANYA ADMIN DAN KAPROG
-   * yang mendapatkan menu Guru Piket.
-   */
-
   const role =
     String(
       userLogin.role ||
@@ -1245,17 +1321,8 @@ function bukaAplikasi(){
   }
 
 
-  /*
-   * Selalu mulai dari halaman
-   * Rekap Murid.
-   */
-
   bukaHalamanMurid();
 
-
-  /*
-   * Muat rekap murid otomatis.
-   */
 
   muatRekap();
 
@@ -1289,9 +1356,13 @@ function bukaHalamanMurid(){
   );
 
 
-  document.getElementById(
-    "btnMenuGuru"
-  ).classList.remove(
+  const tombolGuru =
+    document.getElementById(
+      "btnMenuGuru"
+    );
+
+
+  tombolGuru.classList.remove(
     "aktif"
   );
 
@@ -1312,10 +1383,6 @@ function bukaHalamanGuruPiket(){
     .trim()
     .toLowerCase();
 
-
-  /*
-   * Keamanan tampilan.
-   */
 
   if(
     role !== "admin" &&
@@ -1354,14 +1421,6 @@ function bukaHalamanGuruPiket(){
     "aktif"
   );
 
-
-  /*
-   * Guru piket TIDAK dimuat otomatis
-   * sebelum tombol halaman diklik.
-   *
-   * Karena halaman baru saja dibuka,
-   * kita langsung tampilkan datanya.
-   */
 
   muatRekapGuruPiket();
 
@@ -1427,7 +1486,7 @@ function tampilkanIdentitasUser(){
       escapeHTML(
         program
       ) +
-      "</strong>";
+        "</strong>";
 
   }
 
@@ -1493,10 +1552,6 @@ function siapkanKelas(){
     .trim();
 
 
-  /*
-   * WALI KELAS
-   */
-
   if(
     role === "wali kelas" ||
     role === "walikelas" ||
@@ -1521,10 +1576,6 @@ function siapkanKelas(){
   }
 
 
-  /*
-   * KAPROG
-   */
-
   if(
     role === "kaprog"
   ){
@@ -1546,10 +1597,6 @@ function siapkanKelas(){
 
   }
 
-
-  /*
-   * ADMIN
-   */
 
   tambahOption(
     select,
@@ -1657,10 +1704,6 @@ async function muatRekap(){
     .trim();
 
 
-  /*
-   * WALI KELAS
-   */
-
   if(
     role === "wali kelas" ||
     role === "walikelas" ||
@@ -1702,10 +1745,6 @@ async function muatRekap(){
     }
 
 
-    /*
-     * ADMIN
-     */
-
     if(
       role === "admin" &&
       kelas
@@ -1719,10 +1758,6 @@ async function muatRekap(){
 
     }
 
-
-    /*
-     * WALI KELAS
-     */
 
     if(
       (
@@ -1787,9 +1822,7 @@ async function muatRekap(){
 
 
     /*
-     * =====================================================
      * FILTER KAPROG
-     * =====================================================
      */
 
     if(
@@ -1821,7 +1854,7 @@ async function muatRekap(){
 
 
     /*
-     * Isi dropdown kelas Kaprog.
+     * DROPDOWN KELAS KAPROG
      */
 
     if(
@@ -1860,6 +1893,14 @@ async function muatRekap(){
     }
 
 
+    /*
+     * SIMPAN DATA UNTUK EXCEL
+     */
+
+    dataRekapMuridTerakhir =
+      hasil;
+
+
     tampilkanTabel(
       hasil
     );
@@ -1889,6 +1930,10 @@ async function muatRekap(){
       "REKAP ERROR:",
       error
     );
+
+
+    dataRekapMuridTerakhir =
+      [];
 
 
     document.getElementById(
@@ -2063,11 +2108,6 @@ async function muatRekapGuruPiket(){
     .toLowerCase();
 
 
-  /*
-   * KEAMANAN:
-   * Hanya ADMIN dan KAPROG.
-   */
-
   if(
     role !== "admin" &&
     role !== "kaprog"
@@ -2169,6 +2209,15 @@ async function muatRekapGuruPiket(){
     }
 
 
+    /*
+     * SIMPAN DATA UNTUK EXCEL
+     */
+
+    dataRekapGuruTerakhir =
+      data.data ||
+      [];
+
+
     tampilkanRingkasanGuru(
       data.ringkasan ||
       {}
@@ -2176,8 +2225,7 @@ async function muatRekapGuruPiket(){
 
 
     tampilkanTabelGuru(
-      data.data ||
-      []
+      dataRekapGuruTerakhir
     );
 
 
@@ -2196,6 +2244,10 @@ async function muatRekapGuruPiket(){
       "GURU PIKET:",
       error
     );
+
+
+    dataRekapGuruTerakhir =
+      [];
 
 
     document.getElementById(
@@ -2897,6 +2949,747 @@ function tampilkanInfoFilter(
 
 
 /************************************************************
+ * ==========================================================
+ * UNDUH EXCEL REKAP MURID
+ * ==========================================================
+ ************************************************************/
+
+function unduhExcelMurid(){
+
+  /*
+   * Pastikan library XLSX tersedia.
+   */
+
+  if(
+    typeof XLSX ===
+    "undefined"
+  ){
+
+    alert(
+      "Library Excel belum berhasil dimuat. Periksa koneksi internet kemudian coba lagi."
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Pastikan ada data.
+   */
+
+  if(
+    !dataRekapMuridTerakhir ||
+    dataRekapMuridTerakhir.length === 0
+  ){
+
+    alert(
+      "Tidak ada data rekap murid yang dapat diunduh."
+    );
+
+    return;
+
+  }
+
+
+  const tanggalAwal =
+    document.getElementById(
+      "tanggalAwal"
+    ).value;
+
+
+  const tanggalAkhir =
+    document.getElementById(
+      "tanggalAkhir"
+    ).value;
+
+
+  const kelas =
+    document.getElementById(
+      "kelas"
+    ).value;
+
+
+  /*
+   * Siapkan data Excel.
+   */
+
+  const dataExcel =
+    [];
+
+
+  /*
+   * Judul.
+   */
+
+  dataExcel.push(
+    [
+      "REKAP ABSENSI MURID"
+    ]
+  );
+
+
+  dataExcel.push(
+    [
+      "SMK Negeri 1 Palopo"
+    ]
+  );
+
+
+  /*
+   * Periode.
+   */
+
+  let periode =
+    "Seluruh Periode";
+
+
+  if(
+    tanggalAwal ||
+    tanggalAkhir
+  ){
+
+    if(
+      tanggalAwal &&
+      tanggalAkhir
+    ){
+
+      periode =
+        formatTanggal(
+          tanggalAwal
+        ) +
+        " - " +
+        formatTanggal(
+          tanggalAkhir
+        );
+
+    }
+
+    else if(tanggalAwal){
+
+      periode =
+        "Mulai " +
+        formatTanggal(
+          tanggalAwal
+        );
+
+    }
+
+    else if(tanggalAkhir){
+
+      periode =
+        "Sampai " +
+        formatTanggal(
+          tanggalAkhir
+        );
+
+    }
+
+  }
+
+
+  dataExcel.push(
+    [
+      "Periode",
+      periode
+    ]
+  );
+
+
+  dataExcel.push(
+    [
+      "Kelas",
+      kelas ||
+      "Semua Kelas"
+    ]
+  );
+
+
+  dataExcel.push([]);
+
+
+  /*
+   * Header tabel.
+   */
+
+  dataExcel.push(
+    [
+      "No",
+      "Nama Murid",
+      "NISN",
+      "Kelas",
+      "Hadir",
+      "Terlambat",
+      "Izin",
+      "Sakit",
+      "Alpa",
+      "Persentase",
+      "Perhatian"
+    ]
+  );
+
+
+  /*
+   * Isi data.
+   */
+
+  dataRekapMuridTerakhir.forEach(
+    function(item,index){
+
+      const hadir =
+        angka(
+          item.hadir
+        );
+
+
+      const terlambat =
+        angka(
+          item.terlambat
+        );
+
+
+      const izin =
+        angka(
+          item.izin
+        );
+
+
+      const sakit =
+        angka(
+          item.sakit
+        );
+
+
+      const alpa =
+        angka(
+          item.alpa
+        );
+
+
+      let perhatian =
+        "Baik";
+
+
+      if(
+        alpa >= 1 ||
+        terlambat >= 3
+      ){
+
+        perhatian =
+          "BUTUH PERHATIAN";
+
+      }
+
+      else if(
+        terlambat > 0
+      ){
+
+        perhatian =
+          "TERLAMBAT";
+
+      }
+
+
+      let persentase =
+        angka(
+          item.persentase
+        );
+
+
+      if(
+        persentase > 0 &&
+        persentase <= 1
+      ){
+
+        persentase =
+          Math.round(
+            persentase * 100
+          );
+
+      }
+
+
+      dataExcel.push(
+        [
+          index + 1,
+
+          String(
+            item.nama ||
+            "-"
+          ),
+
+          String(
+            item.nisn ||
+            "-"
+          ),
+
+          String(
+            item.kelas ||
+            "-"
+          ),
+
+          hadir,
+
+          terlambat,
+
+          izin,
+
+          sakit,
+
+          alpa,
+
+          persentase + "%",
+
+          perhatian
+        ]
+      );
+
+    }
+  );
+
+
+  /*
+   * Buat workbook.
+   */
+
+  const worksheet =
+    XLSX.utils.aoa_to_sheet(
+      dataExcel
+    );
+
+
+  /*
+   * Lebar kolom.
+   */
+
+  worksheet["!cols"] = [
+
+    {wch:6},
+    {wch:30},
+    {wch:18},
+    {wch:18},
+    {wch:10},
+    {wch:12},
+    {wch:10},
+    {wch:10},
+    {wch:10},
+    {wch:14},
+    {wch:22}
+
+  ];
+
+
+  const workbook =
+    XLSX.utils.book_new();
+
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    "Rekap Murid"
+  );
+
+
+  /*
+   * Nama file.
+   */
+
+  let namaFile =
+    "Rekap_Murid";
+
+
+  if(tanggalAwal){
+
+    namaFile +=
+      "_" +
+      tanggalAwal;
+
+  }
+
+
+  if(tanggalAkhir){
+
+    namaFile +=
+      "_sampai_" +
+      tanggalAkhir;
+
+  }
+
+
+  if(kelas){
+
+    namaFile +=
+      "_" +
+      bersihkanNamaFile(
+        kelas
+      );
+
+  }
+
+
+  namaFile +=
+    ".xlsx";
+
+
+  /*
+   * Download.
+   */
+
+  XLSX.writeFile(
+    workbook,
+    namaFile
+  );
+
+}
+
+
+/************************************************************
+ * ==========================================================
+ * UNDUH EXCEL REKAP GURU PIKET
+ * ==========================================================
+ ************************************************************/
+
+function unduhExcelGuruPiket(){
+
+  /*
+   * Pastikan library XLSX tersedia.
+   */
+
+  if(
+    typeof XLSX ===
+    "undefined"
+  ){
+
+    alert(
+      "Library Excel belum berhasil dimuat. Periksa koneksi internet kemudian coba lagi."
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Pastikan data tersedia.
+   */
+
+  if(
+    !dataRekapGuruTerakhir ||
+    dataRekapGuruTerakhir.length === 0
+  ){
+
+    alert(
+      "Tidak ada data rekap guru piket yang dapat diunduh."
+    );
+
+    return;
+
+  }
+
+
+  const tanggalAwal =
+    document.getElementById(
+      "tanggalAwalGuru"
+    ).value;
+
+
+  const tanggalAkhir =
+    document.getElementById(
+      "tanggalAkhirGuru"
+    ).value;
+
+
+  /*
+   * Siapkan data Excel.
+   */
+
+  const dataExcel =
+    [];
+
+
+  dataExcel.push(
+    [
+      "REKAP GURU PIKET"
+    ]
+  );
+
+
+  dataExcel.push(
+    [
+      "SMK Negeri 1 Palopo"
+    ]
+  );
+
+
+  let periode =
+    "Seluruh Periode";
+
+
+  if(
+    tanggalAwal ||
+    tanggalAkhir
+  ){
+
+    if(
+      tanggalAwal &&
+      tanggalAkhir
+    ){
+
+      periode =
+        formatTanggal(
+          tanggalAwal
+        ) +
+        " - " +
+        formatTanggal(
+          tanggalAkhir
+        );
+
+    }
+
+    else if(tanggalAwal){
+
+      periode =
+        "Mulai " +
+        formatTanggal(
+          tanggalAwal
+        );
+
+    }
+
+    else if(tanggalAkhir){
+
+      periode =
+        "Sampai " +
+        formatTanggal(
+          tanggalAkhir
+        );
+
+    }
+
+  }
+
+
+  dataExcel.push(
+    [
+      "Periode",
+      periode
+    ]
+  );
+
+
+  dataExcel.push([]);
+
+
+  /*
+   * Header.
+   */
+
+  dataExcel.push(
+    [
+      "No",
+      "Nama Guru",
+      "Jadwal Piket",
+      "Jumlah Bertugas",
+      "Tanggal Aktif",
+      "Keterangan"
+    ]
+  );
+
+
+  /*
+   * Isi data.
+   */
+
+  dataRekapGuruTerakhir.forEach(
+    function(item,index){
+
+      const jumlah =
+        angka(
+          item.jumlahBertugas
+        );
+
+
+      const jadwal =
+        Array.isArray(
+          item.jadwal
+        )
+          ?
+            item.jadwal.join(
+              ", "
+            )
+          :
+            "-";
+
+
+      const tanggal =
+        Array.isArray(
+          item.tanggalAktif
+        )
+          ?
+            item.tanggalAktif
+              .map(
+                function(x){
+
+                  return formatTanggalAktif(
+                    x
+                  );
+
+                }
+              )
+              .join(
+                ", "
+              )
+          :
+            "-";
+
+
+      const tidakAktif =
+        jumlah === 0 ||
+        String(
+          item.keterangan ||
+          ""
+        )
+        .toUpperCase()
+        .includes(
+          "TIDAK PERNAH AKTIF"
+        );
+
+
+      const keterangan =
+        tidakAktif
+          ? "TIDAK PERNAH AKTIF"
+          : "PERNAH AKTIF";
+
+
+      dataExcel.push(
+        [
+          index + 1,
+
+          String(
+            item.nama ||
+            "-"
+          ),
+
+          jadwal,
+
+          jumlah,
+
+          tanggal,
+
+          keterangan
+        ]
+      );
+
+    }
+  );
+
+
+  /*
+   * Buat worksheet.
+   */
+
+  const worksheet =
+    XLSX.utils.aoa_to_sheet(
+      dataExcel
+    );
+
+
+  /*
+   * Lebar kolom.
+   */
+
+  worksheet["!cols"] = [
+
+    {wch:6},
+    {wch:30},
+    {wch:35},
+    {wch:18},
+    {wch:35},
+    {wch:25}
+
+  ];
+
+
+  const workbook =
+    XLSX.utils.book_new();
+
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    "Rekap Guru Piket"
+  );
+
+
+  /*
+   * Nama file.
+   */
+
+  let namaFile =
+    "Rekap_Guru_Piket";
+
+
+  if(tanggalAwal){
+
+    namaFile +=
+      "_" +
+      tanggalAwal;
+
+  }
+
+
+  if(tanggalAkhir){
+
+    namaFile +=
+      "_sampai_" +
+      tanggalAkhir;
+
+  }
+
+
+  namaFile +=
+    ".xlsx";
+
+
+  /*
+   * Download.
+   */
+
+  XLSX.writeFile(
+    workbook,
+    namaFile
+  );
+
+}
+
+
+/************************************************************
+ * BERSIHKAN NAMA FILE
+ ************************************************************/
+
+function bersihkanNamaFile(
+  nama
+){
+
+  return String(
+    nama ||
+    ""
+  )
+
+  .replace(
+    /[\\\/:*?"<>|]/g,
+    "_"
+  )
+
+  .replace(
+    /\s+/g,
+    "_"
+  );
+
+}
+
+
+/************************************************************
  * LOGOUT
  ************************************************************/
 
@@ -2909,6 +3702,14 @@ function logout(){
 
   userLogin =
     null;
+
+
+  dataRekapMuridTerakhir =
+    [];
+
+
+  dataRekapGuruTerakhir =
+    [];
 
 
   location.reload();
