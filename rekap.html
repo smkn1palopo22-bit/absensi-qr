@@ -13,727 +13,341 @@
   Rekap Absensi - SMK Negeri 1 Palopo
 </title>
 
-
 <style>
 
 * {
   box-sizing: border-box;
 }
 
-
 body {
-
   margin: 0;
-
-  font-family:
-    Arial,
-    sans-serif;
-
-  background:
-    #f1f5f9;
-
-  color:
-    #1e293b;
-
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
 }
-
 
 .container {
-
-  max-width:
-    1250px;
-
-  margin:
-    auto;
-
-  padding:
-    20px;
-
+  max-width: 1250px;
+  margin: auto;
+  padding: 20px;
 }
-
 
 .header {
-
-  background:
-    white;
-
-  border-radius:
-    18px;
-
-  padding:
-    22px;
-
-  margin-bottom:
-    18px;
-
-  box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.08);
-
+  background: white;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
-
 
 .header h1 {
-
-  margin:
-    0;
-
-  text-align:
-    center;
-
-  font-size:
-    25px;
-
+  margin: 0;
+  text-align: center;
+  font-size: 25px;
 }
-
 
 .header p {
-
-  text-align:
-    center;
-
-  color:
-    #64748b;
-
-  margin:
-    8px 0 0;
-
+  text-align: center;
+  color: #64748b;
+  margin: 8px 0 0;
 }
-
 
 .card {
-
-  background:
-    white;
-
-  border-radius:
-    16px;
-
-  padding:
-    18px;
-
-  margin-bottom:
-    18px;
-
-  box-shadow:
-    0 3px 12px
-    rgba(0,0,0,.08);
-
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
 }
-
 
 .filter {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr 1fr 1fr;
-
-  gap:
-    12px;
-
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
 }
-
 
 label {
-
-  display:
-    block;
-
-  font-weight:
-    bold;
-
-  margin-bottom:
-    6px;
-
+  display: block;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
-
 
 select,
 input,
 button {
-
-  width:
-    100%;
-
-  padding:
-    12px;
-
-  border-radius:
-    10px;
-
-  font-size:
-    15px;
-
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
 }
-
 
 select,
 input {
-
-  border:
-    1px solid #cbd5e1;
-
-  background:
-    white;
-
+  border: 1px solid #cbd5e1;
+  background: white;
 }
-
 
 button {
-
-  border:
-    none;
-
-  background:
-    #2563eb;
-
-  color:
-    white;
-
-  font-weight:
-    bold;
-
-  cursor:
-    pointer;
-
-  margin-top:
-    24px;
-
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 24px;
 }
-
 
 button:hover {
-
-  opacity:
-    .9;
-
+  opacity: .9;
 }
-
 
 .info {
-
-  margin-top:
-    12px;
-
-  color:
-    #64748b;
-
-  font-size:
-    14px;
-
+  margin-top: 12px;
+  color: #64748b;
+  font-size: 14px;
 }
-
 
 .ringkasan {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap:
-    12px;
-
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
 }
-
 
 .box {
-
-  padding:
-    18px;
-
-  border-radius:
-    14px;
-
-  text-align:
-    center;
-
-  background:
-    #f8fafc;
-
+  padding: 18px;
+  border-radius: 14px;
+  text-align: center;
+  background: #f8fafc;
 }
-
 
 .box .angka {
-
-  font-size:
-    28px;
-
-  font-weight:
-    bold;
-
-  margin-top:
-    6px;
-
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 6px;
 }
-
 
 .box .judul {
-
-  font-size:
-    13px;
-
-  color:
-    #64748b;
-
+  font-size: 13px;
+  color: #64748b;
 }
-
 
 .tabel-container {
-
-  overflow-x:
-    auto;
-
+  overflow-x: auto;
 }
-
 
 table {
-
-  width:
-    100%;
-
-  border-collapse:
-    collapse;
-
-  min-width:
-    950px;
-
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 950px;
 }
-
 
 th,
 td {
-
-  padding:
-    10px;
-
-  border-bottom:
-    1px solid #e2e8f0;
-
-  text-align:
-    left;
-
-  font-size:
-    14px;
-
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+  vertical-align: top;
 }
-
 
 th {
-
-  background:
-    #f8fafc;
-
-  position:
-    sticky;
-
-  top:
-    0;
-
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
-
 
 .merah {
-
-  background:
-    #fee2e2 !important;
-
-  color:
-    #991b1b;
-
-  font-weight:
-    bold;
-
+  background: #fee2e2 !important;
+  color: #991b1b;
+  font-weight: bold;
 }
-
 
 .kuning {
-
-  background:
-    #fef3c7 !important;
-
-  color:
-    #92400e;
-
-  font-weight:
-    bold;
-
+  background: #fef3c7 !important;
+  color: #92400e;
+  font-weight: bold;
 }
-
 
 .hijau {
-
-  background:
-    #f0fdf4 !important;
-
-  color:
-    #166534;
-
-  font-weight:
-    bold;
-
+  background: #f0fdf4 !important;
+  color: #166534;
+  font-weight: bold;
 }
-
 
 .badge {
-
-  display:
-    inline-block;
-
-  padding:
-    5px 9px;
-
-  border-radius:
-    8px;
-
-  font-size:
-    12px;
-
-  font-weight:
-    bold;
-
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
 }
-
 
 .badge-merah {
-
-  background:
-    #fecaca;
-
-  color:
-    #991b1b;
-
+  background: #fecaca;
+  color: #991b1b;
 }
-
 
 .badge-kuning {
-
-  background:
-    #fef3c7;
-
-  color:
-    #92400e;
-
+  background: #fef3c7;
+  color: #92400e;
 }
-
 
 .badge-hijau {
-
-  background:
-    #dcfce7;
-
-  color:
-    #166534;
-
+  background: #dcfce7;
+  color: #166534;
 }
-
 
 .loading {
-
-  text-align:
-    center;
-
-  padding:
-    20px;
-
-  color:
-    #64748b;
-
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
 }
-
 
 .error {
-
-  background:
-    #fee2e2;
-
-  color:
-    #991b1b;
-
-  padding:
-    15px;
-
-  border-radius:
-    10px;
-
-  margin-bottom:
-    15px;
-
-  display:
-    none;
-
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: none;
 }
-
 
 .kelas-info {
-
-  font-weight:
-    bold;
-
-  color:
-    #2563eb;
-
+  font-weight: bold;
+  color: #2563eb;
 }
-
 
 /* =========================================================
    GURU PIKET
 ========================================================= */
 
 .guru-ringkasan {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap:
-    12px;
-
-  margin-bottom:
-    18px;
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 18px;
 }
-
 
 .guru-box {
-
-  padding:
-    18px;
-
-  border-radius:
-    14px;
-
-  text-align:
-    center;
-
+  padding: 18px;
+  border-radius: 14px;
+  text-align: center;
 }
-
 
 .guru-total {
-
-  background:
-    #f8fafc;
-
+  background: #f8fafc;
 }
-
 
 .guru-normal {
-
-  background:
-    #f0fdf4;
-
-  color:
-    #166534;
-
+  background: #f0fdf4;
+  color: #166534;
 }
-
 
 .guru-perhatian {
-
-  background:
-    #fee2e2;
-
-  color:
-    #991b1b;
-
+  background: #fee2e2;
+  color: #991b1b;
 }
-
 
 .guru-box .angka {
-
-  font-size:
-    28px;
-
-  font-weight:
-    bold;
-
-  margin-top:
-    6px;
-
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 6px;
 }
-
 
 .guru-box .judul {
-
-  font-size:
-    13px;
-
+  font-size: 13px;
 }
-
 
 .badge-guru-normal {
-
-  background:
-    #dcfce7;
-
-  color:
-    #166534;
-
-  display:
-    inline-block;
-
-  padding:
-    6px 10px;
-
-  border-radius:
-    8px;
-
-  font-size:
-    12px;
-
-  font-weight:
-    bold;
-
+  background: #dcfce7;
+  color: #166534;
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
 }
-
 
 .badge-guru-perhatian {
-
-  background:
-    #fecaca;
-
-  color:
-    #991b1b;
-
-  display:
-    inline-block;
-
-  padding:
-    6px 10px;
-
-  border-radius:
-    8px;
-
-  font-size:
-    12px;
-
-  font-weight:
-    bold;
-
+  background: #fecaca;
+  color: #991b1b;
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
 }
-
 
 .jadwal-guru {
-
-  line-height:
-    1.7;
-
-  font-size:
-    13px;
-
+  line-height: 1.7;
+  font-size: 13px;
 }
 
+.tanggal-aktif {
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.tanggal-aktif div {
+  margin-bottom: 2px;
+}
 
 .guru-section-title {
-
-  margin:
-    0 0 5px;
-
+  margin: 0 0 5px;
 }
-
 
 .guru-section-info {
-
-  margin:
-    0 0 18px;
-
-  color:
-    #64748b;
-
-  font-size:
-    14px;
-
+  margin: 0 0 18px;
+  color: #64748b;
+  font-size: 14px;
 }
-
 
 .guru-loading {
-
-  text-align:
-    center;
-
-  padding:
-    20px;
-
-  color:
-    #64748b;
-
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
 }
 
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-@media (
-  max-width: 900px
-) {
+@media (max-width: 900px) {
 
   .filter {
-
-    grid-template-columns:
-      1fr 1fr;
-
+    grid-template-columns: 1fr 1fr;
   }
-
 
   .guru-ringkasan {
-
-    grid-template-columns:
-      1fr 1fr 1fr;
-
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
 }
 
-
-@media (
-  max-width: 600px
-) {
+@media (max-width: 600px) {
 
   .filter {
-
-    grid-template-columns:
-      1fr;
-
+    grid-template-columns: 1fr;
   }
-
 
   button {
-
-    margin-top:
-      0;
-
+    margin-top: 0;
   }
-
 
   .ringkasan {
-
-    grid-template-columns:
-      1fr 1fr;
-
+    grid-template-columns: 1fr 1fr;
   }
 
-
   .guru-ringkasan {
-
-    grid-template-columns:
-      1fr;
-
+    grid-template-columns: 1fr;
   }
 
 }
 
-
-@media (
-  max-width: 400px
-) {
+@media (max-width: 400px) {
 
   .ringkasan {
-
-    grid-template-columns:
-      1fr;
-
+    grid-template-columns: 1fr;
   }
 
 }
@@ -742,14 +356,13 @@ th {
 
 </head>
 
-
 <body>
-
 
 <div class="container">
 
-
-  <!-- HEADER -->
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
 
   <div class="header">
 
@@ -764,7 +377,9 @@ th {
   </div>
 
 
-  <!-- ERROR -->
+  <!-- =====================================================
+       ERROR
+  ====================================================== -->
 
   <div
     id="errorBox"
@@ -772,23 +387,19 @@ th {
   </div>
 
 
-  <!-- FILTER -->
+  <!-- =====================================================
+       FILTER
+  ====================================================== -->
 
   <div class="card">
 
-
     <div class="filter">
-
 
       <div>
 
-        <label
-          for="tanggalAwal">
-
+        <label for="tanggalAwal">
           Tanggal Awal
-
         </label>
-
 
         <input
           type="date"
@@ -799,13 +410,9 @@ th {
 
       <div>
 
-        <label
-          for="tanggalAkhir">
-
+        <label for="tanggalAkhir">
           Tanggal Akhir
-
         </label>
-
 
         <input
           type="date"
@@ -816,16 +423,11 @@ th {
 
       <div>
 
-        <label
-          for="kelas">
-
+        <label for="kelas">
           Pilih Kelas
-
         </label>
 
-
-        <select
-          id="kelas">
+        <select id="kelas">
 
           <option value="">
             Semua Kelas
@@ -842,16 +444,11 @@ th {
           &nbsp;
         </label>
 
-
-        <button
-          onclick="muatRekap()">
-
+        <button onclick="muatRekap()">
           🔄 Tampilkan Rekap
-
         </button>
 
       </div>
-
 
     </div>
 
@@ -864,17 +461,16 @@ th {
 
     </div>
 
-
   </div>
 
 
-  <!-- RINGKASAN MURID -->
+  <!-- =====================================================
+       RINGKASAN MURID
+  ====================================================== -->
 
   <div class="card">
 
-
     <div class="ringkasan">
-
 
       <div class="box">
 
@@ -935,22 +531,20 @@ th {
 
       </div>
 
-
     </div>
-
 
   </div>
 
 
-  <!-- TABEL MURID -->
+  <!-- =====================================================
+       TABEL MURID
+  ====================================================== -->
 
   <div class="card">
-
 
     <h2>
       Daftar Rekap Murid
     </h2>
-
 
     <div
       id="loading"
@@ -963,10 +557,7 @@ th {
 
     <div class="tabel-container">
 
-
-      <table
-        id="tabelRekap">
-
+      <table id="tabelRekap">
 
         <thead>
 
@@ -998,16 +589,12 @@ th {
 
         </thead>
 
-
-        <tbody
-          id="isiTabel">
+        <tbody id="isiTabel">
         </tbody>
-
 
       </table>
 
     </div>
-
 
   </div>
 
@@ -1018,27 +605,25 @@ th {
 
   <div class="card">
 
-
     <h2 class="guru-section-title">
-
       👨‍🏫 Rekap Kinerja Guru Piket
-
     </h2>
-
 
     <p class="guru-section-info">
 
-      Keterangan berdasarkan pelaksanaan tugas guru piket
-      pada periode yang dipilih.
+      Data di bawah menunjukkan guru piket yang
+      benar-benar memiliki aktivitas pada data absensi.
+      Guru dengan jumlah bertugas <strong>0</strong>
+      ditandai sebagai <strong>TIDAK PERNAH AKTIF</strong>.
 
     </p>
 
 
+    <!-- RINGKASAN GURU -->
+
     <div class="guru-ringkasan">
 
-
-      <div
-        class="guru-box guru-total">
+      <div class="guru-box guru-total">
 
         <div class="judul">
           👥 Total Guru Piket
@@ -1053,11 +638,10 @@ th {
       </div>
 
 
-      <div
-        class="guru-box guru-normal">
+      <div class="guru-box guru-normal">
 
         <div class="judul">
-          🟢 Normal
+          🟢 Pernah Aktif
         </div>
 
         <div
@@ -1069,11 +653,10 @@ th {
       </div>
 
 
-      <div
-        class="guru-box guru-perhatian">
+      <div class="guru-box guru-perhatian">
 
         <div class="judul">
-          🔴 Butuh Perhatian
+          🔴 Tidak Pernah Aktif
         </div>
 
         <div
@@ -1083,7 +666,6 @@ th {
         </div>
 
       </div>
-
 
     </div>
 
@@ -1099,9 +681,7 @@ th {
 
     <div class="tabel-container">
 
-
       <table>
-
 
         <thead>
 
@@ -1124,6 +704,10 @@ th {
             </th>
 
             <th>
+              Tanggal Aktif
+            </th>
+
+            <th>
               Keterangan
             </th>
 
@@ -1131,29 +715,24 @@ th {
 
         </thead>
 
-
-        <tbody
-          id="isiTabelGuru">
+        <tbody id="isiTabelGuru">
         </tbody>
-
 
       </table>
 
-
     </div>
 
-
   </div>
-
 
 </div>
 
 
 <script>
 
-
 /************************************************************
  * URL APPS SCRIPT
+ *
+ * JANGAN DIUBAH.
  ************************************************************/
 
 const API_URL =
@@ -1183,10 +762,7 @@ window.addEventListener(
 async function muatDaftarKelas() {
 
   const select =
-    document.getElementById(
-      "kelas"
-    );
-
+    document.getElementById("kelas");
 
   try {
 
@@ -1199,11 +775,8 @@ async function muatDaftarKelas() {
       await fetch(
         url,
         {
-          method:
-            "GET",
-
-          cache:
-            "no-store"
+          method: "GET",
+          cache: "no-store"
         }
       );
 
@@ -1217,8 +790,7 @@ async function muatDaftarKelas() {
 
 
     if (
-      data.status !==
-      "success"
+      data.status !== "success"
     ) {
 
       return;
@@ -1229,27 +801,26 @@ async function muatDaftarKelas() {
     const daftar = [];
 
 
-    (data.data || [])
-      .forEach(
-        function(item) {
+    (data.data || []).forEach(
+      function(item) {
 
-          const kelas =
-            String(
-              item.kelas || ''
-            ).trim();
+        const kelas =
+          String(
+            item.kelas || ""
+          ).trim();
 
 
-          if (
-            kelas &&
-            !daftar.includes(kelas)
-          ) {
+        if (
+          kelas &&
+          !daftar.includes(kelas)
+        ) {
 
-            daftar.push(kelas);
-
-          }
+          daftar.push(kelas);
 
         }
-      );
+
+      }
+    );
 
 
     daftar.sort(
@@ -1257,10 +828,9 @@ async function muatDaftarKelas() {
 
         return a.localeCompare(
           b,
-          'id',
+          "id",
           {
-            numeric:
-              true
+            numeric: true
           }
         );
 
@@ -1307,7 +877,8 @@ async function muatDaftarKelas() {
 
 
 /************************************************************
- * MUAT REKAP MURID + GURU PIKET
+ * MUAT REKAP MURID
+ * + REKAP GURU PIKET
  ************************************************************/
 
 async function muatRekap() {
@@ -1394,11 +965,8 @@ async function muatRekap() {
       await fetch(
         url,
         {
-          method:
-            "GET",
-
-          cache:
-            "no-store"
+          method: "GET",
+          cache: "no-store"
         }
       );
 
@@ -1412,8 +980,7 @@ async function muatRekap() {
 
 
     if (
-      data.status !==
-      "success"
+      data.status !== "success"
     ) {
 
       throw new Error(
@@ -1444,14 +1011,13 @@ async function muatRekap() {
 
     /*
      * Setelah rekap murid berhasil,
-     * muat juga rekap guru piket.
+     * muat rekap guru piket.
      */
 
     await muatRekapGuruPiket(
       tanggalAwal,
       tanggalAkhir
     );
-
 
   }
 
@@ -1485,6 +1051,10 @@ async function muatRekap() {
 
 /************************************************************
  * MUAT REKAP GURU PIKET
+ *
+ * INI TERHUBUNG LANGSUNG DENGAN:
+ *
+ * ?action=rekap_guru_piket
  ************************************************************/
 
 async function muatRekapGuruPiket(
@@ -1531,15 +1101,18 @@ async function muatRekapGuruPiket(
     }
 
 
+    console.log(
+      "MEMUAT REKAP GURU:",
+      url
+    );
+
+
     const response =
       await fetch(
         url,
         {
-          method:
-            "GET",
-
-          cache:
-            "no-store"
+          method: "GET",
+          cache: "no-store"
         }
       );
 
@@ -1559,8 +1132,7 @@ async function muatRekapGuruPiket(
 
 
     if (
-      data.status !==
-      "success"
+      data.status !== "success"
     ) {
 
       throw new Error(
@@ -1571,15 +1143,25 @@ async function muatRekapGuruPiket(
     }
 
 
+    /*
+     * Gunakan ringkasan langsung dari GS.
+     *
+     * BUKAN menghitung ulang dengan dugaan
+     * di HTML.
+     */
+
     tampilkanRingkasanGuru(
       data.ringkasan || {}
     );
 
 
+    /*
+     * Gunakan data guru langsung dari GS.
+     */
+
     tampilkanTabelGuru(
       data.data || []
     );
-
 
   }
 
@@ -1598,14 +1180,14 @@ async function muatRekapGuruPiket(
       <tr>
 
         <td
-          colspan="5"
+          colspan="6"
           style="
             text-align:center;
             padding:30px;
             color:#991b1b;
           ">
 
-          ❌ Gagal memuat rekap guru piket.<br>
+          ❌ Gagal memuat rekap guru piket.<br><br>
 
           ${escapeHTML(
             error.message
@@ -1616,6 +1198,26 @@ async function muatRekapGuruPiket(
       </tr>
 
     `;
+
+
+    /*
+     * Jangan menampilkan angka palsu
+     * jika API gagal.
+     */
+
+    document.getElementById(
+      "totalGuruPiket"
+    ).textContent = "0";
+
+
+    document.getElementById(
+      "guruNormal"
+    ).textContent = "0";
+
+
+    document.getElementById(
+      "guruButuhPerhatian"
+    ).textContent = "0";
 
   }
 
@@ -1631,6 +1233,8 @@ async function muatRekapGuruPiket(
 
 /************************************************************
  * RINGKASAN GURU PIKET
+ *
+ * ANGKA DIAMBIL LANGSUNG DARI GS.
  ************************************************************/
 
 function tampilkanRingkasanGuru(
@@ -1665,6 +1269,16 @@ function tampilkanRingkasanGuru(
 
 /************************************************************
  * TABEL GURU PIKET
+ *
+ * DATA DIBACA LANGSUNG DARI GS:
+ *
+ * id
+ * nama
+ * jadwal
+ * jumlahBertugas
+ * keterangan
+ * statusAdministrasi
+ * tanggalAktif
  ************************************************************/
 
 function tampilkanTabelGuru(
@@ -1691,7 +1305,7 @@ function tampilkanTabelGuru(
       <tr>
 
         <td
-          colspan="5"
+          colspan="6"
           style="
             text-align:center;
             padding:30px;
@@ -1714,15 +1328,18 @@ function tampilkanTabelGuru(
   data.forEach(
     function(item, index) {
 
-
       const tr =
         document.createElement(
           "tr"
         );
 
 
+      /*
+       * Ambil data langsung dari GS.
+       */
+
       const nama =
-        escapeHTML(
+        String(
           item.nama || "-"
         );
 
@@ -1732,6 +1349,24 @@ function tampilkanTabelGuru(
           item.jumlahBertugas
         );
 
+
+      const keterangan =
+        String(
+          item.keterangan || ""
+        ).trim();
+
+
+      const statusAdministrasi =
+        String(
+          item.statusAdministrasi || ""
+        ).trim();
+
+
+      /*
+       * =====================================================
+       * JADWAL
+       * =====================================================
+       */
 
       let jadwalHTML =
         "-";
@@ -1749,13 +1384,11 @@ function tampilkanTabelGuru(
             .map(
               function(jadwal) {
 
-                return (
-                  "<div>" +
-                  escapeHTML(
-                    jadwal
-                  ) +
-                  "</div>"
-                );
+                return `
+                  <div>
+                    ${escapeHTML(jadwal)}
+                  </div>
+                `;
 
               }
             )
@@ -1764,27 +1397,111 @@ function tampilkanTabelGuru(
       }
 
 
+      /*
+       * =====================================================
+       * TANGGAL AKTIF
+       *
+       * Ini penting:
+       * kita tidak menerka tanggal.
+       * Kita tampilkan persis data
+       * tanggalAktif dari GS.
+       * =====================================================
+       */
+
+      let tanggalHTML =
+        "-";
+
+
+      if (
+        Array.isArray(
+          item.tanggalAktif
+        ) &&
+        item.tanggalAktif.length > 0
+      ) {
+
+        tanggalHTML =
+          item.tanggalAktif
+            .map(
+              function(tanggal) {
+
+                return `
+                  <div>
+                    📅 ${escapeHTML(
+                      formatTanggalAktif(
+                        tanggal
+                      )
+                    )}
+                  </div>
+                `;
+
+              }
+            )
+            .join("");
+
+      }
+
+
+      /*
+       * =====================================================
+       * TENTUKAN WARNA BERDASARKAN DATA GS
+       * =====================================================
+       *
+       * Jika jumlahBertugas = 0
+       * atau keterangan TIDAK PERNAH AKTIF
+       * -> MERAH
+       *
+       * Jika pernah aktif
+       * -> HIJAU
+       *
+       * Tidak ada dugaan lain.
+       */
+
+      const tidakPernahAktif =
+        jumlah === 0 ||
+        keterangan
+          .toUpperCase()
+          .includes(
+            "TIDAK PERNAH AKTIF"
+          );
+
+
+      if (
+        tidakPernahAktif
+      ) {
+
+        tr.className =
+          "merah";
+
+      }
+
+      else {
+
+        tr.className =
+          "hijau";
+
+      }
+
+
+      /*
+       * =====================================================
+       * BADGE KETERANGAN
+       * =====================================================
+       */
+
       let badgeHTML =
         "";
 
 
       if (
-        String(
-          item.keterangan || ""
-        ).toUpperCase() ===
-        "NORMAL"
+        tidakPernahAktif
       ) {
-
-        tr.className =
-          "hijau";
-
 
         badgeHTML = `
 
           <span
-            class="badge-guru-normal">
+            class="badge-guru-perhatian">
 
-            🟢 NORMAL
+            🔴 TIDAK PERNAH AKTIF
 
           </span>
 
@@ -1794,16 +1511,12 @@ function tampilkanTabelGuru(
 
       else {
 
-        tr.className =
-          "merah";
-
-
         badgeHTML = `
 
           <span
-            class="badge-guru-perhatian">
+            class="badge-guru-normal">
 
-            🔴 BUTUH PERHATIAN
+            🟢 PERNAH AKTIF
 
           </span>
 
@@ -1811,6 +1524,47 @@ function tampilkanTabelGuru(
 
       }
 
+
+      /*
+       * =====================================================
+       * STATUS ADMINISTRASI
+       * =====================================================
+       */
+
+      let statusHTML =
+        "";
+
+
+      if (
+        statusAdministrasi
+      ) {
+
+        statusHTML = `
+
+          <div
+            style="
+              margin-top:6px;
+              font-size:12px;
+              font-weight:normal;
+            ">
+
+            Status administrasi:
+            ${escapeHTML(
+              statusAdministrasi
+            )}
+
+          </div>
+
+        `;
+
+      }
+
+
+      /*
+       * =====================================================
+       * ISI BARIS
+       * =====================================================
+       */
 
       tr.innerHTML = `
 
@@ -1820,9 +1574,13 @@ function tampilkanTabelGuru(
 
 
         <td>
+
           <strong>
-            ${nama}
+            ${escapeHTML(nama)}
           </strong>
+
+          ${statusHTML}
+
         </td>
 
 
@@ -1832,12 +1590,25 @@ function tampilkanTabelGuru(
 
 
         <td>
-          ${jumlah}
+
+          <strong>
+            ${jumlah}
+          </strong>
+
+        </td>
+
+
+        <td class="tanggal-aktif">
+
+          ${tanggalHTML}
+
         </td>
 
 
         <td>
+
           ${badgeHTML}
+
         </td>
 
       `;
@@ -1849,6 +1620,82 @@ function tampilkanTabelGuru(
 
     }
   );
+
+}
+
+
+/************************************************************
+ * FORMAT TANGGAL AKTIF
+ *
+ * Mendukung beberapa bentuk tanggal
+ * yang mungkin dikirim Apps Script.
+ ************************************************************/
+
+function formatTanggalAktif(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+
+    return "-";
+
+  }
+
+
+  /*
+   * Jika sudah dd/MM/yyyy
+   */
+
+  const text =
+    String(value).trim();
+
+
+  if (
+    /^\d{2}\/\d{2}\/\d{4}$/.test(
+      text
+    )
+  ) {
+
+    return text;
+
+  }
+
+
+  /*
+   * Jika yyyy-MM-dd
+   */
+
+  if (
+    /^\d{4}-\d{2}-\d{2}$/.test(
+      text
+    )
+  ) {
+
+    const p =
+      text.split("-");
+
+
+    return (
+      p[2] +
+      "/" +
+      p[1] +
+      "/" +
+      p[0]
+    );
+
+  }
+
+
+  /*
+   * Jika bentuk tanggal lain,
+   * tampilkan apa adanya.
+   */
+
+  return text;
 
 }
 
@@ -1929,7 +1776,7 @@ function tampilkanInfoFilter(
 
 
 /************************************************************
- * FORMAT TANGGAL
+ * FORMAT TANGGAL FILTER
  ************************************************************/
 
 function formatTanggal(
@@ -2229,7 +2076,6 @@ function tampilkanTabel(
   data.forEach(
     function(item, index) {
 
-
       const tr =
         document.createElement(
           "tr"
@@ -2490,7 +2336,6 @@ function escapeHTML(
 }
 
 </script>
-
 
 </body>
 
