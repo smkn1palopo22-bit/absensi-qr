@@ -9,345 +9,277 @@
   name="viewport"
   content="width=device-width, initial-scale=1.0">
 
-<title>
-  Rekap Absensi - SMK Negeri 1 Palopo
-</title>
+<title>Rekap Absensi - SMK Negeri 1 Palopo</title>
 
 <style>
 
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f1f5f9;
-  color: #1e293b;
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f5f9;
+  color:#1e293b;
 }
 
-.container {
-  max-width: 1250px;
-  margin: auto;
-  padding: 20px;
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:20px;
 }
 
-.header {
-  background: white;
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 18px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-.header h1 {
-  margin: 0;
-  text-align: center;
-  font-size: 25px;
+.header{
+  text-align:center;
 }
 
-.header p {
-  text-align: center;
-  color: #64748b;
-  margin: 8px 0 0;
+.header h1{
+  margin:0;
 }
 
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 18px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+.header p{
+  color:#64748b;
 }
 
-.filter {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 12px;
+.login-box{
+  max-width:450px;
+  margin:60px auto;
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 6px;
+.login-box h2{
+  text-align:center;
 }
 
-select,
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
 input,
-button {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 15px;
-}
-
 select,
-input {
-  border: 1px solid #cbd5e1;
-  background: white;
+button{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  font-size:15px;
 }
 
-button {
-  border: none;
-  background: #2563eb;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 24px;
+input,
+select{
+  border:1px solid #cbd5e1;
+  background:white;
 }
 
-button:hover {
-  opacity: .9;
+button{
+  border:none;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:12px;
 }
 
-.info {
-  margin-top: 12px;
-  color: #64748b;
-  font-size: 14px;
+button:hover{
+  opacity:.9;
 }
 
-.ringkasan {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+.btn-logout{
+  background:#dc2626;
 }
 
-.box {
-  padding: 18px;
-  border-radius: 14px;
-  text-align: center;
-  background: #f8fafc;
+.error{
+  display:none;
+  background:#fee2e2;
+  color:#991b1b;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
 }
 
-.box .angka {
-  font-size: 28px;
-  font-weight: bold;
-  margin-top: 6px;
+.user-info{
+  background:#eff6ff;
+  color:#1e40af;
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:18px;
 }
 
-.box .judul {
-  font-size: 13px;
-  color: #64748b;
+.filter{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr auto;
+  gap:12px;
+  align-items:end;
 }
 
-.tabel-container {
-  overflow-x: auto;
+.filter button{
+  margin-top:0;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 950px;
+.info{
+  margin-top:12px;
+  color:#64748b;
+  font-size:14px;
+}
+
+.ringkasan{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.box{
+  padding:18px;
+  border-radius:14px;
+  text-align:center;
+  background:#f8fafc;
+}
+
+.box .judul{
+  font-size:13px;
+  color:#64748b;
+}
+
+.box .angka{
+  font-size:28px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+.tabel-container{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:950px;
 }
 
 th,
-td {
-  padding: 10px;
-  border-bottom: 1px solid #e2e8f0;
-  text-align: left;
-  font-size: 14px;
-  vertical-align: top;
+td{
+  padding:10px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:left;
+  font-size:14px;
 }
 
-th {
-  background: #f8fafc;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+th{
+  background:#f8fafc;
 }
 
-.merah {
-  background: #fee2e2 !important;
-  color: #991b1b;
-  font-weight: bold;
+.merah{
+  background:#fee2e2 !important;
+  color:#991b1b;
+  font-weight:bold;
 }
 
-.kuning {
-  background: #fef3c7 !important;
-  color: #92400e;
-  font-weight: bold;
+.kuning{
+  background:#fef3c7 !important;
+  color:#92400e;
+  font-weight:bold;
 }
 
-.hijau {
-  background: #f0fdf4 !important;
-  color: #166534;
-  font-weight: bold;
+.hijau{
+  background:#f0fdf4 !important;
+  color:#166534;
+  font-weight:bold;
 }
 
-.badge {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: bold;
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:8px;
+  font-size:12px;
+  font-weight:bold;
 }
 
-.badge-merah {
-  background: #fecaca;
-  color: #991b1b;
+.badge-merah{
+  background:#fecaca;
+  color:#991b1b;
 }
 
-.badge-kuning {
-  background: #fef3c7;
-  color: #92400e;
+.badge-kuning{
+  background:#fef3c7;
+  color:#92400e;
 }
 
-.badge-hijau {
-  background: #dcfce7;
-  color: #166534;
+.badge-hijau{
+  background:#dcfce7;
+  color:#166534;
 }
 
-.loading {
-  text-align: center;
-  padding: 20px;
-  color: #64748b;
+.loading{
+  text-align:center;
+  padding:20px;
+  color:#64748b;
 }
 
-.error {
-  background: #fee2e2;
-  color: #991b1b;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  display: none;
+.hidden{
+  display:none !important;
 }
 
-.kelas-info {
-  font-weight: bold;
-  color: #2563eb;
+.guru-ringkasan{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
 }
 
-/* =========================================================
-   GURU PIKET
-========================================================= */
-
-.guru-ringkasan {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 18px;
+.guru-box{
+  padding:18px;
+  border-radius:14px;
+  text-align:center;
 }
 
-.guru-box {
-  padding: 18px;
-  border-radius: 14px;
-  text-align: center;
+.guru-total{
+  background:#f8fafc;
 }
 
-.guru-total {
-  background: #f8fafc;
+.guru-normal{
+  background:#f0fdf4;
+  color:#166534;
 }
 
-.guru-normal {
-  background: #f0fdf4;
-  color: #166534;
+.guru-perhatian{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-.guru-perhatian {
-  background: #fee2e2;
-  color: #991b1b;
+.guru-box .angka{
+  font-size:28px;
+  font-weight:bold;
+  margin-top:6px;
 }
 
-.guru-box .angka {
-  font-size: 28px;
-  font-weight: bold;
-  margin-top: 6px;
-}
+@media(max-width:800px){
 
-.guru-box .judul {
-  font-size: 13px;
-}
-
-.badge-guru-normal {
-  background: #dcfce7;
-  color: #166534;
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.badge-guru-perhatian {
-  background: #fecaca;
-  color: #991b1b;
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.jadwal-guru {
-  line-height: 1.7;
-  font-size: 13px;
-}
-
-.tanggal-aktif {
-  line-height: 1.7;
-  font-size: 13px;
-}
-
-.tanggal-aktif div {
-  margin-bottom: 2px;
-}
-
-.guru-section-title {
-  margin: 0 0 5px;
-}
-
-.guru-section-info {
-  margin: 0 0 18px;
-  color: #64748b;
-  font-size: 14px;
-}
-
-.guru-loading {
-  text-align: center;
-  padding: 20px;
-  color: #64748b;
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 900px) {
-
-  .filter {
-    grid-template-columns: 1fr 1fr;
+  .filter{
+    grid-template-columns:1fr;
   }
 
-  .guru-ringkasan {
-    grid-template-columns: 1fr 1fr 1fr;
+  .ringkasan{
+    grid-template-columns:1fr 1fr;
   }
 
 }
 
-@media (max-width: 600px) {
+@media(max-width:500px){
 
-  .filter {
-    grid-template-columns: 1fr;
+  .ringkasan{
+    grid-template-columns:1fr;
   }
 
-  button {
-    margin-top: 0;
-  }
-
-  .ringkasan {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .guru-ringkasan {
-    grid-template-columns: 1fr;
-  }
-
-}
-
-@media (max-width: 400px) {
-
-  .ringkasan {
-    grid-template-columns: 1fr;
+  .guru-ringkasan{
+    grid-template-columns:1fr;
   }
 
 }
@@ -358,13 +290,84 @@ th {
 
 <body>
 
-<div class="container">
 
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
-  <div class="header">
+<div
+  id="halamanLogin"
+  class="container">
+
+  <div class="card login-box">
+
+    <h2>
+      🔐 Login Rekap Absensi
+    </h2>
+
+    <p
+      style="
+        text-align:center;
+        color:#64748b;
+      ">
+
+      SMK Negeri 1 Palopo
+
+    </p>
+
+    <br>
+
+    <label>
+      Username
+    </label>
+
+    <input
+      id="username"
+      type="text"
+      autocomplete="username"
+      placeholder="Masukkan username">
+
+    <br><br>
+
+    <label>
+      Password
+    </label>
+
+    <input
+      id="password"
+      type="password"
+      autocomplete="current-password"
+      placeholder="Masukkan password">
+
+    <button
+      onclick="login()">
+
+      🔑 LOGIN
+
+    </button>
+
+    <div
+      id="loginError"
+      class="error">
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     APLIKASI REKAP
+===================================================== -->
+
+<div
+  id="aplikasi"
+  class="container hidden">
+
+
+  <!-- HEADER -->
+
+  <div class="card header">
 
     <h1>
       📊 REKAP ABSENSI MURID
@@ -377,19 +380,27 @@ th {
   </div>
 
 
-  <!-- =====================================================
-       ERROR
-  ====================================================== -->
+  <!-- INFORMASI USER -->
 
-  <div
-    id="errorBox"
-    class="error">
+  <div class="card">
+
+    <div
+      id="userInfo"
+      class="user-info">
+    </div>
+
+    <button
+      class="btn-logout"
+      onclick="logout()">
+
+      🚪 Keluar
+
+    </button>
+
   </div>
 
 
-  <!-- =====================================================
-       FILTER
-  ====================================================== -->
+  <!-- FILTER -->
 
   <div class="card">
 
@@ -397,7 +408,7 @@ th {
 
       <div>
 
-        <label for="tanggalAwal">
+        <label>
           Tanggal Awal
         </label>
 
@@ -410,7 +421,7 @@ th {
 
       <div>
 
-        <label for="tanggalAkhir">
+        <label>
           Tanggal Akhir
         </label>
 
@@ -423,16 +434,11 @@ th {
 
       <div>
 
-        <label for="kelas">
-          Pilih Kelas
+        <label>
+          Kelas
         </label>
 
         <select id="kelas">
-
-          <option value="">
-            Semua Kelas
-          </option>
-
         </select>
 
       </div>
@@ -440,12 +446,11 @@ th {
 
       <div>
 
-        <label>
-          &nbsp;
-        </label>
+        <button
+          onclick="muatRekap()">
 
-        <button onclick="muatRekap()">
-          🔄 Tampilkan Rekap
+          🔄 Tampilkan
+
         </button>
 
       </div>
@@ -456,17 +461,12 @@ th {
     <div
       id="infoFilter"
       class="info">
-
-      Menampilkan seluruh data.
-
     </div>
 
   </div>
 
 
-  <!-- =====================================================
-       RINGKASAN MURID
-  ====================================================== -->
+  <!-- RINGKASAN -->
 
   <div class="card">
 
@@ -479,9 +479,11 @@ th {
         </div>
 
         <div
-          class="angka"
-          id="totalMurid">
+          id="totalMurid"
+          class="angka">
+
           0
+
         </div>
 
       </div>
@@ -494,9 +496,11 @@ th {
         </div>
 
         <div
-          class="angka"
-          id="totalHadir">
+          id="totalHadir"
+          class="angka">
+
           0
+
         </div>
 
       </div>
@@ -509,9 +513,11 @@ th {
         </div>
 
         <div
-          class="angka"
-          id="totalTerlambat">
+          id="totalTerlambat"
+          class="angka">
+
           0
+
         </div>
 
       </div>
@@ -524,9 +530,11 @@ th {
         </div>
 
         <div
-          class="angka"
-          id="butuhPerhatian">
+          id="butuhPerhatian"
+          class="angka">
+
           0
+
         </div>
 
       </div>
@@ -536,9 +544,7 @@ th {
   </div>
 
 
-  <!-- =====================================================
-       TABEL MURID
-  ====================================================== -->
+  <!-- TABEL MURID -->
 
   <div class="card">
 
@@ -550,39 +556,28 @@ th {
       id="loading"
       class="loading">
 
-      Memuat data rekap...
+      Memuat data...
 
     </div>
 
-
     <div class="tabel-container">
 
-      <table id="tabelRekap">
+      <table>
 
         <thead>
 
           <tr>
 
             <th>No</th>
-
             <th>Nama Murid</th>
-
             <th>NISN</th>
-
             <th>Kelas</th>
-
             <th>Hadir</th>
-
             <th>Terlambat</th>
-
             <th>Izin</th>
-
             <th>Sakit</th>
-
             <th>Alpa</th>
-
             <th>Persentase</th>
-
             <th>Perhatian</th>
 
           </tr>
@@ -601,38 +596,41 @@ th {
 
   <!-- =====================================================
        REKAP GURU PIKET
+       HANYA ADMIN DAN KAPROG
   ====================================================== -->
 
-  <div class="card">
+  <div
+    id="bagianGuruPiket"
+    class="card hidden">
 
-    <h2 class="guru-section-title">
+    <h2>
       👨‍🏫 Rekap Kinerja Guru Piket
     </h2>
 
-    <p class="guru-section-info">
+    <p
+      style="color:#64748b;">
 
-      Data di bawah menunjukkan guru piket yang
-      benar-benar memiliki aktivitas pada data absensi.
-      Guru dengan jumlah bertugas <strong>0</strong>
-      ditandai sebagai <strong>TIDAK PERNAH AKTIF</strong>.
+      Bagian ini hanya dapat dilihat oleh
+      <strong>Admin</strong> dan
+      <strong>Kaprog</strong>.
 
     </p>
 
-
-    <!-- RINGKASAN GURU -->
 
     <div class="guru-ringkasan">
 
       <div class="guru-box guru-total">
 
-        <div class="judul">
+        <div>
           👥 Total Guru Piket
         </div>
 
         <div
-          class="angka"
-          id="totalGuruPiket">
+          id="totalGuruPiket"
+          class="angka">
+
           0
+
         </div>
 
       </div>
@@ -640,14 +638,16 @@ th {
 
       <div class="guru-box guru-normal">
 
-        <div class="judul">
+        <div>
           🟢 Pernah Aktif
         </div>
 
         <div
-          class="angka"
-          id="guruNormal">
+          id="guruNormal"
+          class="angka">
+
           0
+
         </div>
 
       </div>
@@ -655,14 +655,16 @@ th {
 
       <div class="guru-box guru-perhatian">
 
-        <div class="judul">
+        <div>
           🔴 Tidak Pernah Aktif
         </div>
 
         <div
-          class="angka"
-          id="guruButuhPerhatian">
+          id="guruButuhPerhatian"
+          class="angka">
+
           0
+
         </div>
 
       </div>
@@ -670,14 +672,7 @@ th {
     </div>
 
 
-    <div
-      id="loadingGuru"
-      class="guru-loading">
-
-      Memuat rekap guru piket...
-
-    </div>
-
+    <br>
 
     <div class="tabel-container">
 
@@ -687,29 +682,12 @@ th {
 
           <tr>
 
-            <th>
-              No
-            </th>
-
-            <th>
-              Nama Guru
-            </th>
-
-            <th>
-              Jadwal Piket
-            </th>
-
-            <th>
-              Jumlah Bertugas
-            </th>
-
-            <th>
-              Tanggal Aktif
-            </th>
-
-            <th>
-              Keterangan
-            </th>
+            <th>No</th>
+            <th>Nama Guru</th>
+            <th>Jadwal Piket</th>
+            <th>Jumlah Bertugas</th>
+            <th>Tanggal Aktif</th>
+            <th>Keterangan</th>
 
           </tr>
 
@@ -730,13 +708,18 @@ th {
 <script>
 
 /************************************************************
- * URL APPS SCRIPT
- *
- * JANGAN DIUBAH.
+ * API
  ************************************************************/
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
+
+
+/************************************************************
+ * USER LOGIN
+ ************************************************************/
+
+let userLogin = null;
 
 
 /************************************************************
@@ -745,38 +728,95 @@ const API_URL =
 
 window.addEventListener(
   "load",
-  async function() {
+  function(){
 
-    await muatDaftarKelas();
+    const tersimpan =
+      sessionStorage.getItem(
+        "rekapUser"
+      );
 
-    await muatRekap();
+    if(tersimpan){
+
+      try{
+
+        userLogin =
+          JSON.parse(
+            tersimpan
+          );
+
+        bukaAplikasi();
+
+      }
+      catch(e){
+
+        sessionStorage.removeItem(
+          "rekapUser"
+        );
+
+      }
+
+    }
 
   }
 );
 
 
 /************************************************************
- * MUAT DAFTAR KELAS
+ * LOGIN
  ************************************************************/
 
-async function muatDaftarKelas() {
+async function login(){
 
-  const select =
-    document.getElementById("kelas");
+  const username =
+    document.getElementById(
+      "username"
+    ).value.trim();
 
-  try {
+  const password =
+    document.getElementById(
+      "password"
+    ).value;
 
-    const url =
-      API_URL +
-      "?action=rekap_admin";
+  const error =
+    document.getElementById(
+      "loginError"
+    );
 
+
+  error.style.display =
+    "none";
+
+
+  if(!username || !password){
+
+    error.textContent =
+      "Username dan password harus diisi.";
+
+    error.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  try{
 
     const response =
       await fetch(
-        url,
+        API_URL +
+        "?action=login" +
+        "&username=" +
+        encodeURIComponent(
+          username
+        ) +
+        "&password=" +
+        encodeURIComponent(
+          password
+        ),
         {
-          method: "GET",
-          cache: "no-store"
+          method:"GET",
+          cache:"no-store"
         }
       );
 
@@ -785,91 +825,75 @@ async function muatDaftarKelas() {
       await response.text();
 
 
+    console.log(
+      "RESPON LOGIN:",
+      text
+    );
+
+
     const data =
       JSON.parse(text);
 
 
-    if (
-      data.status !== "success"
-    ) {
+    if(
+      data.status !==
+      "success"
+    ){
 
-      return;
+      throw new Error(
+        data.message ||
+        "Username atau password salah."
+      );
 
     }
 
 
-    const daftar = [];
+    /*
+     * Simpan data user dari GS.
+     */
+
+    userLogin =
+      data.user ||
+      data.data ||
+      null;
 
 
-    (data.data || []).forEach(
-      function(item) {
+    if(!userLogin){
 
-        const kelas =
-          String(
-            item.kelas || ""
-          ).trim();
+      throw new Error(
+        "Data pengguna tidak diterima dari server."
+      );
+
+    }
 
 
-        if (
-          kelas &&
-          !daftar.includes(kelas)
-        ) {
-
-          daftar.push(kelas);
-
-        }
-
-      }
+    sessionStorage.setItem(
+      "rekapUser",
+      JSON.stringify(
+        userLogin
+      )
     );
 
 
-    daftar.sort(
-      function(a, b) {
-
-        return a.localeCompare(
-          b,
-          "id",
-          {
-            numeric: true
-          }
-        );
-
-      }
-    );
-
-
-    daftar.forEach(
-      function(kelas) {
-
-        const option =
-          document.createElement(
-            "option"
-          );
-
-
-        option.value =
-          kelas;
-
-
-        option.textContent =
-          kelas;
-
-
-        select.appendChild(
-          option
-        );
-
-      }
-    );
+    bukaAplikasi();
 
   }
 
-  catch(error) {
+  catch(error){
 
     console.error(
-      "Gagal memuat kelas:",
+      "LOGIN ERROR:",
       error
     );
+
+
+    error.textContent =
+      "❌ " +
+      error.message;
+
+
+    error.style.display =
+      "block";
 
   }
 
@@ -877,26 +901,293 @@ async function muatDaftarKelas() {
 
 
 /************************************************************
- * MUAT REKAP MURID
- * + REKAP GURU PIKET
+ * BUKA APLIKASI
  ************************************************************/
 
-async function muatRekap() {
+function bukaAplikasi(){
+
+  document.getElementById(
+    "halamanLogin"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "aplikasi"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  tampilkanIdentitasUser();
+
+
+  siapkanKelas();
+
+
+  /*
+   * Guru piket hanya Admin + Kaprog.
+   */
+
+  const role =
+    String(
+      userLogin.role || ""
+    ).toLowerCase();
+
+
+  if(
+    role === "admin" ||
+    role === "kaprog"
+  ){
+
+    document.getElementById(
+      "bagianGuruPiket"
+    ).classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  muatRekap();
+
+}
+
+
+/************************************************************
+ * IDENTITAS USER
+ ************************************************************/
+
+function tampilkanIdentitasUser(){
+
+  const role =
+    String(
+      userLogin.role || ""
+    );
+
+
+  const nama =
+    String(
+      userLogin.nama ||
+      userLogin.username ||
+      "-"
+    );
+
+
+  const program =
+    String(
+      userLogin.programKeahlian ||
+      "-"
+    );
+
+
+  const kelas =
+    String(
+      userLogin.kelas ||
+      ""
+    );
+
+
+  let teks =
+    "👤 Login sebagai: <strong>" +
+    escapeHTML(
+      nama
+    ) +
+    "</strong>";
+
+
+  teks +=
+    "<br>Role: <strong>" +
+    escapeHTML(
+      role
+    ) +
+    "</strong>";
+
+
+  if(program){
+
+    teks +=
+      "<br>Program Keahlian: <strong>" +
+      escapeHTML(
+        program
+      ) +
+      "</strong>";
+
+  }
+
+
+  if(kelas){
+
+    teks +=
+      "<br>Kelas: <strong>" +
+      escapeHTML(
+        kelas
+      ) +
+      "</strong>";
+
+  }
+
+
+  document.getElementById(
+    "userInfo"
+  ).innerHTML =
+    teks;
+
+}
+
+
+/************************************************************
+ * SIAPKAN KELAS
+ ************************************************************/
+
+function siapkanKelas(){
+
+  const select =
+    document.getElementById(
+      "kelas"
+    );
+
+
+  select.innerHTML =
+    "";
+
+
+  const role =
+    String(
+      userLogin.role || ""
+    ).toLowerCase();
+
+
+  const kelasUser =
+    String(
+      userLogin.kelas || ""
+    ).trim();
+
+
+  const programUser =
+    String(
+      userLogin.programKeahlian || ""
+    ).trim();
+
+
+  /*
+   * ========================================================
+   * WALI KELAS
+   * ========================================================
+   */
+
+  if(
+    role === "wali kelas" ||
+    role === "walikelas" ||
+    role === "wali_kelas"
+  ){
+
+    if(kelasUser){
+
+      tambahOption(
+        select,
+        kelasUser,
+        kelasUser
+      );
+
+      select.value =
+        kelasUser;
+
+    }
+
+    return;
+
+  }
+
+
+  /*
+   * ========================================================
+   * KAPROG
+   * ========================================================
+   *
+   * Kelas akan dimuat dari data rekap,
+   * kemudian disaring berdasarkan program.
+   */
+
+  if(
+    role === "kaprog"
+  ){
+
+    tambahOption(
+      select,
+      "",
+      "Semua Kelas " +
+      (
+        programUser
+          ? "(" +
+            programUser +
+            ")"
+          : ""
+      )
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * ========================================================
+   * ADMIN
+   * ========================================================
+   */
+
+  tambahOption(
+    select,
+    "",
+    "Semua Kelas"
+  );
+
+}
+
+
+/************************************************************
+ * TAMBAH OPTION
+ ************************************************************/
+
+function tambahOption(
+  select,
+  value,
+  text
+){
+
+  const option =
+    document.createElement(
+      "option"
+    );
+
+
+  option.value =
+    value;
+
+
+  option.textContent =
+    text;
+
+
+  select.appendChild(
+    option
+  );
+
+}
+
+
+/************************************************************
+ * MUAT REKAP
+ ************************************************************/
+
+async function muatRekap(){
 
   const loading =
     document.getElementById(
       "loading"
     );
-
-
-  const errorBox =
-    document.getElementById(
-      "errorBox"
-    );
-
-
-  errorBox.style.display =
-    "none";
 
 
   loading.style.display =
@@ -915,20 +1206,65 @@ async function muatRekap() {
     ).value;
 
 
-  const kelas =
+  let kelas =
     document.getElementById(
       "kelas"
     ).value;
 
 
-  try {
+  const role =
+    String(
+      userLogin.role || ""
+    ).toLowerCase();
+
+
+  const kelasUser =
+    String(
+      userLogin.kelas || ""
+    ).trim();
+
+
+  const programUser =
+    String(
+      userLogin.programKeahlian || ""
+    ).trim();
+
+
+  /*
+   * ========================================================
+   * WALI KELAS
+   * ========================================================
+   */
+
+  if(
+    role === "wali kelas" ||
+    role === "walikelas" ||
+    role === "wali_kelas"
+  ){
+
+    kelas =
+      kelasUser;
+
+  }
+
+
+  /*
+   * ========================================================
+   * KAPROG
+   * ========================================================
+   *
+   * Tidak memilih kelas tertentu:
+   * ambil data program kemudian saring.
+   */
+
+  try{
 
     let url =
       API_URL +
       "?action=rekap_admin";
 
 
-    if (tanggalAwal) {
+    if(tanggalAwal){
 
       url +=
         "&tanggalAwal=" +
@@ -939,7 +1275,7 @@ async function muatRekap() {
     }
 
 
-    if (tanggalAkhir) {
+    if(tanggalAkhir){
 
       url +=
         "&tanggalAkhir=" +
@@ -950,7 +1286,36 @@ async function muatRekap() {
     }
 
 
-    if (kelas) {
+    /*
+     * Admin boleh mengirim kelas.
+     */
+
+    if(
+      role === "admin" &&
+      kelas
+    ){
+
+      url +=
+        "&kelas=" +
+        encodeURIComponent(
+          kelas
+        );
+
+    }
+
+
+    /*
+     * Wali kelas harus dibatasi kelasnya.
+     */
+
+    if(
+      (
+        role === "wali kelas" ||
+        role === "walikelas" ||
+        role === "wali_kelas"
+      ) &&
+      kelas
+    ){
 
       url +=
         "&kelas=" +
@@ -965,8 +1330,8 @@ async function muatRekap() {
       await fetch(
         url,
         {
-          method: "GET",
-          cache: "no-store"
+          method:"GET",
+          cache:"no-store"
         }
       );
 
@@ -979,9 +1344,10 @@ async function muatRekap() {
       JSON.parse(text);
 
 
-    if (
-      data.status !== "success"
-    ) {
+    if(
+      data.status !==
+      "success"
+    ){
 
       throw new Error(
         data.message ||
@@ -991,37 +1357,124 @@ async function muatRekap() {
     }
 
 
+    let hasil =
+      data.data || [];
+
+
+    /*
+     * ========================================================
+     * FILTER TAMBAHAN KAPROG
+     * ========================================================
+     *
+     * Misalnya Kaprog AKL:
+     * hanya melihat kelas yang mengandung AKL.
+     */
+
+    if(
+      role === "kaprog" &&
+      programUser
+    ){
+
+      const program =
+        programUser.toLowerCase();
+
+
+      hasil =
+        hasil.filter(
+          function(item){
+
+            return String(
+              item.kelas || ""
+            )
+            .toLowerCase()
+            .includes(
+              program
+            );
+
+          }
+        );
+
+    }
+
+
+    /*
+     * Untuk Kaprog, isi dropdown kelas
+     * berdasarkan hasil yang sudah difilter.
+     */
+
+    if(
+      role === "kaprog"
+    ){
+
+      isiKelasKaprog(
+        hasil,
+        programUser
+      );
+
+      const kelasTerpilih =
+        document.getElementById(
+          "kelas"
+        ).value;
+
+
+      if(kelasTerpilih){
+
+        hasil =
+          hasil.filter(
+            function(item){
+
+              return String(
+                item.kelas || ""
+              ) ===
+              kelasTerpilih;
+
+            }
+          );
+
+      }
+
+    }
+
+
     tampilkanTabel(
-      data.data || []
+      hasil
     );
 
 
     tampilkanRingkasan(
       data.ringkasan || {},
-      data.data || []
+      hasil
     );
 
 
     tampilkanInfoFilter(
       tanggalAwal,
       tanggalAkhir,
-      kelas
+      kelas,
+      role,
+      programUser
     );
 
 
     /*
-     * Setelah rekap murid berhasil,
-     * muat rekap guru piket.
+     * Guru piket hanya Admin/Kaprog.
      */
 
-    await muatRekapGuruPiket(
-      tanggalAwal,
-      tanggalAkhir
-    );
+    if(
+      role === "admin" ||
+      role === "kaprog"
+    ){
+
+      await muatRekapGuruPiket(
+        tanggalAwal,
+        tanggalAkhir
+      );
+
+    }
 
   }
 
-  catch(error) {
+  catch(error){
 
     console.error(
       "REKAP ERROR:",
@@ -1029,17 +1482,35 @@ async function muatRekap() {
     );
 
 
-    errorBox.textContent =
-      "❌ Gagal memuat rekap: " +
-      error.message;
+    document.getElementById(
+      "isiTabel"
+    ).innerHTML = `
 
+      <tr>
 
-    errorBox.style.display =
-      "block";
+        <td
+          colspan="11"
+          style="
+            text-align:center;
+            padding:30px;
+            color:#991b1b;
+          ">
+
+          ❌ Gagal memuat rekap.<br><br>
+
+          ${escapeHTML(
+            error.message
+          )}
+
+        </td>
+
+      </tr>
+
+    `;
 
   }
 
-  finally {
+  finally{
 
     loading.style.display =
       "none";
@@ -1050,36 +1521,146 @@ async function muatRekap() {
 
 
 /************************************************************
- * MUAT REKAP GURU PIKET
- *
- * INI TERHUBUNG LANGSUNG DENGAN:
- *
- * ?action=rekap_guru_piket
+ * KELAS KAPROG
+ ************************************************************/
+
+function isiKelasKaprog(
+  data,
+  program
+){
+
+  const select =
+    document.getElementById(
+      "kelas"
+    );
+
+
+  const nilaiLama =
+    select.value;
+
+
+  const daftar = [];
+
+
+  data.forEach(
+    function(item){
+
+      const kelas =
+        String(
+          item.kelas || ""
+        ).trim();
+
+
+      if(
+        kelas &&
+        !daftar.includes(
+          kelas
+        )
+      ){
+
+        daftar.push(
+          kelas
+        );
+
+      }
+
+    }
+  );
+
+
+  daftar.sort(
+    function(a,b){
+
+      return a.localeCompare(
+        b,
+        "id",
+        {
+          numeric:true
+        }
+      );
+
+    }
+  );
+
+
+  select.innerHTML =
+    "";
+
+
+  tambahOption(
+    select,
+    "",
+    "Semua Kelas " +
+    (
+      program
+        ? "(" +
+          program +
+          ")"
+        : ""
+    )
+  );
+
+
+  daftar.forEach(
+    function(kelas){
+
+      tambahOption(
+        select,
+        kelas,
+        kelas
+      );
+
+    }
+  );
+
+
+  if(
+    daftar.includes(
+      nilaiLama
+    )
+  ){
+
+    select.value =
+      nilaiLama;
+
+  }
+
+}
+
+
+/************************************************************
+ * REKAP GURU PIKET
  ************************************************************/
 
 async function muatRekapGuruPiket(
   tanggalAwal,
   tanggalAkhir
-) {
+){
 
-  const loading =
-    document.getElementById(
-      "loadingGuru"
-    );
-
-
-  loading.style.display =
-    "block";
+  const role =
+    String(
+      userLogin.role || ""
+    ).toLowerCase();
 
 
-  try {
+  if(
+    role !== "admin" &&
+    role !== "kaprog"
+  ){
+
+    return;
+
+  }
+
+
+  try{
 
     let url =
       API_URL +
       "?action=rekap_guru_piket";
 
 
-    if (tanggalAwal) {
+    if(tanggalAwal){
 
       url +=
         "&tanggalAwal=" +
@@ -1090,7 +1671,7 @@ async function muatRekapGuruPiket(
     }
 
 
-    if (tanggalAkhir) {
+    if(tanggalAkhir){
 
       url +=
         "&tanggalAkhir=" +
@@ -1101,18 +1682,12 @@ async function muatRekapGuruPiket(
     }
 
 
-    console.log(
-      "MEMUAT REKAP GURU:",
-      url
-    );
-
-
     const response =
       await fetch(
         url,
         {
-          method: "GET",
-          cache: "no-store"
+          method:"GET",
+          cache:"no-store"
         }
       );
 
@@ -1121,43 +1696,27 @@ async function muatRekapGuruPiket(
       await response.text();
 
 
-    console.log(
-      "RESPON GURU PIKET:",
-      text
-    );
-
-
     const data =
       JSON.parse(text);
 
 
-    if (
-      data.status !== "success"
-    ) {
+    if(
+      data.status !==
+      "success"
+    ){
 
       throw new Error(
         data.message ||
-        "Gagal mengambil rekap guru piket."
+        "Gagal memuat guru piket."
       );
 
     }
 
 
-    /*
-     * Gunakan ringkasan langsung dari GS.
-     *
-     * BUKAN menghitung ulang dengan dugaan
-     * di HTML.
-     */
-
     tampilkanRingkasanGuru(
       data.ringkasan || {}
     );
 
-
-    /*
-     * Gunakan data guru langsung dari GS.
-     */
 
     tampilkanTabelGuru(
       data.data || []
@@ -1165,10 +1724,10 @@ async function muatRekapGuruPiket(
 
   }
 
-  catch(error) {
+  catch(error){
 
     console.error(
-      "GURU PIKET ERROR:",
+      "GURU PIKET:",
       error
     );
 
@@ -1187,11 +1746,7 @@ async function muatRekapGuruPiket(
             color:#991b1b;
           ">
 
-          ❌ Gagal memuat rekap guru piket.<br><br>
-
-          ${escapeHTML(
-            error.message
-          )}
+          ❌ Gagal memuat rekap guru piket.
 
         </td>
 
@@ -1199,47 +1754,18 @@ async function muatRekapGuruPiket(
 
     `;
 
-
-    /*
-     * Jangan menampilkan angka palsu
-     * jika API gagal.
-     */
-
-    document.getElementById(
-      "totalGuruPiket"
-    ).textContent = "0";
-
-
-    document.getElementById(
-      "guruNormal"
-    ).textContent = "0";
-
-
-    document.getElementById(
-      "guruButuhPerhatian"
-    ).textContent = "0";
-
-  }
-
-  finally {
-
-    loading.style.display =
-      "none";
-
   }
 
 }
 
 
 /************************************************************
- * RINGKASAN GURU PIKET
- *
- * ANGKA DIAMBIL LANGSUNG DARI GS.
+ * RINGKASAN GURU
  ************************************************************/
 
 function tampilkanRingkasanGuru(
   ringkasan
-) {
+){
 
   document.getElementById(
     "totalGuruPiket"
@@ -1268,22 +1794,12 @@ function tampilkanRingkasanGuru(
 
 
 /************************************************************
- * TABEL GURU PIKET
- *
- * DATA DIBACA LANGSUNG DARI GS:
- *
- * id
- * nama
- * jadwal
- * jumlahBertugas
- * keterangan
- * statusAdministrasi
- * tanggalAktif
+ * TABEL GURU
  ************************************************************/
 
 function tampilkanTabelGuru(
   data
-) {
+){
 
   const tbody =
     document.getElementById(
@@ -1295,52 +1811,12 @@ function tampilkanTabelGuru(
     "";
 
 
-  if (
-    !data ||
-    data.length === 0
-  ) {
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="6"
-          style="
-            text-align:center;
-            padding:30px;
-          ">
-
-          Tidak ada data guru piket.
-
-        </td>
-
-      </tr>
-
-    `;
-
-
-    return;
-
-  }
-
-
   data.forEach(
-    function(item, index) {
+    function(item,index){
 
       const tr =
         document.createElement(
           "tr"
-        );
-
-
-      /*
-       * Ambil data langsung dari GS.
-       */
-
-      const nama =
-        String(
-          item.nama || "-"
         );
 
 
@@ -1350,221 +1826,60 @@ function tampilkanTabelGuru(
         );
 
 
-      const keterangan =
+      const tidakAktif =
+        jumlah === 0 ||
         String(
           item.keterangan || ""
-        ).trim();
+        )
+        .toUpperCase()
+        .includes(
+          "TIDAK PERNAH AKTIF"
+        );
 
 
-      const statusAdministrasi =
-        String(
-          item.statusAdministrasi || ""
-        ).trim();
+      tr.className =
+        tidakAktif
+          ? "merah"
+          : "hijau";
 
 
-      /*
-       * =====================================================
-       * JADWAL
-       * =====================================================
-       */
-
-      let jadwalHTML =
-        "-";
-
-
-      if (
+      const jadwal =
         Array.isArray(
           item.jadwal
-        ) &&
-        item.jadwal.length > 0
-      ) {
+        )
+          ? item.jadwal
+              .map(
+                function(x){
 
-        jadwalHTML =
-          item.jadwal
-            .map(
-              function(jadwal) {
+                  return escapeHTML(
+                    x
+                  );
 
-                return `
-                  <div>
-                    ${escapeHTML(jadwal)}
-                  </div>
-                `;
-
-              }
-            )
-            .join("");
-
-      }
+                }
+              )
+              .join("<br>")
+          : "-";
 
 
-      /*
-       * =====================================================
-       * TANGGAL AKTIF
-       *
-       * Ini penting:
-       * kita tidak menerka tanggal.
-       * Kita tampilkan persis data
-       * tanggalAktif dari GS.
-       * =====================================================
-       */
-
-      let tanggalHTML =
-        "-";
-
-
-      if (
+      const tanggal =
         Array.isArray(
           item.tanggalAktif
-        ) &&
-        item.tanggalAktif.length > 0
-      ) {
+        )
+          ? item.tanggalAktif
+              .map(
+                function(x){
 
-        tanggalHTML =
-          item.tanggalAktif
-            .map(
-              function(tanggal) {
+                  return escapeHTML(
+                    formatTanggalAktif(
+                      x
+                    )
+                  );
 
-                return `
-                  <div>
-                    📅 ${escapeHTML(
-                      formatTanggalAktif(
-                        tanggal
-                      )
-                    )}
-                  </div>
-                `;
+                }
+              )
+              .join("<br>")
+          : "-";
 
-              }
-            )
-            .join("");
-
-      }
-
-
-      /*
-       * =====================================================
-       * TENTUKAN WARNA BERDASARKAN DATA GS
-       * =====================================================
-       *
-       * Jika jumlahBertugas = 0
-       * atau keterangan TIDAK PERNAH AKTIF
-       * -> MERAH
-       *
-       * Jika pernah aktif
-       * -> HIJAU
-       *
-       * Tidak ada dugaan lain.
-       */
-
-      const tidakPernahAktif =
-        jumlah === 0 ||
-        keterangan
-          .toUpperCase()
-          .includes(
-            "TIDAK PERNAH AKTIF"
-          );
-
-
-      if (
-        tidakPernahAktif
-      ) {
-
-        tr.className =
-          "merah";
-
-      }
-
-      else {
-
-        tr.className =
-          "hijau";
-
-      }
-
-
-      /*
-       * =====================================================
-       * BADGE KETERANGAN
-       * =====================================================
-       */
-
-      let badgeHTML =
-        "";
-
-
-      if (
-        tidakPernahAktif
-      ) {
-
-        badgeHTML = `
-
-          <span
-            class="badge-guru-perhatian">
-
-            🔴 TIDAK PERNAH AKTIF
-
-          </span>
-
-        `;
-
-      }
-
-      else {
-
-        badgeHTML = `
-
-          <span
-            class="badge-guru-normal">
-
-            🟢 PERNAH AKTIF
-
-          </span>
-
-        `;
-
-      }
-
-
-      /*
-       * =====================================================
-       * STATUS ADMINISTRASI
-       * =====================================================
-       */
-
-      let statusHTML =
-        "";
-
-
-      if (
-        statusAdministrasi
-      ) {
-
-        statusHTML = `
-
-          <div
-            style="
-              margin-top:6px;
-              font-size:12px;
-              font-weight:normal;
-            ">
-
-            Status administrasi:
-            ${escapeHTML(
-              statusAdministrasi
-            )}
-
-          </div>
-
-        `;
-
-      }
-
-
-      /*
-       * =====================================================
-       * ISI BARIS
-       * =====================================================
-       */
 
       tr.innerHTML = `
 
@@ -1572,42 +1887,33 @@ function tampilkanTabelGuru(
           ${index + 1}
         </td>
 
-
         <td>
-
           <strong>
-            ${escapeHTML(nama)}
+            ${escapeHTML(
+              item.nama || "-"
+            )}
           </strong>
-
-          ${statusHTML}
-
         </td>
 
-
-        <td class="jadwal-guru">
-          ${jadwalHTML}
+        <td>
+          ${jadwal}
         </td>
 
+        <td>
+          ${jumlah}
+        </td>
+
+        <td>
+          ${tanggal}
+        </td>
 
         <td>
 
-          <strong>
-            ${jumlah}
-          </strong>
-
-        </td>
-
-
-        <td class="tanggal-aktif">
-
-          ${tanggalHTML}
-
-        </td>
-
-
-        <td>
-
-          ${badgeHTML}
+          ${
+            tidakAktif
+              ? "🔴 TIDAK PERNAH AKTIF"
+              : "🟢 PERNAH AKTIF"
+          }
 
         </td>
 
@@ -1625,55 +1931,443 @@ function tampilkanTabelGuru(
 
 
 /************************************************************
- * FORMAT TANGGAL AKTIF
- *
- * Mendukung beberapa bentuk tanggal
- * yang mungkin dikirim Apps Script.
+ * TABEL MURID
  ************************************************************/
 
-function formatTanggalAktif(
-  value
-) {
+function tampilkanTabel(
+  data
+){
 
-  if (
-    value === null ||
-    value === undefined ||
-    value === ""
-  ) {
+  const tbody =
+    document.getElementById(
+      "isiTabel"
+    );
 
-    return "-";
+
+  tbody.innerHTML =
+    "";
+
+
+  if(
+    !data ||
+    data.length === 0
+  ){
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="11"
+          style="
+            text-align:center;
+            padding:30px;
+          ">
+
+          Tidak ada data.
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
 
   }
 
 
-  /*
-   * Jika sudah dd/MM/yyyy
-   */
+  data.forEach(
+    function(item,index){
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      const hadir =
+        angka(
+          item.hadir
+        );
+
+      const terlambat =
+        angka(
+          item.terlambat
+        );
+
+      const izin =
+        angka(
+          item.izin
+        );
+
+      const sakit =
+        angka(
+          item.sakit
+        );
+
+      const alpa =
+        angka(
+          item.alpa
+        );
+
+
+      let perhatian;
+
+
+      if(
+        alpa >= 1 ||
+        terlambat >= 3
+      ){
+
+        perhatian = {
+          kode:"MERAH",
+          teks:"🔴 BUTUH PERHATIAN"
+        };
+
+      }
+
+      else if(
+        terlambat > 0
+      ){
+
+        perhatian = {
+          kode:"TERLAMBAT",
+          teks:"🟡 TERLAMBAT"
+        };
+
+      }
+
+      else{
+
+        perhatian = {
+          kode:"BAIK",
+          teks:"🟢 Baik"
+        };
+
+      }
+
+
+      tr.className =
+        perhatian.kode === "MERAH"
+          ? "merah"
+          : perhatian.kode === "TERLAMBAT"
+            ? "kuning"
+            : "hijau";
+
+
+      let persentase =
+        angka(
+          item.persentase
+        );
+
+
+      if(
+        persentase > 0 &&
+        persentase <= 1
+      ){
+
+        persentase =
+          Math.round(
+            persentase * 100
+          );
+
+      }
+
+
+      tr.innerHTML = `
+
+        <td>
+          ${index + 1}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            item.nama || "-"
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            String(
+              item.nisn || "-"
+            )
+          )}
+        </td>
+
+        <td>
+          ${escapeHTML(
+            item.kelas || "-"
+          )}
+        </td>
+
+        <td>${hadir}</td>
+        <td>${terlambat}</td>
+        <td>${izin}</td>
+        <td>${sakit}</td>
+        <td>${alpa}</td>
+        <td>${persentase}%</td>
+
+        <td>
+
+          <span
+            class="badge
+            ${
+              perhatian.kode === "MERAH"
+                ? "badge-merah"
+                : perhatian.kode === "TERLAMBAT"
+                  ? "badge-kuning"
+                  : "badge-hijau"
+            }">
+
+            ${perhatian.teks}
+
+          </span>
+
+        </td>
+
+      `;
+
+
+      tbody.appendChild(
+        tr
+      );
+
+    }
+  );
+
+}
+
+
+/************************************************************
+ * RINGKASAN
+ ************************************************************/
+
+function tampilkanRingkasan(
+  ringkasan,
+  data
+){
+
+  document.getElementById(
+    "totalMurid"
+  ).textContent =
+    angka(
+      ringkasan.totalMurid ||
+      data.length
+    );
+
+
+  document.getElementById(
+    "totalHadir"
+  ).textContent =
+    angka(
+      ringkasan.hadir
+    );
+
+
+  document.getElementById(
+    "totalTerlambat"
+  ).textContent =
+    angka(
+      ringkasan.terlambat
+    );
+
+
+  let perhatian =
+    0;
+
+
+  data.forEach(
+    function(item){
+
+      if(
+        angka(item.alpa) >= 1 ||
+        angka(item.terlambat) >= 3
+      ){
+
+        perhatian++;
+
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    "butuhPerhatian"
+  ).textContent =
+    perhatian;
+
+}
+
+
+/************************************************************
+ * INFO FILTER
+ ************************************************************/
+
+function tampilkanInfoFilter(
+  awal,
+  akhir,
+  kelas,
+  role,
+  program
+){
+
+  let teks =
+    "";
+
+
+  if(
+    role === "admin"
+  ){
+
+    teks =
+      "Admin: seluruh data";
+
+  }
+
+  else if(
+    role === "kaprog"
+  ){
+
+    teks =
+      "Kaprog " +
+      program;
+
+  }
+
+  else{
+
+    teks =
+      "Wali Kelas: " +
+      (
+        kelas ||
+        userLogin.kelas ||
+        "-"
+      );
+
+  }
+
+
+  if(
+    awal ||
+    akhir
+  ){
+
+    teks +=
+      " | ";
+
+
+    if(awal){
+
+      teks +=
+        formatTanggal(
+          awal
+        );
+
+    }
+
+
+    if(akhir){
+
+      teks +=
+        " - " +
+        formatTanggal(
+          akhir
+        );
+
+    }
+
+  }
+
+
+  document.getElementById(
+    "infoFilter"
+  ).textContent =
+    teks;
+
+}
+
+
+/************************************************************
+ * LOGOUT
+ ************************************************************/
+
+function logout(){
+
+  sessionStorage.removeItem(
+    "rekapUser"
+  );
+
+
+  userLogin =
+    null;
+
+
+  location.reload();
+
+}
+
+
+/************************************************************
+ * FORMAT TANGGAL
+ ************************************************************/
+
+function formatTanggal(
+  value
+){
+
+  if(!value){
+    return "";
+  }
+
+
+  const p =
+    value.split("-");
+
+
+  if(p.length !== 3){
+    return value;
+  }
+
+
+  return (
+    p[2] +
+    "/" +
+    p[1] +
+    "/" +
+    p[0]
+  );
+
+}
+
+
+function formatTanggalAktif(
+  value
+){
 
   const text =
-    String(value).trim();
+    String(
+      value || ""
+    );
 
 
-  if (
+  if(
     /^\d{2}\/\d{2}\/\d{4}$/.test(
       text
     )
-  ) {
+  ){
 
     return text;
 
   }
 
 
-  /*
-   * Jika yyyy-MM-dd
-   */
-
-  if (
+  if(
     /^\d{4}-\d{2}-\d{2}$/.test(
       text
     )
-  ) {
+  ){
 
     const p =
       text.split("-");
@@ -1690,137 +2384,18 @@ function formatTanggalAktif(
   }
 
 
-  /*
-   * Jika bentuk tanggal lain,
-   * tampilkan apa adanya.
-   */
-
   return text;
 
 }
 
 
 /************************************************************
- * INFORMASI FILTER
- ************************************************************/
-
-function tampilkanInfoFilter(
-  tanggalAwal,
-  tanggalAkhir,
-  kelas
-) {
-
-  const info =
-    document.getElementById(
-      "infoFilter"
-    );
-
-
-  let teks =
-    "";
-
-
-  if (kelas) {
-
-    teks +=
-      "Kelas: " +
-      kelas;
-
-  }
-
-  else {
-
-    teks +=
-      "Semua Kelas";
-
-  }
-
-
-  if (
-    tanggalAwal ||
-    tanggalAkhir
-  ) {
-
-    teks +=
-      " | ";
-
-
-    if (tanggalAwal) {
-
-      teks +=
-        "Mulai " +
-        formatTanggal(
-          tanggalAwal
-        );
-
-    }
-
-
-    if (tanggalAkhir) {
-
-      teks +=
-        " sampai " +
-        formatTanggal(
-          tanggalAkhir
-        );
-
-    }
-
-  }
-
-
-  info.textContent =
-    teks;
-
-}
-
-
-/************************************************************
- * FORMAT TANGGAL FILTER
- ************************************************************/
-
-function formatTanggal(
-  value
-) {
-
-  if (!value) {
-
-    return "";
-
-  }
-
-
-  const parts =
-    value.split("-");
-
-
-  if (
-    parts.length !== 3
-  ) {
-
-    return value;
-
-  }
-
-
-  return (
-    parts[2] +
-    "/" +
-    parts[1] +
-    "/" +
-    parts[0]
-  );
-
-}
-
-
-/************************************************************
- * KONVERSI ANGKA
+ * ANGKA
  ************************************************************/
 
 function angka(
   value
-) {
+){
 
   const n =
     Number(
@@ -1828,472 +2403,9 @@ function angka(
     );
 
 
-  if (
-    isNaN(n)
-  ) {
-
-    return 0;
-
-  }
-
-
-  return n;
-
-}
-
-
-/************************************************************
- * TENTUKAN STATUS PERHATIAN MURID
- ************************************************************/
-
-function tentukanPerhatian(
-  item
-) {
-
-  const alpa =
-    angka(
-      item.alpa
-    );
-
-
-  const terlambat =
-    angka(
-      item.terlambat
-    );
-
-
-  if (
-    alpa >= 1
-  ) {
-
-    return {
-
-      kode:
-        "MERAH",
-
-      teks:
-        "🔴 BUTUH PERHATIAN"
-
-    };
-
-  }
-
-
-  if (
-    terlambat >= 3
-  ) {
-
-    return {
-
-      kode:
-        "MERAH",
-
-      teks:
-        "🔴 BUTUH PERHATIAN"
-
-    };
-
-  }
-
-
-  if (
-    terlambat > 0
-  ) {
-
-    return {
-
-      kode:
-        "TERLAMBAT",
-
-      teks:
-        "🟡 TERLAMBAT"
-
-    };
-
-  }
-
-
-  return {
-
-    kode:
-      "BAIK",
-
-    teks:
-      "🟢 Baik"
-
-  };
-
-}
-
-
-/************************************************************
- * RINGKASAN MURID
- ************************************************************/
-
-function tampilkanRingkasan(
-  ringkasan,
-  data
-) {
-
-  let totalMurid =
-    angka(
-      ringkasan.totalMurid
-    );
-
-
-  if (
-    totalMurid === 0 &&
-    data &&
-    data.length > 0
-  ) {
-
-    totalMurid =
-      data.length;
-
-  }
-
-
-  const totalHadir =
-    angka(
-      ringkasan.hadir
-    );
-
-
-  const totalTerlambat =
-    angka(
-      ringkasan.terlambat
-    );
-
-
-  let totalPerhatian =
-    0;
-
-
-  if (
-    data &&
-    data.length > 0
-  ) {
-
-    data.forEach(
-      function(item) {
-
-        const status =
-          tentukanPerhatian(
-            item
-          );
-
-
-        if (
-          status.kode ===
-          "MERAH"
-        ) {
-
-          totalPerhatian++;
-
-        }
-
-      }
-    );
-
-  }
-
-
-  document.getElementById(
-    "totalMurid"
-  ).textContent =
-    totalMurid;
-
-
-  document.getElementById(
-    "totalHadir"
-  ).textContent =
-    totalHadir;
-
-
-  document.getElementById(
-    "totalTerlambat"
-  ).textContent =
-    totalTerlambat;
-
-
-  document.getElementById(
-    "butuhPerhatian"
-  ).textContent =
-    totalPerhatian;
-
-}
-
-
-/************************************************************
- * TABEL MURID
- ************************************************************/
-
-function tampilkanTabel(
-  data
-) {
-
-  const tbody =
-    document.getElementById(
-      "isiTabel"
-    );
-
-
-  tbody.innerHTML =
-    "";
-
-
-  if (
-    !data ||
-    data.length === 0
-  ) {
-
-    tbody.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="11"
-          style="
-            text-align:center;
-            padding:30px;
-          ">
-
-          Tidak ada data
-          untuk filter yang dipilih.
-
-        </td>
-
-      </tr>
-
-    `;
-
-
-    return;
-
-  }
-
-
-  data.forEach(
-    function(item, index) {
-
-      const tr =
-        document.createElement(
-          "tr"
-        );
-
-
-      const hadir =
-        angka(
-          item.hadir
-        );
-
-
-      const terlambat =
-        angka(
-          item.terlambat
-        );
-
-
-      const izin =
-        angka(
-          item.izin
-        );
-
-
-      const sakit =
-        angka(
-          item.sakit
-        );
-
-
-      const alpa =
-        angka(
-          item.alpa
-        );
-
-
-      const perhatian =
-        tentukanPerhatian(
-          item
-        );
-
-
-      if (
-        perhatian.kode ===
-        "MERAH"
-      ) {
-
-        tr.className =
-          "merah";
-
-      }
-
-      else if (
-        perhatian.kode ===
-        "TERLAMBAT"
-      ) {
-
-        tr.className =
-          "kuning";
-
-      }
-
-      else {
-
-        tr.className =
-          "hijau";
-
-      }
-
-
-      let badgeHTML =
-        "";
-
-
-      if (
-        perhatian.kode ===
-        "MERAH"
-      ) {
-
-        badgeHTML = `
-
-          <span
-            class="badge badge-merah">
-
-            ${perhatian.teks}
-
-          </span>
-
-        `;
-
-      }
-
-      else if (
-        perhatian.kode ===
-        "TERLAMBAT"
-      ) {
-
-        badgeHTML = `
-
-          <span
-            class="badge badge-kuning">
-
-            ${perhatian.teks}
-
-          </span>
-
-        `;
-
-      }
-
-      else {
-
-        badgeHTML = `
-
-          <span
-            class="badge badge-hijau">
-
-            ${perhatian.teks}
-
-          </span>
-
-        `;
-
-      }
-
-
-      let persentase =
-        angka(
-          item.persentase
-        );
-
-
-      if (
-        persentase > 0 &&
-        persentase <= 1
-      ) {
-
-        persentase =
-          Math.round(
-            persentase * 100
-          );
-
-      }
-
-
-      tr.innerHTML = `
-
-        <td>
-          ${index + 1}
-        </td>
-
-
-        <td>
-          ${escapeHTML(
-            item.nama || "-"
-          )}
-        </td>
-
-
-        <td>
-          ${escapeHTML(
-            String(
-              item.nisn || "-"
-            )
-          )}
-        </td>
-
-
-        <td>
-          ${escapeHTML(
-            item.kelas || "-"
-          )}
-        </td>
-
-
-        <td>
-          ${hadir}
-        </td>
-
-
-        <td>
-          ${terlambat}
-        </td>
-
-
-        <td>
-          ${izin}
-        </td>
-
-
-        <td>
-          ${sakit}
-        </td>
-
-
-        <td>
-          ${alpa}
-        </td>
-
-
-        <td>
-          ${persentase}%
-        </td>
-
-
-        <td>
-          ${badgeHTML}
-        </td>
-
-      `;
-
-
-      tbody.appendChild(
-        tr
-      );
-
-    }
-  );
+  return isNaN(n)
+    ? 0
+    : n;
 
 }
 
@@ -2304,34 +2416,36 @@ function tampilkanTabel(
 
 function escapeHTML(
   text
-) {
+){
 
-  return String(text)
+  return String(
+    text
+  )
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+  .replace(
+    /</g,
+    "&lt;"
+  )
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
+  .replace(
+    />/g,
+    "&gt;"
+  )
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
 
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
