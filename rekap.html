@@ -340,6 +340,7 @@ th{
       placeholder="Masukkan password">
 
     <button
+      type="button"
       onclick="login()">
 
       🔑 LOGIN
@@ -390,6 +391,7 @@ th{
     </div>
 
     <button
+      type="button"
       class="btn-logout"
       onclick="logout()">
 
@@ -447,6 +449,7 @@ th{
       <div>
 
         <button
+          type="button"
           onclick="muatRekap()">
 
           🔄 Tampilkan
@@ -744,7 +747,11 @@ window.addEventListener(
             tersimpan
           );
 
-        bukaAplikasi();
+        if(userLogin){
+
+          bukaAplikasi();
+
+        }
 
       }
       catch(e){
@@ -763,6 +770,9 @@ window.addEventListener(
 
 /************************************************************
  * LOGIN
+ *
+ * HANYA REKAP.HTML YANG DIUBAH.
+ * CODE.GS TIDAK DIUBAH.
  ************************************************************/
 
 async function login(){
@@ -777,22 +787,28 @@ async function login(){
       "password"
     ).value;
 
-  const error =
+  const loginError =
     document.getElementById(
       "loginError"
     );
 
 
-  error.style.display =
+  loginError.style.display =
     "none";
 
+  loginError.textContent =
+    "";
 
-  if(!username || !password){
 
-    error.textContent =
+  if(
+    !username ||
+    !password
+  ){
+
+    loginError.textContent =
       "Username dan password harus diisi.";
 
-    error.style.display =
+    loginError.style.display =
       "block";
 
     return;
@@ -802,21 +818,31 @@ async function login(){
 
   try{
 
+    /*
+     * LOGIN MENGGUNAKAN POST
+     */
+
     const response =
       await fetch(
-        API_URL +
-        "?action=login" +
-        "&username=" +
-        encodeURIComponent(
-          username
-        ) +
-        "&password=" +
-        encodeURIComponent(
-          password
-        ),
+        API_URL,
         {
-          method:"GET",
-          cache:"no-store"
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+
+          body:
+            "action=login" +
+            "&username=" +
+            encodeURIComponent(
+              username
+            ) +
+            "&password=" +
+            encodeURIComponent(
+              password
+            )
         }
       );
 
@@ -831,8 +857,24 @@ async function login(){
     );
 
 
-    const data =
-      JSON.parse(text);
+    let data;
+
+
+    try{
+
+      data =
+        JSON.parse(
+          text
+        );
+
+    }
+    catch(e){
+
+      throw new Error(
+        "Server tidak mengembalikan data login yang valid."
+      );
+
+    }
 
 
     if(
@@ -849,7 +891,7 @@ async function login(){
 
 
     /*
-     * Simpan data user dari GS.
+     * Ambil data user.
      */
 
     userLogin =
@@ -867,6 +909,16 @@ async function login(){
     }
 
 
+    console.log(
+      "USER LOGIN:",
+      userLogin
+    );
+
+
+    /*
+     * Simpan sesi.
+     */
+
     sessionStorage.setItem(
       "rekapUser",
       JSON.stringify(
@@ -875,24 +927,32 @@ async function login(){
     );
 
 
+    /*
+     * Buka aplikasi.
+     */
+
     bukaAplikasi();
 
   }
 
-  catch(error){
+
+  catch(err){
 
     console.error(
       "LOGIN ERROR:",
-      error
+      err
     );
 
 
-    error.textContent =
+    loginError.textContent =
       "❌ " +
-      error.message;
+      (
+        err.message ||
+        "Login gagal."
+      );
 
 
-    error.style.display =
+    loginError.style.display =
       "block";
 
   }
@@ -905,6 +965,13 @@ async function login(){
  ************************************************************/
 
 function bukaAplikasi(){
+
+  if(!userLogin){
+
+    return;
+
+  }
+
 
   document.getElementById(
     "halamanLogin"
@@ -927,13 +994,28 @@ function bukaAplikasi(){
 
 
   /*
-   * Guru piket hanya Admin + Kaprog.
+   * Guru piket:
+   * HANYA ADMIN DAN KAPROG.
    */
 
   const role =
     String(
-      userLogin.role || ""
-    ).toLowerCase();
+      userLogin.role ||
+      ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  const bagianGuru =
+    document.getElementById(
+      "bagianGuruPiket"
+    );
+
+
+  bagianGuru.classList.add(
+    "hidden"
+  );
 
 
   if(
@@ -941,9 +1023,7 @@ function bukaAplikasi(){
     role === "kaprog"
   ){
 
-    document.getElementById(
-      "bagianGuruPiket"
-    ).classList.remove(
+    bagianGuru.classList.remove(
       "hidden"
     );
 
@@ -963,7 +1043,8 @@ function tampilkanIdentitasUser(){
 
   const role =
     String(
-      userLogin.role || ""
+      userLogin.role ||
+      ""
     );
 
 
@@ -978,7 +1059,7 @@ function tampilkanIdentitasUser(){
   const program =
     String(
       userLogin.programKeahlian ||
-      "-"
+      ""
     );
 
 
@@ -1000,7 +1081,8 @@ function tampilkanIdentitasUser(){
   teks +=
     "<br>Role: <strong>" +
     escapeHTML(
-      role
+      role ||
+      "-"
     ) +
     "</strong>";
 
@@ -1055,26 +1137,31 @@ function siapkanKelas(){
 
   const role =
     String(
-      userLogin.role || ""
-    ).toLowerCase();
+      userLogin.role ||
+      ""
+    )
+    .trim()
+    .toLowerCase();
 
 
   const kelasUser =
     String(
-      userLogin.kelas || ""
-    ).trim();
+      userLogin.kelas ||
+      ""
+    )
+    .trim();
 
 
   const programUser =
     String(
-      userLogin.programKeahlian || ""
-    ).trim();
+      userLogin.programKeahlian ||
+      ""
+    )
+    .trim();
 
 
   /*
-   * ========================================================
    * WALI KELAS
-   * ========================================================
    */
 
   if(
@@ -1102,12 +1189,7 @@ function siapkanKelas(){
 
 
   /*
-   * ========================================================
    * KAPROG
-   * ========================================================
-   *
-   * Kelas akan dimuat dari data rekap,
-   * kemudian disaring berdasarkan program.
    */
 
   if(
@@ -1117,10 +1199,10 @@ function siapkanKelas(){
     tambahOption(
       select,
       "",
-      "Semua Kelas " +
+      "Semua Kelas" +
       (
         programUser
-          ? "(" +
+          ? " (" +
             programUser +
             ")"
           : ""
@@ -1133,9 +1215,7 @@ function siapkanKelas(){
 
 
   /*
-   * ========================================================
    * ADMIN
-   * ========================================================
    */
 
   tambahOption(
@@ -1184,6 +1264,13 @@ function tambahOption(
 
 async function muatRekap(){
 
+  if(!userLogin){
+
+    return;
+
+  }
+
+
   const loading =
     document.getElementById(
       "loading"
@@ -1214,26 +1301,31 @@ async function muatRekap(){
 
   const role =
     String(
-      userLogin.role || ""
-    ).toLowerCase();
+      userLogin.role ||
+      ""
+    )
+    .trim()
+    .toLowerCase();
 
 
   const kelasUser =
     String(
-      userLogin.kelas || ""
-    ).trim();
+      userLogin.kelas ||
+      ""
+    )
+    .trim();
 
 
   const programUser =
     String(
-      userLogin.programKeahlian || ""
-    ).trim();
+      userLogin.programKeahlian ||
+      ""
+    )
+    .trim();
 
 
   /*
-   * ========================================================
    * WALI KELAS
-   * ========================================================
    */
 
   if(
@@ -1247,15 +1339,6 @@ async function muatRekap(){
 
   }
 
-
-  /*
-   * ========================================================
-   * KAPROG
-   * ========================================================
-   *
-   * Tidak memilih kelas tertentu:
-   * ambil data program kemudian saring.
-   */
 
   try{
 
@@ -1287,7 +1370,7 @@ async function muatRekap(){
 
 
     /*
-     * Admin boleh mengirim kelas.
+     * ADMIN
      */
 
     if(
@@ -1305,7 +1388,7 @@ async function muatRekap(){
 
 
     /*
-     * Wali kelas harus dibatasi kelasnya.
+     * WALI KELAS
      */
 
     if(
@@ -1340,8 +1423,16 @@ async function muatRekap(){
       await response.text();
 
 
+    console.log(
+      "RESPON REKAP:",
+      text
+    );
+
+
     const data =
-      JSON.parse(text);
+      JSON.parse(
+        text
+      );
 
 
     if(
@@ -1358,16 +1449,14 @@ async function muatRekap(){
 
 
     let hasil =
-      data.data || [];
+      data.data ||
+      [];
 
 
     /*
-     * ========================================================
-     * FILTER TAMBAHAN KAPROG
-     * ========================================================
-     *
-     * Misalnya Kaprog AKL:
-     * hanya melihat kelas yang mengandung AKL.
+     * =====================================================
+     * FILTER KAPROG
+     * =====================================================
      */
 
     if(
@@ -1384,7 +1473,8 @@ async function muatRekap(){
           function(item){
 
             return String(
-              item.kelas || ""
+              item.kelas ||
+              ""
             )
             .toLowerCase()
             .includes(
@@ -1398,8 +1488,7 @@ async function muatRekap(){
 
 
     /*
-     * Untuk Kaprog, isi dropdown kelas
-     * berdasarkan hasil yang sudah difilter.
+     * Isi dropdown kelas Kaprog.
      */
 
     if(
@@ -1410,6 +1499,7 @@ async function muatRekap(){
         hasil,
         programUser
       );
+
 
       const kelasTerpilih =
         document.getElementById(
@@ -1424,7 +1514,8 @@ async function muatRekap(){
             function(item){
 
               return String(
-                item.kelas || ""
+                item.kelas ||
+                ""
               ) ===
               kelasTerpilih;
 
@@ -1442,7 +1533,8 @@ async function muatRekap(){
 
 
     tampilkanRingkasan(
-      data.ringkasan || {},
+      data.ringkasan ||
+      {},
       hasil
     );
 
@@ -1457,7 +1549,8 @@ async function muatRekap(){
 
 
     /*
-     * Guru piket hanya Admin/Kaprog.
+     * Guru piket:
+     * HANYA ADMIN + KAPROG.
      */
 
     if(
@@ -1473,6 +1566,7 @@ async function muatRekap(){
     }
 
   }
+
 
   catch(error){
 
@@ -1510,6 +1604,7 @@ async function muatRekap(){
 
   }
 
+
   finally{
 
     loading.style.display =
@@ -1539,7 +1634,8 @@ function isiKelasKaprog(
     select.value;
 
 
-  const daftar = [];
+  const daftar =
+    [];
 
 
   data.forEach(
@@ -1547,8 +1643,10 @@ function isiKelasKaprog(
 
       const kelas =
         String(
-          item.kelas || ""
-        ).trim();
+          item.kelas ||
+          ""
+        )
+        .trim();
 
 
       if(
@@ -1590,10 +1688,10 @@ function isiKelasKaprog(
   tambahOption(
     select,
     "",
-    "Semua Kelas " +
+    "Semua Kelas" +
     (
       program
-        ? "(" +
+        ? " (" +
           program +
           ")"
         : ""
@@ -1639,14 +1737,28 @@ async function muatRekapGuruPiket(
 
   const role =
     String(
-      userLogin.role || ""
-    ).toLowerCase();
+      userLogin.role ||
+      ""
+    )
+    .trim()
+    .toLowerCase();
 
+
+  /*
+   * KEAMANAN TAMPILAN:
+   * hanya admin dan kaprog.
+   */
 
   if(
     role !== "admin" &&
     role !== "kaprog"
   ){
+
+    document.getElementById(
+      "bagianGuruPiket"
+    ).classList.add(
+      "hidden"
+    );
 
     return;
 
@@ -1696,8 +1808,16 @@ async function muatRekapGuruPiket(
       await response.text();
 
 
+    console.log(
+      "RESPON GURU PIKET:",
+      text
+    );
+
+
     const data =
-      JSON.parse(text);
+      JSON.parse(
+        text
+      );
 
 
     if(
@@ -1714,15 +1834,18 @@ async function muatRekapGuruPiket(
 
 
     tampilkanRingkasanGuru(
-      data.ringkasan || {}
+      data.ringkasan ||
+      {}
     );
 
 
     tampilkanTabelGuru(
-      data.data || []
+      data.data ||
+      []
     );
 
   }
+
 
   catch(error){
 
@@ -1746,7 +1869,11 @@ async function muatRekapGuruPiket(
             color:#991b1b;
           ">
 
-          ❌ Gagal memuat rekap guru piket.
+          ❌ Gagal memuat rekap guru piket.<br><br>
+
+          ${escapeHTML(
+            error.message
+          )}
 
         </td>
 
@@ -1811,6 +1938,35 @@ function tampilkanTabelGuru(
     "";
 
 
+  if(
+    !data ||
+    data.length === 0
+  ){
+
+    tbody.innerHTML = `
+
+      <tr>
+
+        <td
+          colspan="6"
+          style="
+            text-align:center;
+            padding:30px;
+          ">
+
+          Tidak ada data guru piket.
+
+        </td>
+
+      </tr>
+
+    `;
+
+    return;
+
+  }
+
+
   data.forEach(
     function(item,index){
 
@@ -1829,7 +1985,8 @@ function tampilkanTabelGuru(
       const tidakAktif =
         jumlah === 0 ||
         String(
-          item.keterangan || ""
+          item.keterangan ||
+          ""
         )
         .toUpperCase()
         .includes(
@@ -1847,7 +2004,8 @@ function tampilkanTabelGuru(
         Array.isArray(
           item.jadwal
         )
-          ? item.jadwal
+          ?
+            item.jadwal
               .map(
                 function(x){
 
@@ -1858,14 +2016,16 @@ function tampilkanTabelGuru(
                 }
               )
               .join("<br>")
-          : "-";
+          :
+            "-";
 
 
       const tanggal =
         Array.isArray(
           item.tanggalAktif
         )
-          ? item.tanggalAktif
+          ?
+            item.tanggalAktif
               .map(
                 function(x){
 
@@ -1878,7 +2038,8 @@ function tampilkanTabelGuru(
                 }
               )
               .join("<br>")
-          : "-";
+          :
+            "-";
 
 
       tr.innerHTML = `
@@ -1890,7 +2051,8 @@ function tampilkanTabelGuru(
         <td>
           <strong>
             ${escapeHTML(
-              item.nama || "-"
+              item.nama ||
+              "-"
             )}
           </strong>
         </td>
@@ -1991,20 +2153,24 @@ function tampilkanTabel(
           item.hadir
         );
 
+
       const terlambat =
         angka(
           item.terlambat
         );
+
 
       const izin =
         angka(
           item.izin
         );
 
+
       const sakit =
         angka(
           item.sakit
         );
+
 
       const alpa =
         angka(
@@ -2027,6 +2193,7 @@ function tampilkanTabel(
 
       }
 
+
       else if(
         terlambat > 0
       ){
@@ -2037,6 +2204,7 @@ function tampilkanTabel(
         };
 
       }
+
 
       else{
 
@@ -2083,30 +2251,50 @@ function tampilkanTabel(
 
         <td>
           ${escapeHTML(
-            item.nama || "-"
+            item.nama ||
+            "-"
           )}
         </td>
 
         <td>
           ${escapeHTML(
             String(
-              item.nisn || "-"
+              item.nisn ||
+              "-"
             )
           )}
         </td>
 
         <td>
           ${escapeHTML(
-            item.kelas || "-"
+            item.kelas ||
+            "-"
           )}
         </td>
 
-        <td>${hadir}</td>
-        <td>${terlambat}</td>
-        <td>${izin}</td>
-        <td>${sakit}</td>
-        <td>${alpa}</td>
-        <td>${persentase}%</td>
+        <td>
+          ${hadir}
+        </td>
+
+        <td>
+          ${terlambat}
+        </td>
+
+        <td>
+          ${izin}
+        </td>
+
+        <td>
+          ${sakit}
+        </td>
+
+        <td>
+          ${alpa}
+        </td>
+
+        <td>
+          ${persentase}%
+        </td>
 
         <td>
 
@@ -2226,15 +2414,20 @@ function tampilkanInfoFilter(
 
   }
 
+
   else if(
     role === "kaprog"
   ){
 
     teks =
       "Kaprog " +
-      program;
+      (
+        program ||
+        ""
+      );
 
   }
+
 
   else{
 
@@ -2318,7 +2511,9 @@ function formatTanggal(
 ){
 
   if(!value){
+
     return "";
+
   }
 
 
@@ -2326,8 +2521,12 @@ function formatTanggal(
     value.split("-");
 
 
-  if(p.length !== 3){
+  if(
+    p.length !== 3
+  ){
+
     return value;
+
   }
 
 
@@ -2348,7 +2547,8 @@ function formatTanggalAktif(
 
   const text =
     String(
-      value || ""
+      value ||
+      ""
     );
 
 
@@ -2399,7 +2599,8 @@ function angka(
 
   const n =
     Number(
-      value || 0
+      value ||
+      0
     );
 
 
