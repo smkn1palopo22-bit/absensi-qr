@@ -97,6 +97,18 @@ button:hover{
   background:#dc2626;
 }
 
+.btn-guru{
+  background:#7c3aed;
+}
+
+.btn-kembali{
+  background:#475569;
+}
+
+.btn-tampilkan{
+  background:#2563eb;
+}
+
 .error{
   display:none;
   background:#fee2e2;
@@ -112,6 +124,23 @@ button:hover{
   padding:14px;
   border-radius:12px;
   margin-bottom:18px;
+}
+
+.menu-navigasi{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.menu-button{
+  padding:16px;
+  font-size:16px;
+  margin-top:0;
+}
+
+.menu-button.aktif{
+  box-shadow:0 0 0 3px rgba(37,99,235,.18);
 }
 
 .filter{
@@ -260,6 +289,17 @@ th{
   margin-top:6px;
 }
 
+.halaman-judul{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.halaman-judul h2{
+  margin:0;
+}
+
 @media(max-width:800px){
 
   .filter{
@@ -268,6 +308,15 @@ th{
 
   .ringkasan{
     grid-template-columns:1fr 1fr;
+  }
+
+  .menu-navigasi{
+    grid-template-columns:1fr;
+  }
+
+  .halaman-judul{
+    flex-direction:column;
+    align-items:stretch;
   }
 
 }
@@ -358,7 +407,7 @@ th{
 
 
 <!-- =====================================================
-     APLIKASI REKAP
+     APLIKASI
 ===================================================== -->
 
 <div
@@ -366,22 +415,9 @@ th{
   class="container hidden">
 
 
-  <!-- HEADER -->
-
-  <div class="card header">
-
-    <h1>
-      📊 REKAP ABSENSI MURID
-    </h1>
-
-    <p>
-      SMK Negeri 1 Palopo
-    </p>
-
-  </div>
-
-
-  <!-- INFORMASI USER -->
+  <!-- ===================================================
+       INFORMASI USER
+  ==================================================== -->
 
   <div class="card">
 
@@ -402,271 +438,202 @@ th{
   </div>
 
 
-  <!-- FILTER -->
-
-  <div class="card">
-
-    <div class="filter">
-
-      <div>
-
-        <label>
-          Tanggal Awal
-        </label>
-
-        <input
-          type="date"
-          id="tanggalAwal">
-
-      </div>
-
-
-      <div>
-
-        <label>
-          Tanggal Akhir
-        </label>
-
-        <input
-          type="date"
-          id="tanggalAkhir">
-
-      </div>
-
-
-      <div>
-
-        <label>
-          Kelas
-        </label>
-
-        <select id="kelas">
-        </select>
-
-      </div>
-
-
-      <div>
-
-        <button
-          type="button"
-          onclick="muatRekap()">
-
-          🔄 Tampilkan
-
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <div
-      id="infoFilter"
-      class="info">
-    </div>
-
-  </div>
-
-
-  <!-- RINGKASAN -->
-
-  <div class="card">
-
-    <div class="ringkasan">
-
-      <div class="box">
-
-        <div class="judul">
-          👥 Total Murid
-        </div>
-
-        <div
-          id="totalMurid"
-          class="angka">
-
-          0
-
-        </div>
-
-      </div>
-
-
-      <div class="box">
-
-        <div class="judul">
-          🟢 Hadir
-        </div>
-
-        <div
-          id="totalHadir"
-          class="angka">
-
-          0
-
-        </div>
-
-      </div>
-
-
-      <div class="box">
-
-        <div class="judul">
-          🟡 Terlambat
-        </div>
-
-        <div
-          id="totalTerlambat"
-          class="angka">
-
-          0
-
-        </div>
-
-      </div>
-
-
-      <div class="box">
-
-        <div class="judul">
-          🔴 Butuh Perhatian
-        </div>
-
-        <div
-          id="butuhPerhatian"
-          class="angka">
-
-          0
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- TABEL MURID -->
-
-  <div class="card">
-
-    <h2>
-      Daftar Rekap Murid
-    </h2>
-
-    <div
-      id="loading"
-      class="loading">
-
-      Memuat data...
-
-    </div>
-
-    <div class="tabel-container">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>No</th>
-            <th>Nama Murid</th>
-            <th>NISN</th>
-            <th>Kelas</th>
-            <th>Hadir</th>
-            <th>Terlambat</th>
-            <th>Izin</th>
-            <th>Sakit</th>
-            <th>Alpa</th>
-            <th>Persentase</th>
-            <th>Perhatian</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="isiTabel">
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-
-  <!-- =====================================================
-       REKAP GURU PIKET
-       HANYA ADMIN DAN KAPROG
-  ====================================================== -->
+  <!-- ===================================================
+       MENU NAVIGASI
+  ==================================================== -->
 
   <div
-    id="bagianGuruPiket"
-    class="card hidden">
+    id="menuNavigasi"
+    class="card">
 
-    <h2>
-      👨‍🏫 Rekap Kinerja Guru Piket
-    </h2>
+    <div class="menu-navigasi">
 
-    <p
-      style="color:#64748b;">
+      <button
+        id="btnMenuMurid"
+        type="button"
+        class="menu-button btn-tampilkan aktif"
+        onclick="bukaHalamanMurid()">
 
-      Bagian ini hanya dapat dilihat oleh
-      <strong>Admin</strong> dan
-      <strong>Kaprog</strong>.
+        📊 REKAP MURID
 
-    </p>
+      </button>
 
 
-    <div class="guru-ringkasan">
+      <button
+        id="btnMenuGuru"
+        type="button"
+        class="menu-button btn-guru hidden"
+        onclick="bukaHalamanGuruPiket()">
 
-      <div class="guru-box guru-total">
+        👨‍🏫 REKAP GURU PIKET
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       HALAMAN REKAP MURID
+  ==================================================== -->
+
+  <div
+    id="halamanRekapMurid">
+
+
+    <!-- HEADER -->
+
+    <div class="card header">
+
+      <h1>
+        📊 REKAP ABSENSI MURID
+      </h1>
+
+      <p>
+        SMK Negeri 1 Palopo
+      </p>
+
+    </div>
+
+
+    <!-- FILTER MURID -->
+
+    <div class="card">
+
+      <div class="filter">
 
         <div>
-          👥 Total Guru Piket
+
+          <label>
+            Tanggal Awal
+          </label>
+
+          <input
+            type="date"
+            id="tanggalAwal">
+
         </div>
 
-        <div
-          id="totalGuruPiket"
-          class="angka">
 
-          0
+        <div>
+
+          <label>
+            Tanggal Akhir
+          </label>
+
+          <input
+            type="date"
+            id="tanggalAkhir">
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Kelas
+          </label>
+
+          <select id="kelas">
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <button
+            type="button"
+            onclick="muatRekap()">
+
+            🔄 Tampilkan
+
+          </button>
 
         </div>
 
       </div>
 
 
-      <div class="guru-box guru-normal">
-
-        <div>
-          🟢 Pernah Aktif
-        </div>
-
-        <div
-          id="guruNormal"
-          class="angka">
-
-          0
-
-        </div>
-
+      <div
+        id="infoFilter"
+        class="info">
       </div>
 
+    </div>
 
-      <div class="guru-box guru-perhatian">
 
-        <div>
-          🔴 Tidak Pernah Aktif
+    <!-- RINGKASAN MURID -->
+
+    <div class="card">
+
+      <div class="ringkasan">
+
+        <div class="box">
+
+          <div class="judul">
+            👥 Total Murid
+          </div>
+
+          <div
+            id="totalMurid"
+            class="angka">
+
+            0
+
+          </div>
+
         </div>
 
-        <div
-          id="guruButuhPerhatian"
-          class="angka">
 
-          0
+        <div class="box">
+
+          <div class="judul">
+            🟢 Hadir
+          </div>
+
+          <div
+            id="totalHadir"
+            class="angka">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="box">
+
+          <div class="judul">
+            🟡 Terlambat
+          </div>
+
+          <div
+            id="totalTerlambat"
+            class="angka">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="box">
+
+          <div class="judul">
+            🔴 Butuh Perhatian
+          </div>
+
+          <div
+            id="butuhPerhatian"
+            class="angka">
+
+            0
+
+          </div>
 
         </div>
 
@@ -675,31 +642,298 @@ th{
     </div>
 
 
-    <br>
+    <!-- TABEL MURID -->
 
-    <div class="tabel-container">
+    <div class="card">
 
-      <table>
+      <div class="halaman-judul">
 
-        <thead>
+        <h2>
+          Daftar Rekap Murid
+        </h2>
 
-          <tr>
+      </div>
 
-            <th>No</th>
-            <th>Nama Guru</th>
-            <th>Jadwal Piket</th>
-            <th>Jumlah Bertugas</th>
-            <th>Tanggal Aktif</th>
-            <th>Keterangan</th>
+      <div
+        id="loading"
+        class="loading">
 
-          </tr>
+        Memuat data...
 
-        </thead>
+      </div>
 
-        <tbody id="isiTabelGuru">
-        </tbody>
+      <div class="tabel-container">
 
-      </table>
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>No</th>
+              <th>Nama Murid</th>
+              <th>NISN</th>
+              <th>Kelas</th>
+              <th>Hadir</th>
+              <th>Terlambat</th>
+              <th>Izin</th>
+              <th>Sakit</th>
+              <th>Alpa</th>
+              <th>Persentase</th>
+              <th>Perhatian</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="isiTabel">
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       HALAMAN REKAP GURU PIKET
+       HANYA ADMIN DAN KAPROG
+  ==================================================== -->
+
+  <div
+    id="halamanRekapGuru"
+    class="hidden">
+
+
+    <!-- HEADER GURU PIKET -->
+
+    <div class="card header">
+
+      <h1>
+        👨‍🏫 REKAP GURU PIKET
+      </h1>
+
+      <p>
+        SMK Negeri 1 Palopo
+      </p>
+
+    </div>
+
+
+    <!-- KEMBALI -->
+
+    <div class="card">
+
+      <button
+        type="button"
+        class="btn-kembali"
+        onclick="bukaHalamanMurid()">
+
+        ⬅️ Kembali ke Rekap Murid
+
+      </button>
+
+    </div>
+
+
+    <!-- FILTER GURU PIKET -->
+
+    <div class="card">
+
+      <h2>
+        🔎 Filter Rekap Guru Piket
+      </h2>
+
+      <p
+        style="color:#64748b;">
+
+        Tentukan periode tanggal untuk melihat
+        aktivitas guru piket.
+
+      </p>
+
+
+      <div class="filter">
+
+        <div>
+
+          <label>
+            Tanggal Awal
+          </label>
+
+          <input
+            type="date"
+            id="tanggalAwalGuru">
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Tanggal Akhir
+          </label>
+
+          <input
+            type="date"
+            id="tanggalAkhirGuru">
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Status Akses
+          </label>
+
+          <input
+            type="text"
+            value="Admin / Kaprog"
+            readonly>
+
+        </div>
+
+
+        <div>
+
+          <button
+            type="button"
+            onclick="muatRekapGuruPiket()">
+
+            🔄 Tampilkan
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="infoFilterGuru"
+        class="info">
+
+        Rekap guru piket belum dimuat.
+
+      </div>
+
+    </div>
+
+
+    <!-- RINGKASAN GURU -->
+
+    <div class="card">
+
+      <h2>
+        📊 Ringkasan Guru Piket
+      </h2>
+
+      <div class="guru-ringkasan">
+
+        <div class="guru-box guru-total">
+
+          <div>
+            👥 Total Guru Piket
+          </div>
+
+          <div
+            id="totalGuruPiket"
+            class="angka">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="guru-box guru-normal">
+
+          <div>
+            🟢 Pernah Aktif
+          </div>
+
+          <div
+            id="guruNormal"
+            class="angka">
+
+            0
+
+          </div>
+
+        </div>
+
+
+        <div class="guru-box guru-perhatian">
+
+          <div>
+            🔴 Tidak Pernah Aktif
+          </div>
+
+          <div
+            id="guruButuhPerhatian"
+            class="angka">
+
+            0
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- TABEL GURU -->
+
+    <div class="card">
+
+      <div class="halaman-judul">
+
+        <h2>
+          Daftar Rekap Guru Piket
+        </h2>
+
+      </div>
+
+      <div
+        id="loadingGuru"
+        class="loading hidden">
+
+        Memuat rekap guru piket...
+
+      </div>
+
+      <div class="tabel-container">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>No</th>
+              <th>Nama Guru</th>
+              <th>Jadwal Piket</th>
+              <th>Jumlah Bertugas</th>
+              <th>Tanggal Aktif</th>
+              <th>Keterangan</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="isiTabelGuru">
+          </tbody>
+
+        </table>
+
+      </div>
 
     </div>
 
@@ -770,9 +1004,6 @@ window.addEventListener(
 
 /************************************************************
  * LOGIN
- *
- * HANYA REKAP.HTML YANG DIUBAH.
- * CODE.GS TIDAK DIUBAH.
  ************************************************************/
 
 async function login(){
@@ -817,10 +1048,6 @@ async function login(){
 
 
   try{
-
-    /*
-     * LOGIN MENGGUNAKAN POST
-     */
 
     const response =
       await fetch(
@@ -890,10 +1117,6 @@ async function login(){
     }
 
 
-    /*
-     * Ambil data user.
-     */
-
     userLogin =
       data.user ||
       data.data ||
@@ -915,10 +1138,6 @@ async function login(){
     );
 
 
-    /*
-     * Simpan sesi.
-     */
-
     sessionStorage.setItem(
       "rekapUser",
       JSON.stringify(
@@ -926,10 +1145,6 @@ async function login(){
       )
     );
 
-
-    /*
-     * Buka aplikasi.
-     */
 
     bukaAplikasi();
 
@@ -994,8 +1209,8 @@ function bukaAplikasi(){
 
 
   /*
-   * Guru piket:
-   * HANYA ADMIN DAN KAPROG.
+   * HANYA ADMIN DAN KAPROG
+   * yang mendapatkan menu Guru Piket.
    */
 
   const role =
@@ -1007,13 +1222,13 @@ function bukaAplikasi(){
     .toLowerCase();
 
 
-  const bagianGuru =
+  const tombolGuru =
     document.getElementById(
-      "bagianGuruPiket"
+      "btnMenuGuru"
     );
 
 
-  bagianGuru.classList.add(
+  tombolGuru.classList.add(
     "hidden"
   );
 
@@ -1023,14 +1238,132 @@ function bukaAplikasi(){
     role === "kaprog"
   ){
 
-    bagianGuru.classList.remove(
+    tombolGuru.classList.remove(
       "hidden"
     );
 
   }
 
 
+  /*
+   * Selalu mulai dari halaman
+   * Rekap Murid.
+   */
+
+  bukaHalamanMurid();
+
+
+  /*
+   * Muat rekap murid otomatis.
+   */
+
   muatRekap();
+
+}
+
+
+/************************************************************
+ * BUKA HALAMAN REKAP MURID
+ ************************************************************/
+
+function bukaHalamanMurid(){
+
+  document.getElementById(
+    "halamanRekapMurid"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "halamanRekapGuru"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "btnMenuMurid"
+  ).classList.add(
+    "aktif"
+  );
+
+
+  document.getElementById(
+    "btnMenuGuru"
+  ).classList.remove(
+    "aktif"
+  );
+
+}
+
+
+/************************************************************
+ * BUKA HALAMAN REKAP GURU PIKET
+ ************************************************************/
+
+function bukaHalamanGuruPiket(){
+
+  const role =
+    String(
+      userLogin?.role ||
+      ""
+    )
+    .trim()
+    .toLowerCase();
+
+
+  /*
+   * Keamanan tampilan.
+   */
+
+  if(
+    role !== "admin" &&
+    role !== "kaprog"
+  ){
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "halamanRekapMurid"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "halamanRekapGuru"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "btnMenuMurid"
+  ).classList.remove(
+    "aktif"
+  );
+
+
+  document.getElementById(
+    "btnMenuGuru"
+  ).classList.add(
+    "aktif"
+  );
+
+
+  /*
+   * Guru piket TIDAK dimuat otomatis
+   * sebelum tombol halaman diklik.
+   *
+   * Karena halaman baru saja dibuka,
+   * kita langsung tampilkan datanya.
+   */
+
+  muatRekapGuruPiket();
 
 }
 
@@ -1259,7 +1592,7 @@ function tambahOption(
 
 
 /************************************************************
- * MUAT REKAP
+ * MUAT REKAP MURID
  ************************************************************/
 
 async function muatRekap(){
@@ -1547,24 +1880,6 @@ async function muatRekap(){
       programUser
     );
 
-
-    /*
-     * Guru piket:
-     * HANYA ADMIN + KAPROG.
-     */
-
-    if(
-      role === "admin" ||
-      role === "kaprog"
-    ){
-
-      await muatRekapGuruPiket(
-        tanggalAwal,
-        tanggalAkhir
-      );
-
-    }
-
   }
 
 
@@ -1730,10 +2045,14 @@ function isiKelasKaprog(
  * REKAP GURU PIKET
  ************************************************************/
 
-async function muatRekapGuruPiket(
-  tanggalAwal,
-  tanggalAkhir
-){
+async function muatRekapGuruPiket(){
+
+  if(!userLogin){
+
+    return;
+
+  }
+
 
   const role =
     String(
@@ -1745,8 +2064,8 @@ async function muatRekapGuruPiket(
 
 
   /*
-   * KEAMANAN TAMPILAN:
-   * hanya admin dan kaprog.
+   * KEAMANAN:
+   * Hanya ADMIN dan KAPROG.
    */
 
   if(
@@ -1754,15 +2073,32 @@ async function muatRekapGuruPiket(
     role !== "kaprog"
   ){
 
-    document.getElementById(
-      "bagianGuruPiket"
-    ).classList.add(
-      "hidden"
-    );
-
     return;
 
   }
+
+
+  const loading =
+    document.getElementById(
+      "loadingGuru"
+    );
+
+
+  loading.classList.remove(
+    "hidden"
+  );
+
+
+  const tanggalAwal =
+    document.getElementById(
+      "tanggalAwalGuru"
+    ).value;
+
+
+  const tanggalAkhir =
+    document.getElementById(
+      "tanggalAkhirGuru"
+    ).value;
 
 
   try{
@@ -1844,6 +2180,13 @@ async function muatRekapGuruPiket(
       []
     );
 
+
+    tampilkanInfoFilterGuru(
+      tanggalAwal,
+      tanggalAkhir,
+      role
+    );
+
   }
 
 
@@ -1882,6 +2225,77 @@ async function muatRekapGuruPiket(
     `;
 
   }
+
+
+  finally{
+
+    loading.classList.add(
+      "hidden"
+    );
+
+  }
+
+}
+
+
+/************************************************************
+ * INFO FILTER GURU PIKET
+ ************************************************************/
+
+function tampilkanInfoFilterGuru(
+  awal,
+  akhir,
+  role
+){
+
+  let teks =
+    role === "kaprog"
+      ? "Kaprog"
+      : "Admin";
+
+
+  if(
+    awal ||
+    akhir
+  ){
+
+    teks +=
+      " | ";
+
+
+    if(awal){
+
+      teks +=
+        formatTanggal(
+          awal
+        );
+
+    }
+
+
+    if(akhir){
+
+      teks +=
+        " - " +
+        formatTanggal(
+          akhir
+        );
+
+    }
+
+  }
+  else{
+
+    teks +=
+      " | Seluruh periode";
+
+  }
+
+
+  document.getElementById(
+    "infoFilterGuru"
+  ).textContent =
+    teks;
 
 }
 
@@ -2328,7 +2742,7 @@ function tampilkanTabel(
 
 
 /************************************************************
- * RINGKASAN
+ * RINGKASAN MURID
  ************************************************************/
 
 function tampilkanRingkasan(
@@ -2390,7 +2804,7 @@ function tampilkanRingkasan(
 
 
 /************************************************************
- * INFO FILTER
+ * INFO FILTER MURID
  ************************************************************/
 
 function tampilkanInfoFilter(
@@ -2540,6 +2954,10 @@ function formatTanggal(
 
 }
 
+
+/************************************************************
+ * FORMAT TANGGAL AKTIF
+ ************************************************************/
 
 function formatTanggalAktif(
   value
