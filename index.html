@@ -1717,14 +1717,10 @@ function escapeHTML(text) {
 async function cariSiswaNISN() {
 
   const input =
-    document.getElementById(
-      "inputNISN"
-    );
+    document.getElementById("inputNISN");
 
   const hasil =
-    document.getElementById(
-      "hasilPencarianNISN"
-    );
+    document.getElementById("hasilPencarianNISN");
 
 
   if (!input || !hasil) {
@@ -1737,6 +1733,492 @@ async function cariSiswaNISN() {
 
   }
 
+
+  const nisn =
+    String(
+      input.value || ""
+    ).trim();
+
+
+  if (!nisn) {
+
+    hasil.style.display = "block";
+
+    hasil.style.background = "#fef3c7";
+
+    hasil.style.color = "#92400e";
+
+    hasil.innerHTML =
+      "⚠️ Silakan masukkan NISN terlebih dahulu.";
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  /* ==================================================
+     CEK GURU PIKET
+  ================================================== */
+
+  const guruPiketElement =
+    document.getElementById("guruPiket");
+
+  const guruPiket =
+    guruPiketElement
+      ? String(
+          guruPiketElement.value || ""
+        ).trim()
+      : "";
+
+
+  if (!guruPiket) {
+
+    hasil.style.display = "block";
+
+    hasil.style.background = "#fef3c7";
+
+    hasil.style.color = "#92400e";
+
+    hasil.innerHTML =
+      "⚠️ Silakan pilih guru piket terlebih dahulu.";
+
+    guruPiketElement.focus();
+
+    return;
+
+  }
+
+
+  /* ==================================================
+     TAMPILKAN STATUS MENCARI
+  ================================================== */
+
+  hasil.style.display = "block";
+
+  hasil.style.background = "#f8fafc";
+
+  hasil.style.color = "#1e293b";
+
+  hasil.innerHTML =
+    "⏳ Mencari data siswa...";
+
+
+  try {
+
+    /* ==================================================
+       1. CARI SISWA BERDASARKAN NISN
+    ================================================== */
+
+    const responseCari =
+      await fetch(
+        API_URL +
+        "?action=cari_siswa&nisn=" +
+        encodeURIComponent(nisn)
+      );
+
+
+    if (!responseCari.ok) {
+
+      throw new Error(
+        "Server HTTP " +
+        responseCari.status
+      );
+
+    }
+
+
+    const dataCari =
+      await responseCari.json();
+
+
+    console.log(
+      "HASIL CARI NISN:",
+      dataCari
+    );
+
+
+    if (
+      !dataCari ||
+      dataCari.status !== "success"
+    ) {
+
+      hasil.style.background =
+        "#fee2e2";
+
+      hasil.style.color =
+        "#991b1b";
+
+      hasil.innerHTML =
+        "❌ " +
+        escapeHTML(
+          dataCari &&
+          dataCari.message
+            ? dataCari.message
+            : "Siswa tidak ditemukan."
+        );
+
+      return;
+
+    }
+
+
+    const murid =
+      dataCari.data || {};
+
+
+    /* ==================================================
+       2. TAMPILKAN IDENTITAS SISWA
+    ================================================== */
+
+    hasil.style.background =
+      "#dcfce7";
+
+    hasil.style.color =
+      "#166534";
+
+    hasil.innerHTML =
+
+      "<strong style='font-size:19px;'>" +
+
+      escapeHTML(
+        murid.nama || "-"
+      ) +
+
+      "</strong>" +
+
+      "<br>NISN: " +
+
+      escapeHTML(
+        String(
+          murid.nisn || "-"
+        )
+      ) +
+
+      "<br>Kelas: " +
+
+      escapeHTML(
+        murid.kelas || "-"
+      ) +
+
+      "<br>Program Keahlian: " +
+
+      escapeHTML(
+        murid.programKeahlian || "-"
+      ) +
+
+      "<br><br>⏳ Menyimpan absensi...";
+
+
+    /* ==================================================
+       3. SIMPAN ABSENSI
+    ================================================== */
+
+    const payload = {
+
+      action:
+        "simpan_absensi_nisn",
+
+      nisn:
+        String(
+          murid.nisn || nisn
+        ).trim(),
+
+      guruPiket:
+        guruPiket
+
+    };
+
+
+    console.log(
+      "POST ABSENSI NISN:",
+      payload
+    );
+
+
+    const responseAbsensi =
+      await fetch(
+        API_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
+
+
+    if (!responseAbsensi.ok) {
+
+      throw new Error(
+        "Server HTTP " +
+        responseAbsensi.status
+      );
+
+    }
+
+
+    const dataAbsensi =
+      await responseAbsensi.json();
+
+
+    console.log(
+      "RESPONS ABSENSI NISN:",
+      dataAbsensi
+    );
+
+
+    /* ==================================================
+       4. ABSENSI BERHASIL
+    ================================================== */
+
+    if (
+      dataAbsensi &&
+      dataAbsensi.status === "success"
+    ) {
+
+      jumlahBerhasil++;
+
+      document.getElementById(
+        "jumlahBerhasil"
+      ).textContent =
+        jumlahBerhasil;
+
+
+      hasil.style.background =
+        "#dcfce7";
+
+      hasil.style.color =
+        "#166534";
+
+
+      hasil.innerHTML =
+
+        "<strong style='font-size:20px;'>" +
+
+        "✅ ABSENSI BERHASIL" +
+
+        "</strong>" +
+
+        "<br><br>" +
+
+        "<strong>" +
+
+        escapeHTML(
+          dataAbsensi.murid &&
+          dataAbsensi.murid.nama
+            ? dataAbsensi.murid.nama
+            : murid.nama
+        ) +
+
+        "</strong>" +
+
+        "<br>NISN: " +
+
+        escapeHTML(
+          String(
+            dataAbsensi.murid &&
+            dataAbsensi.murid.nisn
+              ? dataAbsensi.murid.nisn
+              : murid.nisn
+          )
+        ) +
+
+        "<br>Kelas: " +
+
+        escapeHTML(
+          dataAbsensi.murid &&
+          dataAbsensi.murid.kelas
+            ? dataAbsensi.murid.kelas
+            : murid.kelas
+        ) +
+
+        "<br>Jam: " +
+
+        escapeHTML(
+          dataAbsensi.jam || "-"
+        ) +
+
+        "<br>Guru Piket: " +
+
+        escapeHTML(
+          dataAbsensi.guruPiket ||
+          guruPiket
+        ) +
+
+        "<br>Status: <strong>" +
+
+        escapeHTML(
+          dataAbsensi.statusAbsensi ||
+          "Hadir"
+        ) +
+
+        "</strong>";
+
+
+      tampilkanNotifikasi(
+        "✅ ABSENSI BERHASIL — " +
+        (murid.nama || ""),
+        "berhasil"
+      );
+
+
+      bunyiBerhasil();
+
+
+      /* Bersihkan input */
+
+      input.value = "";
+
+
+      return;
+
+    }
+
+
+    /* ==================================================
+       5. SUDAH ABSEN
+    ================================================== */
+
+    if (
+      dataAbsensi &&
+      dataAbsensi.status === "warning"
+    ) {
+
+      jumlahSudah++;
+
+      document.getElementById(
+        "jumlahSudah"
+      ).textContent =
+        jumlahSudah;
+
+
+      hasil.style.background =
+        "#fef3c7";
+
+      hasil.style.color =
+        "#92400e";
+
+
+      hasil.innerHTML =
+
+        "<strong style='font-size:19px;'>" +
+
+        "⚠️ SUDAH ABSEN" +
+
+        "</strong>" +
+
+        "<br><br>" +
+
+        escapeHTML(
+          dataAbsensi.message ||
+          "Murid sudah melakukan absensi hari ini."
+        ) +
+
+        (
+          dataAbsensi.jam
+            ? "<br>Jam: " +
+              escapeHTML(
+                dataAbsensi.jam
+              )
+            : ""
+        );
+
+
+      tampilkanNotifikasi(
+        "⚠️ " +
+        (
+          dataAbsensi.message ||
+          "Murid sudah absen hari ini."
+        ),
+        "warning"
+      );
+
+
+      return;
+
+    }
+
+
+    /* ==================================================
+       6. ABSENSI GAGAL
+    ================================================== */
+
+    hasil.style.background =
+      "#fee2e2";
+
+    hasil.style.color =
+      "#991b1b";
+
+
+    hasil.innerHTML =
+
+      "❌ " +
+
+      escapeHTML(
+        dataAbsensi &&
+        dataAbsensi.message
+          ? dataAbsensi.message
+          : "Absensi gagal disimpan."
+      );
+
+
+    tampilkanNotifikasi(
+      "❌ Absensi gagal.",
+      "error"
+    );
+
+
+  }
+
+  catch(error) {
+
+    console.error(
+      "ABSENSI NISN ERROR:",
+      error
+    );
+
+
+    hasil.style.display =
+      "block";
+
+    hasil.style.background =
+      "#fee2e2";
+
+    hasil.style.color =
+      "#991b1b";
+
+
+    hasil.innerHTML =
+
+      "❌ Gagal menghubungi server." +
+
+      "<br><small>" +
+
+      escapeHTML(
+        error.message ||
+        "Periksa koneksi internet."
+      ) +
+
+      "</small>";
+
+
+    tampilkanNotifikasi(
+      "❌ Koneksi ke server gagal.",
+      "error"
+    );
+
+  }
+
+}
 
   const nisn =
     String(
