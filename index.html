@@ -238,7 +238,55 @@
       color: white;
     }
 
+    /* =====================================================
+       PENCARIAN NISN
+    ===================================================== */
+
+    .nisn-title {
+      font-weight: bold;
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .nisn-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    #inputNISN {
+      flex: 1;
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    #inputNISN:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37,99,235,.12);
+    }
+
+    .btn-cari-nisn {
+      width: auto;
+      margin-top: 0;
+      padding: 13px 16px;
+      background: #2563eb;
+      color: white;
+      white-space: nowrap;
+    }
+
+    #hasilPencarianNISN {
+      display: none;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 10px;
+      line-height: 1.7;
+    }
+
     @media (max-width: 480px) {
+
       .container {
         padding: 10px;
       }
@@ -253,6 +301,15 @@
 
       .info {
         gap: 7px;
+      }
+
+      .nisn-row {
+        flex-direction: column;
+      }
+
+      .btn-cari-nisn {
+        width: 100%;
+        margin-top: 8px;
       }
     }
   </style>
@@ -384,6 +441,43 @@
 
     </div>
 
+
+    <!-- ===================================================
+         PENCARIAN SISWA BERDASARKAN NISN
+    ==================================================== -->
+
+    <div class="card">
+
+      <div class="nisn-title">
+        🔎 Cari Siswa Berdasarkan NISN
+      </div>
+
+      <div class="nisn-row">
+
+        <input
+          type="text"
+          id="inputNISN"
+          inputmode="numeric"
+          maxlength="20"
+          placeholder="Masukkan NISN siswa"
+          autocomplete="off"
+        >
+
+        <button
+          type="button"
+          class="btn-cari-nisn"
+          onclick="cariSiswaNISN()">
+          🔎 Cari
+        </button>
+
+      </div>
+
+      <div
+        id="hasilPencarianNISN">
+      </div>
+
+    </div>
+
   </div>
 
 
@@ -393,9 +487,7 @@
  * ==========================================================
  * KONFIGURASI
  * ==========================================================
- *
- * URL INI HARUS SAMA DENGAN WEB APP APPS SCRIPT
- ************************************************************/
+ */
 
 const API_URL =
   "https://script.google.com/macros/s/AKfycbzV1PeyqDcgfj7SysWZUN_MKGFFWkmtoi9rB_Bw8PsRXrKHnJRZRYzjMpMcTXHDEljb/exec";
@@ -433,6 +525,31 @@ window.addEventListener(
     muatStatus();
 
     muatGuruPiket();
+
+    /*
+     * Pastikan pencarian NISN siap digunakan
+     */
+    const inputNISN =
+      document.getElementById("inputNISN");
+
+    if (inputNISN) {
+
+      inputNISN.addEventListener(
+        "keydown",
+        function(event) {
+
+          if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            cariSiswaNISN();
+
+          }
+
+        }
+      );
+
+    }
 
   }
 );
@@ -858,10 +975,6 @@ async function ketikaQRTerbaca(qr) {
     Date.now();
 
 
-  /*
-   * QR yang sama dalam 3 detik diabaikan.
-   */
-
   if (
     qr === qrTerakhir &&
     (
@@ -875,10 +988,6 @@ async function ketikaQRTerbaca(qr) {
 
   }
 
-
-  /*
-   * Jangan proses dua QR sekaligus.
-   */
 
   if (
     sedangMemproses
@@ -925,20 +1034,6 @@ async function ketikaQRTerbaca(qr) {
 
 
   try {
-
-    /*
-     * ======================================================
-     * POST KE GOOGLE APPS SCRIPT
-     * ======================================================
-     *
-     * Code.gs menerima:
-     *
-     * action = simpan_absensi
-     * qr
-     * guruPiket
-     *
-     * Kita kirim JSON secara langsung.
-     */
 
     const payload = {
 
@@ -1068,10 +1163,6 @@ function prosesHasilScan(
   );
 
 
-  /*
-   * BERHASIL
-   */
-
   if (
     data.status ===
     "success"
@@ -1156,13 +1247,6 @@ function prosesHasilScan(
 
   }
 
-
-  /*
-   * ERROR
-   *
-   * Code.gs menggunakan:
-   * status = error
-   */
 
   bunyiGagal();
 
@@ -1623,89 +1707,36 @@ function escapeHTML(text) {
 
 }
 
-</script>
 
-<!-- =====================================================
-     PENCARIAN SISWA BERDASARKAN NISN
-     Tambahkan tepat sebelum </body>
-===================================================== -->
-
-<div class="card" style="margin-top:15px;">
-
-  <div style="
-    font-weight:bold;
-    font-size:17px;
-    margin-bottom:10px;
-  ">
-    🔎 Cari Siswa Berdasarkan NISN
-  </div>
-
-  <div style="
-    display:flex;
-    gap:8px;
-  ">
-
-    <input
-      type="text"
-      id="inputNISN"
-      inputmode="numeric"
-      maxlength="20"
-      placeholder="Masukkan NISN siswa"
-      style="
-        flex:1;
-        padding:13px;
-        border:1px solid #cbd5e1;
-        border-radius:10px;
-        font-size:16px;
-      "
-    >
-
-    <button
-      type="button"
-      onclick="cariSiswaNISN()"
-      style="
-        width:auto;
-        margin-top:0;
-        padding:13px 16px;
-        background:#2563eb;
-        color:white;
-      "
-    >
-      🔎 Cari
-    </button>
-
-  </div>
-
-  <div
-    id="hasilPencarianNISN"
-    style="
-      display:none;
-      margin-top:12px;
-      padding:14px;
-      border-radius:10px;
-      background:#f8fafc;
-      line-height:1.7;
-    "
-  ></div>
-
-</div>
-
-
-<script>
-
-/* =====================================================
-   CARI SISWA BERDASARKAN NISN
-===================================================== */
+/************************************************************
+ * ==========================================================
+ * PENCARIAN SISWA BERDASARKAN NISN
+ * ==========================================================
+ */
 
 async function cariSiswaNISN() {
 
   const input =
-    document.getElementById("inputNISN");
+    document.getElementById(
+      "inputNISN"
+    );
 
   const hasil =
     document.getElementById(
       "hasilPencarianNISN"
     );
+
+
+  if (!input || !hasil) {
+
+    console.error(
+      "Elemen pencarian NISN tidak ditemukan."
+    );
+
+    return;
+
+  }
+
 
   const nisn =
     String(
@@ -1715,24 +1746,31 @@ async function cariSiswaNISN() {
 
   if (!nisn) {
 
-    hasil.style.display = "block";
+    hasil.style.display =
+      "block";
 
-    hasil.style.background = "#fef3c7";
+    hasil.style.background =
+      "#fef3c7";
 
-    hasil.style.color = "#92400e";
+    hasil.style.color =
+      "#92400e";
 
     hasil.innerHTML =
       "⚠️ Silakan masukkan NISN terlebih dahulu.";
 
     return;
+
   }
 
 
-  hasil.style.display = "block";
+  hasil.style.display =
+    "block";
 
-  hasil.style.background = "#f8fafc";
+  hasil.style.background =
+    "#f8fafc";
 
-  hasil.style.color = "#1e293b";
+  hasil.style.color =
+    "#1e293b";
 
   hasil.innerHTML =
     "⏳ Mencari data siswa...";
@@ -1744,8 +1782,20 @@ async function cariSiswaNISN() {
       await fetch(
         API_URL +
         "?action=cari_siswa&nisn=" +
-        encodeURIComponent(nisn)
+        encodeURIComponent(
+          nisn
+        )
       );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Server HTTP " +
+        response.status
+      );
+
+    }
 
 
     const data =
@@ -1772,17 +1822,20 @@ async function cariSiswaNISN() {
       hasil.innerHTML =
         "❌ " +
         escapeHTML(
-          data && data.message
+          data &&
+          data.message
             ? data.message
             : "Siswa dengan NISN tersebut tidak ditemukan."
         );
 
       return;
+
     }
 
 
     const murid =
-      data.data || {};
+      data.data ||
+      {};
 
 
     hasil.style.background =
@@ -1795,26 +1848,32 @@ async function cariSiswaNISN() {
     hasil.innerHTML =
 
       "<strong style='font-size:19px;'>" +
+
       escapeHTML(
         murid.nama || "-"
       ) +
+
       "</strong>" +
 
       "<br>NISN: " +
+
       escapeHTML(
-        murid.nisn || "-"
+        String(
+          murid.nisn || "-"
+        )
       ) +
 
       "<br>Kelas: " +
+
       escapeHTML(
         murid.kelas || "-"
       ) +
 
       "<br>Program Keahlian: " +
+
       escapeHTML(
         murid.programKeahlian || "-"
       );
-
 
   }
 
@@ -1839,29 +1898,7 @@ async function cariSiswaNISN() {
 
 }
 
-
-/* =====================================================
-   ENTER UNTUK MENCARI
-===================================================== */
-
-document
-  .getElementById("inputNISN")
-  .addEventListener(
-    "keydown",
-    function(event) {
-
-      if (
-        event.key === "Enter"
-      ) {
-
-        cariSiswaNISN();
-
-      }
-
-    }
-  );
-
 </script>
-  
+
 </body>
 </html>
