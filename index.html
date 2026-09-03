@@ -108,6 +108,56 @@
       border-radius: 12px;
     }
 
+    /* =====================================================
+       INDIKATOR SCAN CEPAT
+    ===================================================== */
+
+    .indikator-scan {
+      margin-top: 12px;
+      padding: 18px 10px;
+      border-radius: 14px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      transition: all 0.15s ease;
+      border: 3px solid transparent;
+    }
+
+    .indikator-scan.siap {
+      background: #dbeafe;
+      color: #1d4ed8;
+      border-color: #60a5fa;
+    }
+
+    .indikator-scan.berhasil {
+      background: #16a34a;
+      color: white;
+      border-color: #15803d;
+      transform: scale(1.02);
+    }
+
+    .indikator-scan.warning {
+      background: #fef3c7;
+      color: #92400e;
+      border-color: #f59e0b;
+    }
+
+    .indikator-scan.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #ef4444;
+    }
+
+    .status-antrean {
+      margin-top: 8px;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #475569;
+      min-height: 34px;
+    }
+
     .scanner-status {
       text-align: center;
       margin-top: 10px;
@@ -198,7 +248,10 @@
       opacity: .8;
     }
 
-    /* NOTIFIKASI */
+    /* =====================================================
+       NOTIFIKASI
+    ===================================================== */
+
     #notifikasi {
       position: fixed;
       top: 15px;
@@ -311,18 +364,31 @@
         width: 100%;
         margin-top: 8px;
       }
+
+      .indikator-scan {
+        font-size: 25px;
+        padding: 16px 8px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- NOTIFIKASI -->
+  <!-- =====================================================
+       NOTIFIKASI
+  ====================================================== -->
+
   <div id="notifikasi"></div>
+
 
   <div class="container">
 
-    <!-- HEADER / STATUS -->
+
+    <!-- ===================================================
+         HEADER / STATUS
+    ==================================================== -->
+
     <div class="card">
 
       <h1>📷 Absensi QR Murid</h1>
@@ -358,7 +424,10 @@
     </div>
 
 
-    <!-- GURU PIKET -->
+    <!-- ===================================================
+         GURU PIKET
+    ==================================================== -->
+
     <div class="card">
 
       <span class="guru-title">
@@ -382,36 +451,77 @@
     </div>
 
 
-    <!-- SCANNER -->
+    <!-- ===================================================
+         SCANNER
+    ==================================================== -->
+
     <div class="card">
 
       <div id="reader"></div>
 
+
+      <!-- INDIKATOR CEPAT -->
+
+      <div
+        id="indikatorScan"
+        class="indikator-scan siap">
+
+        <span id="indikatorIcon">📷</span>
+
+        <span id="indikatorText">
+          SIAP SCAN
+        </span>
+
+      </div>
+
+
+      <!-- STATUS ANTREAN -->
+
+      <div
+        id="statusAntrean"
+        class="status-antrean">
+
+        ☁️ Semua data tersimpan
+
+      </div>
+
+
       <div
         id="scannerStatus"
         class="scanner-status">
+
         Kamera belum dimulai.
+
       </div>
+
 
       <button
         id="btnStart"
         class="btn-start"
         onclick="mulaiScanner()">
+
         📷 Mulai Kamera
+
       </button>
+
 
       <button
         id="btnStop"
         class="btn-stop"
         onclick="hentikanScanner()"
         style="display:none;">
+
         ⏹ Hentikan Kamera
+
       </button>
 
     </div>
 
 
-    <!-- HASIL SCAN -->
+    <!-- ===================================================
+         HASIL SCAN
+    ==================================================== -->
+
     <div
       id="hasil"
       class="result">
@@ -426,7 +536,10 @@
     </div>
 
 
-    <!-- COUNTER -->
+    <!-- ===================================================
+         COUNTER
+    ==================================================== -->
+
     <div class="card">
 
       <div class="counter">
@@ -467,7 +580,9 @@
           type="button"
           class="btn-cari-nisn"
           onclick="cariSiswaNISN()">
+
           ✅ Absen dengan NISN
+
         </button>
 
       </div>
@@ -494,14 +609,14 @@ const API_URL =
 
 
 /************************************************************
- * VARIABEL
- ************************************************************/
+ * ==========================================================
+ * VARIABEL SCANNER
+ * ==========================================================
+ */
 
 let scanner = null;
 
 let scannerAktif = false;
-
-let sedangMemproses = false;
 
 let jumlahBerhasil = 0;
 
@@ -509,14 +624,75 @@ let qrTerakhir = "";
 
 let waktuScanTerakhir = 0;
 
-const JEDA_QR_SAMA = 3000;
+
+/*
+ * Jeda untuk mencegah kamera membaca QR yang sama
+ * berulang-ulang ketika QR masih berada di depan kamera.
+ */
+
+const JEDA_QR_SAMA = 2500;
+
+
+/************************************************************
+ * ==========================================================
+ * SISTEM ANTREAN
+ * ==========================================================
+ */
+
+
+/*
+ * Kunci penyimpanan antrean di browser.
+ */
+
+const STORAGE_KEY =
+  "antrian_absensi_qr_v1";
+
+
+/*
+ * Semua QR yang belum mendapatkan hasil final
+ * dari server berada di sini.
+ */
+
+let antreanAbsensi = [];
+
+
+/*
+ * Mencegah dua proses pengiriman berjalan
+ * secara bersamaan.
+ */
+
+let pengirimanBerjalan = false;
+
+
+/*
+ * Menyimpan QR yang sedang berada dalam antrean.
+ */
+
+let qrDalamAntrean =
+  new Set();
+
+
+/*
+ * Timer notifikasi lama tetap dipertahankan.
+ */
 
 let timerNotifikasi = null;
 
 
+/*
+ * Counter NISN lama.
+ * Ditambahkan supaya fungsi NISN warning
+ * tidak menghasilkan ReferenceError.
+ */
+
+let jumlahSudah = 0;
+
+
 /************************************************************
+ * ==========================================================
  * SAAT HALAMAN DIBUKA
- ************************************************************/
+ * ==========================================================
+ */
 
 window.addEventListener(
   "load",
@@ -526,11 +702,40 @@ window.addEventListener(
 
     muatGuruPiket();
 
+
     /*
-     * Pastikan pencarian NISN siap digunakan
+     * Muat antrean yang mungkin masih tersisa
+     * dari penggunaan sebelumnya.
      */
+
+    const penyimpananSiap =
+      muatAntreanLokal();
+
+
+    perbaruiStatusAntrean();
+
+
+    /*
+     * Jika penyimpanan tersedia,
+     * coba kirim antrean yang tersisa.
+     */
+
+    if (penyimpananSiap) {
+
+      prosesAntreanAbsensi();
+
+    }
+
+
+    /*
+     * Pastikan pencarian NISN siap digunakan.
+     */
+
     const inputNISN =
-      document.getElementById("inputNISN");
+      document.getElementById(
+        "inputNISN"
+      );
+
 
     if (inputNISN) {
 
@@ -538,7 +743,9 @@ window.addEventListener(
         "keydown",
         function(event) {
 
-          if (event.key === "Enter") {
+          if (
+            event.key === "Enter"
+          ) {
 
             event.preventDefault();
 
@@ -556,8 +763,378 @@ window.addEventListener(
 
 
 /************************************************************
- * AMBIL STATUS HARI INI
+ * ==========================================================
+ * PENYIMPANAN ANTREAN
+ * ==========================================================
+ */
+
+
+/*
+ * Memuat antrean dari localStorage.
+ */
+
+function muatAntreanLokal() {
+
+  try {
+
+    const data =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+
+    if (!data) {
+
+      antreanAbsensi = [];
+
+      qrDalamAntrean =
+        new Set();
+
+      return true;
+
+    }
+
+
+    const hasil =
+      JSON.parse(data);
+
+
+    if (
+      Array.isArray(hasil)
+    ) {
+
+      antreanAbsensi =
+        hasil;
+
+      qrDalamAntrean =
+        new Set(
+          hasil.map(
+            function(item) {
+
+              return item.qr;
+
+            }
+          )
+        );
+
+    }
+
+    else {
+
+      antreanAbsensi = [];
+
+      qrDalamAntrean =
+        new Set();
+
+    }
+
+
+    return true;
+
+  }
+
+  catch(error) {
+
+    console.error(
+      "Penyimpanan lokal tidak dapat digunakan:",
+      error
+    );
+
+
+    antreanAbsensi = [];
+
+    qrDalamAntrean =
+      new Set();
+
+
+    tampilkanStatusPenyimpananGagal();
+
+
+    return false;
+
+  }
+
+}
+
+
+/************************************************************
+ * SIMPAN ANTREAN KE HP
  ************************************************************/
+
+function simpanAntreanLokal() {
+
+  try {
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(
+        antreanAbsensi
+      )
+    );
+
+
+    return true;
+
+  }
+
+  catch(error) {
+
+    console.error(
+      "Gagal menyimpan antrean:",
+      error
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/************************************************************
+ * TAMPILKAN STATUS ANTREAN
+ ************************************************************/
+
+function perbaruiStatusAntrean() {
+
+  const el =
+    document.getElementById(
+      "statusAntrean"
+    );
+
+
+  if (!el) {
+
+    return;
+
+  }
+
+
+  if (
+    antreanAbsensi.length === 0
+  ) {
+
+    el.textContent =
+      "☁️ Semua data tersimpan";
+
+  }
+
+  else {
+
+    el.textContent =
+      "☁️ " +
+      antreanAbsensi.length +
+      " data sedang dikirim...";
+
+  }
+
+}
+
+
+/************************************************************
+ * STATUS PENYIMPANAN GAGAL
+ ************************************************************/
+
+function tampilkanStatusPenyimpananGagal() {
+
+  const el =
+    document.getElementById(
+      "statusAntrean"
+    );
+
+
+  if (!el) {
+
+    return;
+
+  }
+
+
+  el.textContent =
+    "⚠️ Penyimpanan HP tidak tersedia";
+
+}
+
+
+/************************************************************
+ * ==========================================================
+ * INDIKATOR SCANNER
+ * ==========================================================
+ */
+
+
+/************************************************************
+ * TAMPILKAN INDIKATOR
+ ************************************************************/
+
+function tampilkanIndikator(
+  jenis,
+  icon,
+  teks
+) {
+
+  const indikator =
+    document.getElementById(
+      "indikatorScan"
+    );
+
+
+  const iconEl =
+    document.getElementById(
+      "indikatorIcon"
+    );
+
+
+  const textEl =
+    document.getElementById(
+      "indikatorText"
+    );
+
+
+  if (
+    !indikator ||
+    !iconEl ||
+    !textEl
+  ) {
+
+    return;
+
+  }
+
+
+  indikator.className =
+    "indikator-scan " +
+    jenis;
+
+
+  iconEl.textContent =
+    icon;
+
+
+  textEl.textContent =
+    teks;
+
+}
+
+
+/************************************************************
+ * SIAP SCAN
+ ************************************************************/
+
+function indikatorSiapScan() {
+
+  tampilkanIndikator(
+    "siap",
+    "📷",
+    "SIAP SCAN"
+  );
+
+}
+
+
+/************************************************************
+ * SCAN BERHASIL DITERIMA
+ ************************************************************/
+
+function indikatorScanBerhasil() {
+
+  tampilkanIndikator(
+    "berhasil",
+    "✓",
+    "BERHASIL!"
+  );
+
+
+  setTimeout(
+    function() {
+
+      if (
+        scannerAktif
+      ) {
+
+        indikatorSiapScan();
+
+      }
+
+    },
+    700
+  );
+
+}
+
+
+/************************************************************
+ * PERINGATAN
+ ************************************************************/
+
+function indikatorWarning(
+  teks
+) {
+
+  tampilkanIndikator(
+    "warning",
+    "⚠️",
+    teks
+  );
+
+
+  setTimeout(
+    function() {
+
+      if (
+        scannerAktif
+      ) {
+
+        indikatorSiapScan();
+
+      }
+
+    },
+    1200
+  );
+
+}
+
+
+/************************************************************
+ * ERROR
+ ************************************************************/
+
+function indikatorError(
+  teks
+) {
+
+  tampilkanIndikator(
+    "error",
+    "✕",
+    teks
+  );
+
+
+  setTimeout(
+    function() {
+
+      if (
+        scannerAktif
+      ) {
+
+        indikatorSiapScan();
+
+      }
+
+    },
+    1200
+  );
+
+}
+
+
+/************************************************************
+ * ==========================================================
+ * AMBIL STATUS HARI INI
+ * ==========================================================
+ */
 
 async function muatStatus() {
 
@@ -569,16 +1146,20 @@ async function muatStatus() {
         "?action=status"
       );
 
+
     const data =
       await response.json();
+
 
     console.log(
       "STATUS SERVER:",
       data
     );
 
+
     if (
-      data.status !== "success"
+      data.status !==
+      "success"
     ) {
 
       throw new Error(
@@ -588,20 +1169,24 @@ async function muatStatus() {
 
     }
 
+
     document.getElementById(
       "tanggal"
     ).textContent =
       data.tanggal || "-";
+
 
     document.getElementById(
       "hari"
     ).textContent =
       data.hari || "-";
 
+
     document.getElementById(
       "jam"
     ).textContent =
       data.jam || "-";
+
 
     document.getElementById(
       "kelompok"
@@ -617,21 +1202,29 @@ async function muatStatus() {
       error
     );
 
+
     document.getElementById(
       "tanggal"
-    ).textContent = "-";
+    ).textContent =
+      "-";
+
 
     document.getElementById(
       "hari"
-    ).textContent = "-";
+    ).textContent =
+      "-";
+
 
     document.getElementById(
       "jam"
-    ).textContent = "-";
+    ).textContent =
+      "-";
+
 
     document.getElementById(
       "kelompok"
-    ).textContent = "-";
+    ).textContent =
+      "-";
 
   }
 
@@ -639,8 +1232,10 @@ async function muatStatus() {
 
 
 /************************************************************
+ * ==========================================================
  * UPDATE JAM BERKALA
- ************************************************************/
+ * ==========================================================
+ */
 
 setInterval(
   muatStatus,
@@ -649,8 +1244,10 @@ setInterval(
 
 
 /************************************************************
+ * ==========================================================
  * AMBIL GURU PIKET HARI INI
- ************************************************************/
+ * ==========================================================
+ */
 
 async function muatGuruPiket() {
 
@@ -659,16 +1256,20 @@ async function muatGuruPiket() {
       "guruPiket"
     );
 
+
   const status =
     document.getElementById(
       "guruStatus"
     );
 
+
   select.innerHTML =
     '<option value="">Memuat guru piket...</option>';
 
+
   status.textContent =
     "Memuat data guru piket...";
+
 
   try {
 
@@ -678,19 +1279,24 @@ async function muatGuruPiket() {
         "?action=guru_piket"
       );
 
+
     const data =
       await response.json();
+
 
     console.log(
       "GURU PIKET SERVER:",
       data
     );
 
+
     select.innerHTML =
       '<option value="">-- Pilih Guru Piket --</option>';
 
+
     if (
-      data.status !== "success"
+      data.status !==
+      "success"
     ) {
 
       throw new Error(
@@ -699,6 +1305,7 @@ async function muatGuruPiket() {
       );
 
     }
+
 
     if (
       !Array.isArray(
@@ -710,12 +1317,15 @@ async function muatGuruPiket() {
       select.innerHTML =
         '<option value="">Tidak ada guru piket</option>';
 
+
       status.textContent =
         "Tidak ada guru piket aktif untuk hari ini.";
+
 
       return;
 
     }
+
 
     data.data.forEach(
       function(guru) {
@@ -725,11 +1335,14 @@ async function muatGuruPiket() {
             "option"
           );
 
+
         option.value =
           guru.nama || "";
 
+
         option.textContent =
           guru.nama || "-";
+
 
         select.appendChild(
           option
@@ -737,6 +1350,7 @@ async function muatGuruPiket() {
 
       }
     );
+
 
     status.textContent =
       data.data.length +
@@ -751,8 +1365,10 @@ async function muatGuruPiket() {
       error
     );
 
+
     select.innerHTML =
       '<option value="">Gagal memuat guru</option>';
+
 
     status.textContent =
       "Gagal memuat data guru piket.";
@@ -763,8 +1379,10 @@ async function muatGuruPiket() {
 
 
 /************************************************************
+ * ==========================================================
  * MULAI SCANNER
- ************************************************************/
+ * ==========================================================
+ */
 
 async function mulaiScanner() {
 
@@ -790,11 +1408,75 @@ async function mulaiScanner() {
       "warning"
     );
 
+
     tampilkanHasil(
       "warning",
       "⚠️ Guru piket belum dipilih",
       "Silakan pilih nama guru piket terlebih dahulu."
     );
+
+
+    indikatorWarning(
+      "PILIH GURU PIKET"
+    );
+
+
+    bunyiPeringatan();
+
+
+    return;
+
+  }
+
+
+  /*
+   * Pastikan penyimpanan lokal dapat digunakan
+   * sebelum scanner mulai menerima QR.
+   */
+
+  let storageSiap = true;
+
+
+  try {
+
+    const testKey =
+      "__absensi_qr_test__";
+
+
+    localStorage.setItem(
+      testKey,
+      "1"
+    );
+
+
+    localStorage.removeItem(
+      testKey
+    );
+
+  }
+
+  catch(error) {
+
+    storageSiap = false;
+
+  }
+
+
+  if (!storageSiap) {
+
+    indikatorError(
+      "PENYIMPANAN GAGAL"
+    );
+
+
+    bunyiGagal();
+
+
+    tampilkanNotifikasi(
+      "❌ Penyimpanan HP tidak tersedia. Kamera tidak dijalankan untuk mencegah data hilang.",
+      "error"
+    );
+
 
     return;
 
@@ -826,13 +1508,17 @@ async function mulaiScanner() {
         fps: 10,
 
         qrbox:
-          function(width, height) {
+          function(
+            width,
+            height
+          ) {
 
             const size =
               Math.min(
                 width,
                 height
               ) * 0.70;
+
 
             return {
               width: size,
@@ -847,27 +1533,44 @@ async function mulaiScanner() {
 
       function(errorMessage) {
 
-        // Error scan biasa diabaikan.
+        /*
+         * Error scan biasa diabaikan.
+         */
 
       }
 
     );
 
 
-    scannerAktif = true;
+    scannerAktif =
+      true;
+
 
     document.getElementById(
       "btnStart"
     ).style.display =
       "none";
 
+
     document.getElementById(
       "btnStop"
     ).style.display =
       "block";
 
+
     status.textContent =
       "🟢 Kamera aktif — siap scan QR.";
+
+
+    indikatorSiapScan();
+
+
+    /*
+     * Coba kirim antrean lama
+     * ketika kamera mulai.
+     */
+
+    prosesAntreanAbsensi();
 
   }
 
@@ -878,15 +1581,28 @@ async function mulaiScanner() {
       error
     );
 
-    scannerAktif = false;
+
+    scannerAktif =
+      false;
+
 
     status.textContent =
       "Kamera tidak dapat dibuka.";
+
+
+    indikatorError(
+      "KAMERA GAGAL"
+    );
+
+
+    bunyiGagal();
+
 
     tampilkanNotifikasi(
       "⚠️ Kamera tidak dapat dibuka.",
       "error"
     );
+
 
     tampilkanHasil(
       "error",
@@ -900,8 +1616,10 @@ async function mulaiScanner() {
 
 
 /************************************************************
+ * ==========================================================
  * HENTIKAN SCANNER
- ************************************************************/
+ * ==========================================================
+ */
 
 async function hentikanScanner() {
 
@@ -930,33 +1648,63 @@ async function hentikanScanner() {
   }
 
 
-  scannerAktif = false;
+  scannerAktif =
+    false;
 
-  scanner = null;
+
+  scanner =
+    null;
+
 
   document.getElementById(
     "btnStart"
   ).style.display =
     "block";
 
+
   document.getElementById(
     "btnStop"
   ).style.display =
     "none";
+
 
   document.getElementById(
     "scannerStatus"
   ).textContent =
     "Kamera dihentikan.";
 
+
+  indikatorSiapScan();
+
 }
 
 
 /************************************************************
+ * ==========================================================
  * QR TERBACA
- ************************************************************/
+ * ==========================================================
+ *
+ * PERBEDAAN UTAMA DENGAN KODE LAMA:
+ *
+ * QR TIDAK MENUNGGU FETCH.
+ *
+ * QR langsung:
+ *
+ * 1. Masuk antrean
+ * 2. Disimpan ke HP
+ * 3. Bunyi
+ * 4. Indikator hijau
+ * 5. Counter bertambah
+ * 6. Kamera siap scan berikutnya
+ *
+ * Pengiriman ke server berlangsung di belakang layar.
+ *
+ ************************************************************
+ */
 
-async function ketikaQRTerbaca(qr) {
+async function ketikaQRTerbaca(
+  qr
+) {
 
   qr =
     String(
@@ -975,6 +1723,11 @@ async function ketikaQRTerbaca(qr) {
     Date.now();
 
 
+  /*
+   * Cegah QR yang sama terbaca
+   * berulang ketika masih berada di kamera.
+   */
+
   if (
     qr === qrTerakhir &&
     (
@@ -989,22 +1742,17 @@ async function ketikaQRTerbaca(qr) {
   }
 
 
-  if (
-    sedangMemproses
-  ) {
+  qrTerakhir =
+    qr;
 
-    return;
-
-  }
-
-
-  qrTerakhir = qr;
 
   waktuScanTerakhir =
     sekarang;
 
-  sedangMemproses = true;
 
+  /*
+   * Pastikan guru piket masih dipilih.
+   */
 
   const guru =
     document.getElementById(
@@ -1014,120 +1762,576 @@ async function ketikaQRTerbaca(qr) {
 
   if (!guru) {
 
-    sedangMemproses = false;
+    indikatorWarning(
+      "PILIH GURU PIKET"
+    );
+
+
+    bunyiPeringatan();
+
 
     tampilkanNotifikasi(
       "⚠️ Pilih guru piket terlebih dahulu.",
       "warning"
     );
 
+
     return;
 
   }
 
 
-  tampilkanHasil(
-    "warning",
-    "⏳ Memproses QR...",
-    "Mengirim data absensi ke server..."
+  /*
+   * Jika QR yang sama masih berada
+   * di antrean, jangan masukkan lagi.
+   */
+
+  if (
+    qrDalamAntrean.has(qr)
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * Buat item antrean.
+   */
+
+  const item = {
+
+    id:
+      "Q-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2, 8),
+
+    qr:
+      qr,
+
+    guruPiket:
+      guru,
+
+    waktuScan:
+      new Date().toISOString(),
+
+    tanggalScan:
+      buatTanggalLokal()
+
+  };
+
+
+  /*
+   * Masukkan ke antrean.
+   */
+
+  antreanAbsensi.push(
+    item
   );
 
 
-  try {
-
-    const payload = {
-
-      action:
-        "simpan_absensi",
-
-      qr:
-        qr,
-
-      guruPiket:
-        guru
-
-    };
+  qrDalamAntrean.add(
+    qr
+  );
 
 
-    console.log(
-      "POST ABSENSI:",
-      payload
-    );
+  /*
+   * Simpan TERLEBIH DAHULU
+   * sebelum memberikan tanda berhasil.
+   */
+
+  const tersimpan =
+    simpanAntreanLokal();
 
 
-    const response =
-      await fetch(
-        API_URL,
-        {
-          method: "POST",
+  /*
+   * Jika tidak bisa disimpan,
+   * jangan berpura-pura aman.
+   */
 
-          headers: {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
+  if (!tersimpan) {
 
-          body:
-            JSON.stringify(
-              payload
-            )
+    antreanAbsensi =
+      antreanAbsensi.filter(
+        function(x) {
+
+          return x.id !== item.id;
+
         }
       );
 
 
-    if (
-      !response.ok
-    ) {
-
-      throw new Error(
-        "Server HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    console.log(
-      "RESPONS ABSENSI:",
-      data
+    qrDalamAntrean.delete(
+      qr
     );
 
 
-    prosesHasilScan(
-      data
+    indikatorError(
+      "PENYIMPANAN GAGAL"
     );
 
-  }
-
-  catch(error) {
-
-    console.error(
-      "POST ABSENSI ERROR:",
-      error
-    );
 
     bunyiGagal();
 
+
     tampilkanNotifikasi(
-      "❌ Koneksi gagal.",
+      "❌ Penyimpanan HP gagal. Scan tidak diterima agar data tidak hilang.",
       "error"
     );
 
+
     tampilkanHasil(
       "error",
-      "❌ GAGAL MENGHUBUNGI SERVER",
-      "Periksa koneksi internet kemudian coba scan kembali."
+      "❌ PENYIMPANAN GAGAL",
+      "Scan tidak dimasukkan ke antrean. Periksa penyimpanan HP sebelum melanjutkan."
     );
+
+
+    return;
+
+  }
+
+
+  /*
+   * ======================================================
+   * QR SUDAH AMAN DI ANTREAN
+   * ======================================================
+   *
+   * Mulai saat ini kamera boleh langsung membaca
+   * QR berikutnya.
+   */
+
+
+  jumlahBerhasil++;
+
+
+  const counter =
+    document.getElementById(
+      "jumlahBerhasil"
+    );
+
+
+  if (counter) {
+
+    counter.textContent =
+      jumlahBerhasil;
+
+  }
+
+
+  /*
+   * FEEDBACK SUPER CEPAT
+   */
+
+  indikatorScanBerhasil();
+
+
+  bunyiBerhasil();
+
+
+  /*
+   * Tampilkan hasil ringan.
+   * Tidak menunggu server.
+   */
+
+  tampilkanHasil(
+    "success",
+    "✓ QR DITERIMA",
+    `
+      QR berhasil dibaca dan sudah masuk antrean.
+      <div class="ready-message">
+        📷 Siap scan QR berikutnya
+      </div>
+    `
+  );
+
+
+  perbaruiStatusAntrean();
+
+
+  /*
+   * Kirim ke server di latar belakang.
+   *
+   * Tidak menggunakan await di sini.
+   */
+
+  prosesAntreanAbsensi();
+
+}
+
+
+/************************************************************
+ * ==========================================================
+ * PROSES ANTREAN KE APPS SCRIPT
+ * ==========================================================
+ */
+
+async function prosesAntreanAbsensi() {
+
+  /*
+   * Jika sudah ada proses pengiriman,
+   * jangan buat proses kedua.
+   */
+
+  if (
+    pengirimanBerjalan
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    antreanAbsensi.length === 0
+  ) {
+
+    perbaruiStatusAntrean();
+
+    return;
+
+  }
+
+
+  pengirimanBerjalan =
+    true;
+
+
+  try {
+
+    while (
+      antreanAbsensi.length > 0
+    ) {
+
+      const item =
+        antreanAbsensi[0];
+
+
+      /*
+       * ==================================================
+       * CEK TANGGAL
+       * ==================================================
+       *
+       * Kita TIDAK mengirim otomatis antrean
+       * dari tanggal sebelumnya.
+       *
+       * Alasannya:
+       * Code.gs sekarang menggunakan tanggal server
+       * saat request diterima.
+       */
+
+      const tanggalHariIni =
+        buatTanggalLokal();
+
+
+      if (
+        item.tanggalScan &&
+        item.tanggalScan !==
+        tanggalHariIni
+      ) {
+
+        tampilkanStatusAntreanLama();
+
+        break;
+
+      }
+
+
+      /*
+       * ==================================================
+       * KIRIM KE SERVER
+       * ==================================================
+       */
+
+      try {
+
+        const payload = {
+
+          action:
+            "simpan_absensi",
+
+          qr:
+            item.qr,
+
+          guruPiket:
+            item.guruPiket
+
+        };
+
+
+        console.log(
+          "KIRIM ANTREAN ABSENSI:",
+          payload
+        );
+
+
+        const response =
+          await fetch(
+            API_URL,
+            {
+
+              method:
+                "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+          );
+
+
+        if (
+          !response.ok
+        ) {
+
+          throw new Error(
+            "Server HTTP " +
+            response.status
+          );
+
+        }
+
+
+        const data =
+          await response.json();
+
+
+        console.log(
+          "RESPONS ANTREAN:",
+          data
+        );
+
+
+        /*
+         * =================================================
+         * SERVER BERHASIL
+         * =================================================
+         */
+
+        if (
+          data &&
+          data.status ===
+          "success"
+        ) {
+
+          /*
+           * Hapus item dari antrean.
+           */
+
+          antreanAbsensi.shift();
+
+
+          qrDalamAntrean.delete(
+            item.qr
+          );
+
+
+          /*
+           * Simpan perubahan antrean.
+           */
+
+          simpanAntreanLokal();
+
+
+          perbaruiStatusAntrean();
+
+
+          /*
+           * Jika ada data murid,
+           * tampilkan informasi terakhir
+           * secara ringan.
+           */
+
+          if (
+            data.data
+          ) {
+
+            const murid =
+              data.data;
+
+
+            tampilkanHasil(
+              "success",
+              "☁️ ABSENSI TERSIMPAN",
+              `
+                <strong>
+                  ${escapeHTML(
+                    murid.nama || "-"
+                  )}
+                </strong>
+                <br>
+
+                NISN:
+                ${escapeHTML(
+                  String(
+                    murid.nisn || "-"
+                  )
+                )}
+                <br>
+
+                Kelas:
+                ${escapeHTML(
+                  murid.kelas || "-"
+                )}
+                <br>
+
+                Jam:
+                ${escapeHTML(
+                  murid.jam || "-"
+                )}
+                <br>
+
+                Status:
+                <strong>
+                  ${escapeHTML(
+                    murid.status || "-"
+                  )}
+                </strong>
+
+                <div class="ready-message">
+                  📷 Siap scan QR berikutnya
+                </div>
+              `
+            );
+
+          }
+
+
+          continue;
+
+        }
+
+
+        /*
+         * =================================================
+         * SUDAH ABSEN
+         * =================================================
+         *
+         * Untuk antrean, kondisi ini dianggap selesai.
+         *
+         * Ini penting:
+         * bisa saja server sebenarnya sudah menyimpan,
+         * tetapi respons pertama tidak sampai ke HP.
+         *
+         * Ketika dicoba lagi, server mengatakan
+         * "sudah melakukan absensi".
+         *
+         * Kita tidak boleh retry terus-menerus.
+         */
+
+        if (
+          data &&
+          data.status ===
+          "error" &&
+          data.message &&
+          data.message
+            .toLowerCase()
+            .includes(
+              "sudah melakukan absensi"
+            )
+        ) {
+
+          antreanAbsensi.shift();
+
+
+          qrDalamAntrean.delete(
+            item.qr
+          );
+
+
+          simpanAntreanLokal();
+
+
+          perbaruiStatusAntrean();
+
+
+          /*
+           * Jangan munculkan popup besar.
+           * Cukup tampilkan status ringan.
+           */
+
+          indikatorWarning(
+            "SUDAH ABSEN"
+          );
+
+
+          continue;
+
+        }
+
+
+        /*
+         * =================================================
+         * ERROR DARI SERVER
+         * =================================================
+         *
+         * Jangan hapus dari antrean.
+         */
+
+        console.error(
+          "SERVER MENOLAK ANTREAN:",
+          data
+        );
+
+
+        tampilkanStatusAntreanGagal(
+          data &&
+          data.message
+            ? data.message
+            : "Server menolak data."
+        );
+
+
+        break;
+
+      }
+
+      catch(error) {
+
+        /*
+         * Internet / server gagal.
+         *
+         * Item TIDAK DIHAPUS.
+         */
+
+        console.error(
+          "PENGIRIMAN ANTREAN GAGAL:",
+          error
+        );
+
+
+        tampilkanStatusAntreanGagal(
+          "Koneksi belum tersedia"
+        );
+
+
+        break;
+
+      }
+
+    }
 
   }
 
   finally {
 
-    sedangMemproses =
+    pengirimanBerjalan =
       false;
+
+
+    perbaruiStatusAntrean();
 
   }
 
@@ -1135,8 +2339,159 @@ async function ketikaQRTerbaca(qr) {
 
 
 /************************************************************
- * PROSES HASIL SERVER
+ * ==========================================================
+ * TANGGAL LOKAL HP
+ * ==========================================================
+ */
+
+function buatTanggalLokal() {
+
+  const sekarang =
+    new Date();
+
+
+  const tahun =
+    sekarang.getFullYear();
+
+
+  const bulan =
+    String(
+      sekarang.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const hari =
+    String(
+      sekarang.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    tahun +
+    "-" +
+    bulan +
+    "-" +
+    hari
+  );
+
+}
+
+
+/************************************************************
+ * STATUS ANTREAN LAMA
  ************************************************************/
+
+function tampilkanStatusAntreanLama() {
+
+  const el =
+    document.getElementById(
+      "statusAntrean"
+    );
+
+
+  if (!el) {
+
+    return;
+
+  }
+
+
+  el.textContent =
+    "⚠️ Ada antrean dari tanggal sebelumnya. Tidak dikirim otomatis.";
+
+}
+
+
+/************************************************************
+ * STATUS ANTREAN GAGAL
+ ************************************************************/
+
+function tampilkanStatusAntreanGagal(
+  pesan
+) {
+
+  const el =
+    document.getElementById(
+      "statusAntrean"
+    );
+
+
+  if (!el) {
+
+    return;
+
+  }
+
+
+  el.textContent =
+    "⚠️ " +
+    antreanAbsensi.length +
+    " data menunggu pengiriman — " +
+    pesan;
+
+}
+
+
+/************************************************************
+ * ==========================================================
+ * RETRY OTOMATIS
+ * ==========================================================
+ */
+
+setInterval(
+  function() {
+
+    if (
+      antreanAbsensi.length >
+      0
+    ) {
+
+      prosesAntreanAbsensi();
+
+    }
+
+  },
+  5000
+);
+
+
+/************************************************************
+ * ==========================================================
+ * KETIKA INTERNET KEMBALI
+ * ==========================================================
+ */
+
+window.addEventListener(
+  "online",
+  function() {
+
+    console.log(
+      "Koneksi kembali. Mengirim antrean..."
+    );
+
+
+    prosesAntreanAbsensi();
+
+  }
+);
+
+
+/************************************************************
+ * ==========================================================
+ * PROSES HASIL SERVER
+ * ==========================================================
+ *
+ * Fungsi ini tetap dipertahankan untuk kompatibilitas
+ * dengan bagian lain dari aplikasi.
+ *
+ ************************************************************
+ */
 
 function prosesHasilScan(
   data
@@ -1146,11 +2501,13 @@ function prosesHasilScan(
 
     bunyiGagal();
 
+
     tampilkanHasil(
       "error",
       "❌ TIDAK ADA RESPONS",
       "Server tidak memberikan respons."
     );
+
 
     return;
 
@@ -1170,6 +2527,7 @@ function prosesHasilScan(
 
     jumlahBerhasil++;
 
+
     document.getElementById(
       "jumlahBerhasil"
     ).textContent =
@@ -1177,11 +2535,6 @@ function prosesHasilScan(
 
 
     bunyiBerhasil();
-
-    tampilkanNotifikasi(
-      "✅ ABSENSI BERHASIL",
-      "berhasil"
-    );
 
 
     const murid =
@@ -1243,6 +2596,7 @@ function prosesHasilScan(
 
     );
 
+
     return;
 
   }
@@ -1278,8 +2632,10 @@ function prosesHasilScan(
 
 
 /************************************************************
+ * ==========================================================
  * NOTIFIKASI CEPAT
- ************************************************************/
+ * ==========================================================
+ */
 
 function tampilkanNotifikasi(
   pesan,
@@ -1306,6 +2662,7 @@ function tampilkanNotifikasi(
   box.textContent =
     pesan;
 
+
   box.className =
     "tampil " +
     tipe;
@@ -1315,7 +2672,9 @@ function tampilkanNotifikasi(
     setTimeout(
       function() {
 
-        box.className = "";
+        box.className =
+          "";
+
 
         timerNotifikasi =
           null;
@@ -1330,8 +2689,10 @@ function tampilkanNotifikasi(
 
 
 /************************************************************
+ * ==========================================================
  * TAMPILKAN HASIL
- ************************************************************/
+ * ==========================================================
+ */
 
 function tampilkanHasil(
   tipe,
@@ -1377,8 +2738,10 @@ function tampilkanHasil(
 
 
 /************************************************************
+ * ==========================================================
  * BUNYI BERHASIL
- ************************************************************/
+ * ==========================================================
+ */
 
 function bunyiBerhasil() {
 
@@ -1400,65 +2763,125 @@ function bunyiBerhasil() {
       new AudioContext();
 
 
-    const oscillator =
+    /*
+     * BIP PERTAMA
+     */
+
+    const oscillator1 =
       ctx.createOscillator();
 
 
-    const gain =
+    const gain1 =
       ctx.createGain();
 
 
-    oscillator.type =
+    oscillator1.type =
       "sine";
 
 
-    oscillator.frequency.setValueAtTime(
+    oscillator1.frequency.setValueAtTime(
       880,
       ctx.currentTime
     );
 
 
-    oscillator.frequency.setValueAtTime(
-      1174,
-      ctx.currentTime + 0.10
-    );
-
-
-    gain.gain.setValueAtTime(
+    gain1.gain.setValueAtTime(
       0.0001,
       ctx.currentTime
     );
 
 
-    gain.gain.exponentialRampToValueAtTime(
+    gain1.gain.exponentialRampToValueAtTime(
       0.18,
       ctx.currentTime + 0.02
     );
 
 
-    gain.gain.exponentialRampToValueAtTime(
+    gain1.gain.exponentialRampToValueAtTime(
       0.0001,
-      ctx.currentTime + 0.28
+      ctx.currentTime + 0.13
     );
 
 
-    oscillator.connect(
-      gain
+    oscillator1.connect(
+      gain1
     );
 
-    gain.connect(
+
+    gain1.connect(
       ctx.destination
     );
 
 
-    oscillator.start();
+    oscillator1.start();
 
-    oscillator.stop(
+
+    oscillator1.stop(
+      ctx.currentTime + 0.14
+    );
+
+
+    /*
+     * BIP KEDUA
+     */
+
+    const oscillator2 =
+      ctx.createOscillator();
+
+
+    const gain2 =
+      ctx.createGain();
+
+
+    oscillator2.type =
+      "sine";
+
+
+    oscillator2.frequency.setValueAtTime(
+      1174,
+      ctx.currentTime + 0.17
+    );
+
+
+    gain2.gain.setValueAtTime(
+      0.0001,
+      ctx.currentTime + 0.17
+    );
+
+
+    gain2.gain.exponentialRampToValueAtTime(
+      0.18,
+      ctx.currentTime + 0.19
+    );
+
+
+    gain2.gain.exponentialRampToValueAtTime(
+      0.0001,
       ctx.currentTime + 0.30
     );
 
 
-    oscillator.onended =
+    oscillator2.connect(
+      gain2
+    );
+
+
+    gain2.connect(
+      ctx.destination
+    );
+
+
+    oscillator2.start(
+      ctx.currentTime + 0.17
+    );
+
+
+    oscillator2.stop(
+      ctx.currentTime + 0.31
+    );
+
+
+    oscillator2.onended =
       function() {
 
         ctx.close();
@@ -1480,8 +2903,10 @@ function bunyiBerhasil() {
 
 
 /************************************************************
+ * ==========================================================
  * BUNYI PERINGATAN
- ************************************************************/
+ * ==========================================================
+ */
 
 function bunyiPeringatan() {
 
@@ -1543,12 +2968,14 @@ function bunyiPeringatan() {
       gain
     );
 
+
     gain.connect(
       ctx.destination
     );
 
 
     oscillator.start();
+
 
     oscillator.stop(
       ctx.currentTime + 0.22
@@ -1577,8 +3004,10 @@ function bunyiPeringatan() {
 
 
 /************************************************************
+ * ==========================================================
  * BUNYI GAGAL
- ************************************************************/
+ * ==========================================================
+ */
 
 function bunyiGagal() {
 
@@ -1640,12 +3069,14 @@ function bunyiGagal() {
       gain
     );
 
+
     gain.connect(
       ctx.destination
     );
 
 
     oscillator.start();
+
 
     oscillator.stop(
       ctx.currentTime + 0.27
@@ -1674,10 +3105,14 @@ function bunyiGagal() {
 
 
 /************************************************************
+ * ==========================================================
  * ESCAPE HTML
- ************************************************************/
+ * ==========================================================
+ */
 
-function escapeHTML(text) {
+function escapeHTML(
+  text
+) {
 
   return String(
     text == null
@@ -1717,17 +3152,26 @@ function escapeHTML(text) {
 async function cariSiswaNISN() {
 
   const input =
-    document.getElementById("inputNISN");
+    document.getElementById(
+      "inputNISN"
+    );
+
 
   const hasil =
-    document.getElementById("hasilPencarianNISN");
+    document.getElementById(
+      "hasilPencarianNISN"
+    );
 
 
-  if (!input || !hasil) {
+  if (
+    !input ||
+    !hasil
+  ) {
 
     console.error(
       "Elemen pencarian NISN tidak ditemukan."
     );
+
 
     return;
 
@@ -1742,16 +3186,24 @@ async function cariSiswaNISN() {
 
   if (!nisn) {
 
-    hasil.style.display = "block";
+    hasil.style.display =
+      "block";
 
-    hasil.style.background = "#fef3c7";
 
-    hasil.style.color = "#92400e";
+    hasil.style.background =
+      "#fef3c7";
+
+
+    hasil.style.color =
+      "#92400e";
+
 
     hasil.innerHTML =
       "⚠️ Silakan masukkan NISN terlebih dahulu.";
 
+
     input.focus();
+
 
     return;
 
@@ -1763,28 +3215,46 @@ async function cariSiswaNISN() {
   ================================================== */
 
   const guruPiketElement =
-    document.getElementById("guruPiket");
+    document.getElementById(
+      "guruPiket"
+    );
+
 
   const guruPiket =
     guruPiketElement
       ? String(
-          guruPiketElement.value || ""
+          guruPiketElement.value ||
+          ""
         ).trim()
       : "";
 
 
   if (!guruPiket) {
 
-    hasil.style.display = "block";
+    hasil.style.display =
+      "block";
 
-    hasil.style.background = "#fef3c7";
 
-    hasil.style.color = "#92400e";
+    hasil.style.background =
+      "#fef3c7";
+
+
+    hasil.style.color =
+      "#92400e";
+
 
     hasil.innerHTML =
       "⚠️ Silakan pilih guru piket terlebih dahulu.";
 
-    guruPiketElement.focus();
+
+    if (
+      guruPiketElement
+    ) {
+
+      guruPiketElement.focus();
+
+    }
+
 
     return;
 
@@ -1795,11 +3265,17 @@ async function cariSiswaNISN() {
      TAMPILKAN STATUS MENCARI
   ================================================== */
 
-  hasil.style.display = "block";
+  hasil.style.display =
+    "block";
 
-  hasil.style.background = "#f8fafc";
 
-  hasil.style.color = "#1e293b";
+  hasil.style.background =
+    "#f8fafc";
+
+
+  hasil.style.color =
+    "#1e293b";
+
 
   hasil.innerHTML =
     "⏳ Mencari data siswa...";
@@ -1815,11 +3291,15 @@ async function cariSiswaNISN() {
       await fetch(
         API_URL +
         "?action=cari_siswa&nisn=" +
-        encodeURIComponent(nisn)
+        encodeURIComponent(
+          nisn
+        )
       );
 
 
-    if (!responseCari.ok) {
+    if (
+      !responseCari.ok
+    ) {
 
       throw new Error(
         "Server HTTP " +
@@ -1841,14 +3321,17 @@ async function cariSiswaNISN() {
 
     if (
       !dataCari ||
-      dataCari.status !== "success"
+      dataCari.status !==
+      "success"
     ) {
 
       hasil.style.background =
         "#fee2e2";
 
+
       hasil.style.color =
         "#991b1b";
+
 
       hasil.innerHTML =
         "❌ " +
@@ -1859,13 +3342,15 @@ async function cariSiswaNISN() {
             : "Siswa tidak ditemukan."
         );
 
+
       return;
 
     }
 
 
     const murid =
-      dataCari.data || {};
+      dataCari.data ||
+      {};
 
 
     /* ==================================================
@@ -1875,8 +3360,10 @@ async function cariSiswaNISN() {
     hasil.style.background =
       "#dcfce7";
 
+
     hasil.style.color =
       "#166534";
+
 
     hasil.innerHTML =
 
@@ -1922,7 +3409,8 @@ async function cariSiswaNISN() {
 
       nisn:
         String(
-          murid.nisn || nisn
+          murid.nisn ||
+          nisn
         ).trim(),
 
       guruPiket:
@@ -1941,22 +3429,29 @@ async function cariSiswaNISN() {
       await fetch(
         API_URL,
         {
-          method: "POST",
+
+          method:
+            "POST",
 
           headers: {
+
             "Content-Type":
               "text/plain;charset=utf-8"
+
           },
 
           body:
             JSON.stringify(
               payload
             )
+
         }
       );
 
 
-    if (!responseAbsensi.ok) {
+    if (
+      !responseAbsensi.ok
+    ) {
 
       throw new Error(
         "Server HTTP " +
@@ -1982,10 +3477,12 @@ async function cariSiswaNISN() {
 
     if (
       dataAbsensi &&
-      dataAbsensi.status === "success"
+      dataAbsensi.status ===
+      "success"
     ) {
 
       jumlahBerhasil++;
+
 
       document.getElementById(
         "jumlahBerhasil"
@@ -1995,6 +3492,7 @@ async function cariSiswaNISN() {
 
       hasil.style.background =
         "#dcfce7";
+
 
       hasil.style.color =
         "#166534";
@@ -2044,7 +3542,8 @@ async function cariSiswaNISN() {
         "<br>Jam: " +
 
         escapeHTML(
-          dataAbsensi.jam || "-"
+          dataAbsensi.jam ||
+          "-"
         ) +
 
         "<br>Guru Piket: " +
@@ -2066,15 +3565,16 @@ async function cariSiswaNISN() {
 
       tampilkanNotifikasi(
         "✅ ABSENSI BERHASIL — " +
-        (murid.nama || ""),
+        (
+          murid.nama ||
+          ""
+        ),
         "berhasil"
       );
 
 
       bunyiBerhasil();
 
-
-      /* Bersihkan input */
 
       input.value = "";
 
@@ -2090,19 +3590,16 @@ async function cariSiswaNISN() {
 
     if (
       dataAbsensi &&
-      dataAbsensi.status === "warning"
+      dataAbsensi.status ===
+      "warning"
     ) {
 
       jumlahSudah++;
 
-      document.getElementById(
-        "jumlahSudah"
-      ).textContent =
-        jumlahSudah;
-
 
       hasil.style.background =
         "#fef3c7";
+
 
       hasil.style.color =
         "#92400e";
@@ -2155,6 +3652,7 @@ async function cariSiswaNISN() {
     hasil.style.background =
       "#fee2e2";
 
+
     hasil.style.color =
       "#991b1b";
 
@@ -2190,8 +3688,10 @@ async function cariSiswaNISN() {
     hasil.style.display =
       "block";
 
+
     hasil.style.background =
       "#fee2e2";
+
 
     hasil.style.color =
       "#991b1b";
